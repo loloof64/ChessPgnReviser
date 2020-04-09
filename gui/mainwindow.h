@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "gui/chessboard/chessboard.h"
+#include "chessboard/chessboard.h"
 
 class MainWindow : public QMainWindow
 {
