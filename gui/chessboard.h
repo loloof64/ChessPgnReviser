@@ -17,7 +17,6 @@ protected:
 
 private:
     int _cellsSize;
-    QColor* _backgroundColor;
 };
 
 #endif // CHESSBOARD_H
