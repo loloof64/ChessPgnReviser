@@ -50,7 +50,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
             painter.fillRect(x, y, _cellsSize, _cellsSize, cellColor);
 
-            //draw piece
+            // draw piece
             const auto file = col;
             const auto rank = 7-row;
             const auto pieceValue = _relatedPosition->getPieceFenAt(file, rank);
@@ -82,6 +82,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
                 pieceImage.render(&painter, QRect(x, y, _cellsSize, _cellsSize));
             }
+
         }
     }
 
@@ -122,4 +123,12 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
         painter.drawText(x1, y, QString(digit));
         painter.drawText(x2, y, QString(digit));
     }
+
+    // Painting player turn
+    const auto turnColor = _relatedPosition->isWhiteTurn() ? Qt::white : Qt::black;
+    const auto location = floor(_cellsSize * 8.55);
+    const auto turnSize = floor(_cellsSize * 0.4);
+    painter.setBrush(turnColor);
+    painter.setPen(QPen(Qt::transparent));
+    painter.drawEllipse(location, location, turnSize, turnSize);
 }
