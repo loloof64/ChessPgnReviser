@@ -2,9 +2,24 @@
 #define CHESSBOARD_H
 
 #include <QWidget>
+#include <QMouseEvent>
 #include "IPosition.h"
 
 namespace loloof64 {
+    struct DndData
+    {
+        explicit DndData(char pieceFen, int startFile, int startRank,
+                         int pieceX, int pieceY):
+            pieceFen(pieceFen), startFile(startFile), startRank(startRank),
+            pieceX(pieceX), pieceY(pieceY){};
+        DndData(const DndData&) = delete;
+        DndData(const DndData&&) = delete;
+        char pieceFen;
+        int startFile, startRank;
+        int endFile, endRank;
+        int pieceX, pieceY;
+    };
+
     class ChessBoard : public QWidget
     {
         Q_OBJECT
@@ -22,6 +37,10 @@ namespace loloof64 {
         int _cellsSize;
         bool _reversed;
         IPosition *_relatedPosition;
+        DndData *_dndData;
+        void mousePressEvent(QMouseEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
+        void mouseMoveEvent(QMouseEvent *event) override;
     };
 }
 

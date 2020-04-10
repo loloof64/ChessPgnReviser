@@ -10,15 +10,39 @@
 
 using namespace loloof64;
 
+QString pieceFenToPieceImageReference(char pieceFen)
+{
+    switch (pieceFen) {
+        case 'P': return "pl.svg";
+        case 'N': return "nl.svg";
+        case 'B': return "bl.svg";
+        case 'R': return "rl.svg";
+        case 'Q': return "ql.svg";
+        case 'K': return "kl.svg";
+
+        case 'p': return "pd.svg";
+        case 'n': return "nd.svg";
+        case 'b': return "bd.svg";
+        case 'r': return "rd.svg";
+        case 'q': return "qd.svg";
+        case 'k': return "kd.svg";
+
+    default:
+        return "";
+    }
+}
+
 ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cellsSize(cellsSize)
 {
     _relatedPosition = new ThcPosition();
+    _dndData = nullptr;
     auto wholeSize = 9 * cellsSize;
     setFixedSize(wholeSize, wholeSize);
 }
 
 ChessBoard::~ChessBoard()
 {
+    if (_dndData != nullptr) delete _dndData;
     delete _relatedPosition;
 }
 
@@ -65,25 +89,12 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
                 'P', 'N', 'B', 'R', 'Q', 'K',
                 'p', 'n', 'b', 'r', 'q', 'k'
             }.contains(pieceValue);
+            const auto isTheMovedPiece = _dndData != nullptr && (file == _dndData->startFile) && (rank == _dndData->startRank);
 
-            if (notAnEmptyPiece)
+            if (notAnEmptyPiece && !isTheMovedPiece)
             {
                 auto resourceName = QString(":/chess_vectors/");
-                switch (pieceValue) {
-                    case 'P': resourceName += "pl.svg"; break;
-                    case 'N': resourceName += "nl.svg"; break;
-                    case 'B': resourceName += "bl.svg"; break;
-                    case 'R': resourceName += "rl.svg"; break;
-                    case 'Q': resourceName += "ql.svg"; break;
-                    case 'K': resourceName += "kl.svg"; break;
-
-                    case 'p': resourceName += "pd.svg"; break;
-                    case 'n': resourceName += "nd.svg"; break;
-                    case 'b': resourceName += "bd.svg"; break;
-                    case 'r': resourceName += "rd.svg"; break;
-                    case 'q': resourceName += "qd.svg"; break;
-                    case 'k': resourceName += "kd.svg"; break;
-                }
+                resourceName += pieceFenToPieceImageReference(pieceValue);
                 QSvgRenderer pieceImage{resourceName};
 
                 pieceImage.render(&painter, QRect(x, y, _cellsSize, _cellsSize));
@@ -137,4 +148,89 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     painter.setBrush(turnColor);
     painter.setPen(QPen(Qt::transparent));
     painter.drawEllipse(location, location, turnSize, turnSize);
+
+    // painting the moved piece if any
+    if (_dndData != nullptr) {
+        auto resourceName = QString(":/chess_vectors/");
+        resourceName += pieceFenToPieceImageReference(_dndData->pieceFen);
+        QSvgRenderer movedPieceImage{resourceName};
+
+        movedPieceImage.render(&painter, QRect(_dndData->pieceX, _dndData->pieceY, _cellsSize, _cellsSize));
+    }
+}
+
+void ChessBoard::mousePressEvent(QMouseEvent *event)
+{
+    const auto x = event->x();
+    const auto y = event->y();
+
+    const auto col = int(floor((x*1.0 - _cellsSize*0.5) / _cellsSize));
+    const auto row = int(floor((y*1.0 - _cellsSize*0.5) / _cellsSize));
+
+    const auto file = _reversed ? 7-col : col;
+    const auto rank = _reversed ? row : 7-row;
+
+    if (file < 0 || file > 7 || rank < 0 || rank > 7) return;
+    const auto movedPiece = _relatedPosition->getPieceFenAt(file, rank);
+    const auto notAnEmptyPiece = QVector<char>{
+        'P', 'N', 'B', 'R', 'Q', 'K',
+        'p', 'n', 'b', 'r', 'q', 'k'
+    }.contains(movedPiece);
+
+    if (! notAnEmptyPiece) return;
+    _dndData = new DndData(movedPiece, file, rank, x, y);
+
+   repaint();
+}
+
+void ChessBoard::mouseMoveEvent(QMouseEvent *event)
+{
+    const auto x = event->x();
+    const auto y = event->y();
+
+    const auto col = int(floor((x*1.0 - _cellsSize*0.5) / _cellsSize));
+    const auto row = int(floor((y*1.0 - _cellsSize*0.5) / _cellsSize));
+
+    const auto file = _reversed ? 7-col : col;
+    const auto rank = _reversed ? row : 7-row;
+
+    _dndData->pieceX = x;
+    _dndData->pieceY = y;
+
+    if (file < 0 || file > 7 || rank < 0 || rank > 7) {
+        repaint();
+        return;
+    }
+    _dndData->endFile = file;
+    _dndData->endRank = rank;
+
+    repaint();
+}
+
+void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
+{
+    const auto x = event->x();
+    const auto y = event->y();
+
+    const auto col = int(floor((x*1.0 - _cellsSize*0.5) / _cellsSize));
+    const auto row = int(floor((y*1.0 - _cellsSize*0.5) / _cellsSize));
+
+    const auto file = _reversed ? 7-col : col;
+    const auto rank = _reversed ? row : 7-row;
+
+    const auto startFile = _dndData->startFile;
+    const auto startRank = _dndData->startRank;
+
+    if (_dndData != nullptr) {
+        delete _dndData;
+        _dndData = nullptr;
+        repaint();
+    }
+
+    if (file < 0 || file > 7 || rank < 0 || rank > 7) {
+        repaint();
+        return;
+    }
+
+    repaint();
 }
