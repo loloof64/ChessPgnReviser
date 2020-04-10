@@ -9,16 +9,18 @@ namespace loloof64 {
     {
         Q_OBJECT
     public:
-        explicit ChessBoard(int cellsSize, QWidget *parent);
+        explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
 
-    signals:
+    public slots:
+        void reverse();
 
     protected:
         void paintEvent(QPaintEvent *event) override;
 
     private:
         int _cellsSize;
+        bool _reversed;
         IPosition *_relatedPosition;
     };
 }

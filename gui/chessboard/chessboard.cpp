@@ -22,6 +22,12 @@ ChessBoard::~ChessBoard()
     delete _relatedPosition;
 }
 
+void ChessBoard::reverse()
+{
+    _reversed = ! _reversed;
+    repaint();
+}
+
 void ChessBoard::paintEvent(QPaintEvent * /* event */)
 {
     const auto wholeSize = 9 * _cellsSize;
@@ -51,8 +57,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
             painter.fillRect(x, y, _cellsSize, _cellsSize, cellColor);
 
             // draw piece
-            const auto file = col;
-            const auto rank = 7-row;
+            const auto file = _reversed ? 7-col : col;
+            const auto rank = _reversed ? row : 7-row;
             const auto pieceValue = _relatedPosition->getPieceFenAt(file, rank);
 
             const auto notAnEmptyPiece = QVector<char>{
@@ -100,7 +106,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
     for (auto col: colsIndexes)
     {
-        const auto file = col;
+        const auto file = _reversed ? 7-col : col;
         const auto letter = (char) (ascii_a + file);
 
         const auto x = floor(_cellsSize * (0.85 + col));
@@ -113,7 +119,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
     for (auto row: rowsIndexes)
     {
-        const auto rank = 7-row;
+        const auto rank = _reversed ? row : 7-row;
         const auto digit = (char) (ascii_1 + rank);
 
         const auto x1 = floor(_cellsSize * 0.12);

@@ -13,4 +13,7 @@
         <file alias="rd.svg">resources/chess_vectors/Chess_rdt45.svg</file>
         <file alias="rl.svg">resources/chess_vectors/Chess_rlt45.svg</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file alias="swap.svg">resources/icons/swap.svg</file>
+    </qresource>
 </RCC>

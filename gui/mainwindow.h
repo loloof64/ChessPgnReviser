@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QToolBar>
+#include <QVBoxLayout>
 #include "chessboard/chessboard.h"
 
 class MainWindow : public QMainWindow
@@ -13,6 +15,7 @@ public:
     ~MainWindow();
 
 private:
-    loloof64::ChessBoard* _board;
+    loloof64::ChessBoard *_board;
+    QToolBar *_mainToolBar;
 };
 #endif // MAINWINDOW_H
