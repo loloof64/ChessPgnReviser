@@ -2,21 +2,25 @@
 #define CHESSBOARD_H
 
 #include <QWidget>
+#include "IPosition.h"
 
-class ChessBoard : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit ChessBoard(int cellsSize, QWidget *parent);
-    ~ChessBoard();
+namespace loloof64 {
+    class ChessBoard : public QWidget
+    {
+        Q_OBJECT
+    public:
+        explicit ChessBoard(int cellsSize, QWidget *parent);
+        ~ChessBoard();
 
-signals:
+    signals:
 
-protected:
-    void paintEvent(QPaintEvent *event) override;
+    protected:
+        void paintEvent(QPaintEvent *event) override;
 
-private:
-    int _cellsSize;
-};
+    private:
+        int _cellsSize;
+        IPosition *_relatedPosition;
+    };
+}
 
 #endif // CHESSBOARD_H

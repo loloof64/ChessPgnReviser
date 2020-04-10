@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,70 +16,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    gui/adapters/thcposition.cpp \
     gui/chessboard/chessboard.cpp \
     gui/mainwindow.cpp \
-    libagchess/Bitboard.cpp \
-    libagchess/Bitboard_MoveGen.cpp \
-    libagchess/Board.cpp \
-    libagchess/Board_MoveGen.cpp \
-    libagchess/Color.cpp \
-    libagchess/ColoredPiece.cpp \
-    libagchess/DatabaseFilter.cpp \
-    libagchess/EditablePosition.cpp \
-    libagchess/FEN.cpp \
-    libagchess/GameHeaders.cpp \
-    libagchess/GameTree.cpp \
-    libagchess/Move.cpp \
-    libagchess/PGNDatabase.cpp \
-    libagchess/PGNLexer.cpp \
-    libagchess/Piece.cpp \
-    libagchess/Position.cpp \
-    libagchess/Position_MoveGen.cpp \
-    libagchess/SAN.cpp \
-    libagchess/SearchMask.cpp \
-    libagchess/SimpleGame.cpp \
-    libagchess/SimplePosition.cpp \
-    libagchess/Square.cpp \
-    libagchess/StandardChessGame.cpp \
-    libagchess/StandardPosition.cpp \
-    libagchess/TagPair.cpp \
-    libagchess/chess_iterator.cpp \
-    main.cpp
+    libs/thc-chess-library/ChessPosition.cpp \
+    libs/thc-chess-library/ChessRules.cpp \
+    libs/thc-chess-library/Move.cpp \
+    libs/thc-chess-library/Portability.cpp \
+    libs/thc-chess-library/PrivateChessDefs.cpp \
+    main.cpp \
 
 HEADERS += \
+    gui/adapters/thcposition.h \
+    gui/chessboard/IPosition.h \
     gui/chessboard/chessboard.h \
     gui/mainwindow.h \
-    libagchess/AGChess_Common.h \
-    libagchess/AGChess_Exception.h \
-    libagchess/Bitboard.h \
-    libagchess/Bitboard_MoveGen.h \
-    libagchess/Board.h \
-    libagchess/Board_MoveGen.h \
-    libagchess/Color.h \
-    libagchess/ColoredPiece.h \
-    libagchess/DatabaseFilter.h \
-    libagchess/EditablePosition.h \
-    libagchess/FEN.h \
-    libagchess/GameHeaders.h \
-    libagchess/GameTree.h \
-    libagchess/Move.h \
-    libagchess/MoveTreeNode.h \
-    libagchess/PGNDatabase.h \
-    libagchess/PGNLexer.h \
-    libagchess/Piece.h \
-    libagchess/Position.h \
-    libagchess/Position_MoveGen.h \
-    libagchess/SAN.h \
-    libagchess/SearchMask.h \
-    libagchess/SimpleGame.h \
-    libagchess/SimplePosition.h \
-    libagchess/Square.h \
-    libagchess/StandardChessGame.h \
-    libagchess/StandardPosition.h \
-    libagchess/StartPos.h \
-    libagchess/TagPair.h \
-    libagchess/Token.h \
-    libagchess/chess_iterator.h
+    libs/thc-chess-library/ChessDefs.h \
+    libs/thc-chess-library/ChessPosition.h \
+    libs/thc-chess-library/ChessPositionRaw.h \
+    libs/thc-chess-library/ChessRules.h \
+    libs/thc-chess-library/DebugPrintf.h \
+    libs/thc-chess-library/GeneratedLookupTables.h \
+    libs/thc-chess-library/HashLookup.h \
+    libs/thc-chess-library/Move.h \
+    libs/thc-chess-library/Portability.h \
+    libs/thc-chess-library/PrivateChessDefs.h \
+    libs/thc-chess-library/thc-original-umbrella.h \
 
 TRANSLATIONS += \
     ChessPgnReviser_en_GB.ts
@@ -92,4 +54,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     .gitignore \
     LICENSE.md \
-    README.md
+    README.md \
+    resources/chess_vectors/Chess_bdt45.svg \
+    resources/chess_vectors/Chess_blt45.svg \
+    resources/chess_vectors/Chess_kdt45.svg \
+    resources/chess_vectors/Chess_klt45.svg \
+    resources/chess_vectors/Chess_ndt45.svg \
+    resources/chess_vectors/Chess_nlt45.svg \
+    resources/chess_vectors/Chess_pdt45.svg \
+    resources/chess_vectors/Chess_plt45.svg \
+    resources/chess_vectors/Chess_qdt45.svg \
+    resources/chess_vectors/Chess_qlt45.svg \
+    resources/chess_vectors/Chess_rdt45.svg \
+    resources/chess_vectors/Chess_rlt45.svg
+
+RESOURCES += \
+    resources.qrc

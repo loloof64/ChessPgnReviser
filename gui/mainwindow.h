@@ -13,6 +13,6 @@ public:
     ~MainWindow();
 
 private:
-    ChessBoard* _board;
+    loloof64::ChessBoard* _board;
 };
 #endif // MAINWINDOW_H

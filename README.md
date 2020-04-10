@@ -9,4 +9,5 @@ This project has been made with QtCreator and Qt 5.14
 
 ## Credits
 
-Using code from project [libagchess](https://sourceforge.net/projects/libagchess/).
+* Using code from project [thc-chess-library](https://github.com/billforsternz/thc-chess-library).
+* Chess pieces vectors have been downloaded from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).

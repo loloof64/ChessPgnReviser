@@ -1,17 +1,25 @@
 #include "chessboard.h"
+#include "../adapters/thcposition.h"
 #include <QPainter>
 #include <QVector>
 #include <QString>
 #include <cmath>
+#include <QSvgRenderer>
+
+#include <QMessageLogger>
+
+using namespace loloof64;
 
 ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cellsSize(cellsSize)
 {
+    _relatedPosition = new ThcPosition();
     auto wholeSize = 9 * cellsSize;
     setFixedSize(wholeSize, wholeSize);
 }
 
 ChessBoard::~ChessBoard()
 {
+    delete _relatedPosition;
 }
 
 void ChessBoard::paintEvent(QPaintEvent * /* event */)
@@ -34,12 +42,46 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     {
         for (auto col: colsIndexes)
         {
+            // draw cell
             const auto isWhiteCell = (row+col) %2 == 0;
             const auto x = floor(_cellsSize * (0.5 + col));
             const auto y = floor(_cellsSize * (0.5 + row));
             const auto cellColor = isWhiteCell ? whiteCellsColor : blackCellsColor;
 
             painter.fillRect(x, y, _cellsSize, _cellsSize, cellColor);
+
+            //draw piece
+            const auto file = col;
+            const auto rank = 7-row;
+            const auto pieceValue = _relatedPosition->getPieceFenAt(file, rank);
+
+            const auto notAnEmptyPiece = QVector<char>{
+                'P', 'N', 'B', 'R', 'Q', 'K',
+                'p', 'n', 'b', 'r', 'q', 'k'
+            }.contains(pieceValue);
+
+            if (notAnEmptyPiece)
+            {
+                auto resourceName = QString(":/chess_vectors/");
+                switch (pieceValue) {
+                    case 'P': resourceName += "pl.svg"; break;
+                    case 'N': resourceName += "nl.svg"; break;
+                    case 'B': resourceName += "bl.svg"; break;
+                    case 'R': resourceName += "rl.svg"; break;
+                    case 'Q': resourceName += "ql.svg"; break;
+                    case 'K': resourceName += "kl.svg"; break;
+
+                    case 'p': resourceName += "pd.svg"; break;
+                    case 'n': resourceName += "nd.svg"; break;
+                    case 'b': resourceName += "bd.svg"; break;
+                    case 'r': resourceName += "rd.svg"; break;
+                    case 'q': resourceName += "qd.svg"; break;
+                    case 'k': resourceName += "kd.svg"; break;
+                }
+                QSvgRenderer pieceImage{resourceName};
+
+                pieceImage.render(&painter, QRect(x, y, _cellsSize, _cellsSize));
+            }
         }
     }
 

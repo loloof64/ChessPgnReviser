@@ -3,7 +3,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    _board = new ChessBoard(60, this);
+    _board = new loloof64::ChessBoard(40, this);
 
     _board->show();
     setCentralWidget(_board);
