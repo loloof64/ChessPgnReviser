@@ -1,7 +1,7 @@
 #include "promotiondialog.h"
 #include <QString>
 
-loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : QDialog(parent)
+loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : QDialog(parent, Qt::WindowTitleHint)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(10);
@@ -42,6 +42,7 @@ loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : 
     _mainLayout->addWidget(_bishopButton);
     _mainLayout->addWidget(_knightButton);
 
+    setWindowTitle(tr("Select the promotion piece"));
     setModal(true);
 }
 
