@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     gui/adapters/thcposition.cpp \
     gui/chessboard/chessboard.cpp \
+    gui/chessboard/promotiondialog.cpp \
     gui/mainwindow.cpp \
     libs/thc-chess-library/ChessPosition.cpp \
     libs/thc-chess-library/ChessRules.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     gui/adapters/thcposition.h \
     gui/chessboard/IPosition.h \
     gui/chessboard/chessboard.h \
+    gui/chessboard/promotiondialog.h \
     gui/mainwindow.h \ \
     libs/thc-chess-library/ChessDefs.h \
     libs/thc-chess-library/ChessPosition.h \

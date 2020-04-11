@@ -1,4 +1,5 @@
 #include "chessboard.h"
+#include "promotiondialog.h"
 #include "../adapters/thcposition.h"
 #include <QPainter>
 #include <QVector>
@@ -248,7 +249,45 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
     if (isPromotionMove)
     {
-        repaint();
+        PromotionDialog promotionDialog(this, _relatedPosition->isWhiteTurn());
+        connect(&promotionDialog, &PromotionDialog::validateQueenPromotion, this,
+                [=, &promotionDialog](){
+            ////////////////////////////
+            QMessageLogger logger;
+            logger.info("Queen");
+            ////////////////////////////
+            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
+            delete _relatedPosition;
+            _relatedPosition = new ThcPosition(newPositionFen);
+            repaint();
+            promotionDialog.hide();
+        });
+        connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
+                [=, &promotionDialog](){
+            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
+            delete _relatedPosition;
+            _relatedPosition = new ThcPosition(newPositionFen);
+            repaint();
+            promotionDialog.hide();
+        });
+        connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
+                [=, &promotionDialog](){
+            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
+            delete _relatedPosition;
+            _relatedPosition = new ThcPosition(newPositionFen);
+            repaint();
+            promotionDialog.hide();
+        });
+        connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
+                [=, &promotionDialog](){
+            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'n');
+            delete _relatedPosition;
+            _relatedPosition = new ThcPosition(newPositionFen);
+            repaint();
+            promotionDialog.hide();
+        });
+
+        promotionDialog.exec();
         return;
     }
 
