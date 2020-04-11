@@ -27,10 +27,15 @@ loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : 
         ":/chess_vectors/nd.svg"
     };
 
-    _queenButton = new QPushButton(QIcon(queenImageRef), tr("Queen"), this);
-    _rookButton = new QPushButton(QIcon(rookImageRef), tr("Rook"), this);
-    _bishopButton = new QPushButton(QIcon(bishopImageRef), tr("Bishop"), this);
-    _knightButton = new QPushButton(QIcon(knightImageRef), tr("Knight"), this);
+    _queenButton = new QPushButton(this);
+    _rookButton = new QPushButton(this);
+    _bishopButton = new QPushButton(this);
+    _knightButton = new QPushButton(this);
+
+    _queenButton->setIcon(QIcon(queenImageRef));
+    _rookButton->setIcon(QIcon(rookImageRef));
+    _bishopButton->setIcon(QIcon(bishopImageRef));
+    _knightButton->setIcon(QIcon(knightImageRef));
 
     connect(_queenButton, &QPushButton::clicked, this, [this](){ emit validateQueenPromotion(); });
     connect(_rookButton, &QPushButton::clicked, this, [this](){ emit validateRookPromotion(); });
