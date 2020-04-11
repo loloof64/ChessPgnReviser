@@ -235,13 +235,20 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     const auto startFile = _dndData->startFile;
     const auto startRank = _dndData->startRank;
 
-    if (_dndData != nullptr) {
-        delete _dndData;
-        _dndData = nullptr;
-        repaint();
-    }
+    _dndData->pieceX = x;
+    _dndData->pieceY = y;
+    repaint();
+
+    const auto clearDndData = [this]()
+    {
+        if (_dndData != nullptr) {
+            delete _dndData;
+            _dndData = nullptr;
+        }
+    };
 
     if (file < 0 || file > 7 || rank < 0 || rank > 7) {
+        clearDndData();
         repaint();
         return;
     }
@@ -255,6 +262,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            clearDndData();
             repaint();
             promotionDialog.hide();
         });
@@ -263,6 +271,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            clearDndData();
             repaint();
             promotionDialog.hide();
         });
@@ -271,14 +280,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            clearDndData();
             repaint();
             promotionDialog.hide();
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
-            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'n');
+            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            clearDndData();
             repaint();
             promotionDialog.hide();
         });
@@ -289,13 +300,15 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
     try
     {
-        const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank);
+        const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank);
         delete _relatedPosition;
         _relatedPosition = new ThcPosition(newPositionFen);
+        clearDndData();
         repaint();
     }
     catch (IllegalMoveException const *e)
     {
+        clearDndData();
         repaint();
     }
 }
