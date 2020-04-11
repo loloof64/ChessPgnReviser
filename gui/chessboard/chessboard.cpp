@@ -3,8 +3,9 @@
 #include <QPainter>
 #include <QVector>
 #include <QString>
-#include <cmath>
 #include <QSvgRenderer>
+#include <cmath>
+#include <cctype>
 
 #include <QMessageLogger>
 
@@ -172,12 +173,20 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
 
     if (file < 0 || file > 7 || rank < 0 || rank > 7) return;
     const auto movedPiece = _relatedPosition->getPieceFenAt(file, rank);
-    const auto notAnEmptyPiece = QVector<char>{
+    const auto isEmptyPiece = ! QVector<char>{
         'P', 'N', 'B', 'R', 'Q', 'K',
         'p', 'n', 'b', 'r', 'q', 'k'
     }.contains(movedPiece);
 
-    if (! notAnEmptyPiece) return;
+    if (isEmptyPiece) return;
+
+    // We must not called isupper with a moved piece not belonging to the FEN set,
+    // as it may have a value causing an undefined behaviour.
+    const auto isAWhitePiece = isupper(movedPiece) > 0;
+    const auto isAPieceOfSideInTurn = isAWhitePiece == _relatedPosition->isWhiteTurn();
+
+    if (! isAPieceOfSideInTurn) return;
+
     _dndData = new DndData(movedPiece, file, rank, x, y);
 
    repaint();
@@ -185,6 +194,8 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
 
 void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 {
+    if (_dndData == nullptr) return;
+
     const auto x = event->x();
     const auto y = event->y();
 
@@ -209,6 +220,8 @@ void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 
 void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (_dndData == nullptr) return;
+
     const auto x = event->x();
     const auto y = event->y();
 
