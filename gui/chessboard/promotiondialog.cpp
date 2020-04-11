@@ -1,7 +1,8 @@
 #include "promotiondialog.h"
 #include <QString>
 
-loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : QDialog(parent, Qt::WindowTitleHint)
+loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer, int imagesSize) :
+    QDialog(parent, Qt::WindowTitleHint)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(10);
@@ -36,6 +37,12 @@ loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer) : 
     _rookButton->setIcon(QIcon(rookImageRef));
     _bishopButton->setIcon(QIcon(bishopImageRef));
     _knightButton->setIcon(QIcon(knightImageRef));
+
+    const auto iconsSize = QSize(imagesSize, imagesSize);
+    _queenButton->setIconSize(iconsSize);
+    _rookButton->setIconSize(iconsSize);
+    _bishopButton->setIconSize(iconsSize);
+    _knightButton->setIconSize(iconsSize);
 
     connect(_queenButton, &QPushButton::clicked, this, [this](){ emit validateQueenPromotion(); });
     connect(_rookButton, &QPushButton::clicked, this, [this](){ emit validateRookPromotion(); });

@@ -249,13 +249,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
     if (isPromotionMove)
     {
-        PromotionDialog promotionDialog(this, _relatedPosition->isWhiteTurn());
+        PromotionDialog promotionDialog(this, _relatedPosition->isWhiteTurn(), _cellsSize);
         connect(&promotionDialog, &PromotionDialog::validateQueenPromotion, this,
                 [=, &promotionDialog](){
-            ////////////////////////////
-            QMessageLogger logger;
-            logger.info("Queen");
-            ////////////////////////////
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);

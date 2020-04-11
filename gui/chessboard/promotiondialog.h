@@ -11,7 +11,7 @@ namespace loloof64
     {
         Q_OBJECT
     public:
-        explicit PromotionDialog(QWidget *parent = nullptr, bool whitePlayer = true);
+        explicit PromotionDialog(QWidget *parent = nullptr, bool whitePlayer = true, int imagesSize = 45);
         ~PromotionDialog();
     signals:
         void validateQueenPromotion();
