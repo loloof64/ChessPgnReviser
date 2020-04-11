@@ -245,5 +245,22 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    repaint();
+    bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
+    if (isPromotionMove)
+    {
+        repaint();
+        return;
+    }
+
+    try
+    {
+        const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank);
+        delete _relatedPosition;
+        _relatedPosition = new ThcPosition(newPositionFen);
+        repaint();
+    }
+    catch (IllegalMoveException const *e)
+    {
+        repaint();
+    }
 }

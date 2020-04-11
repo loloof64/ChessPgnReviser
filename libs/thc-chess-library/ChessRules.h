@@ -110,6 +110,9 @@ public:
 
     // Undo a move
     void PopMove( Move& m );
+    
+    // Test fundamental internal assumptions and operations
+    void TestInternals();
 
 // Private stuff
 protected:

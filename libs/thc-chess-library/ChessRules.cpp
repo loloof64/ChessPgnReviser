@@ -9,10 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <cstring>
 #include <assert.h>
 #include <algorithm>
-#include "Portability.h"
-#include "DebugPrintf.h"
 #include "ChessRules.h"
 #include "PrivateChessDefs.h"
 using namespace std;
@@ -35,6 +34,140 @@ static unsigned char castling_prohibited_table[] =
     (unsigned char)(~WQUEEN), 0xff, 0xff, 0xff,                             // a1-d1
     (unsigned char)(~(WQUEEN+WKING)),  0xff, 0xff, (unsigned char)(~WKING)  // e1-h1
 };
+
+void ChessRules::TestInternals()
+{
+    Init();
+    Move mv;
+    printf( "All castling allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"g1f3");
+    PlayMove(mv);
+    mv.TerseIn(this,"g8f6");
+    PlayMove(mv);
+    printf( "All castling allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"h1g1");
+    PlayMove(mv);
+    mv.TerseIn(this,"h8g8");
+    PlayMove(mv);
+    mv.TerseIn(this,"g1h1");
+    PlayMove(mv);
+    printf( "WKING castling not allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"g8h8");
+    PlayMove(mv);
+    printf( "WKING BKING castling not allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"b1c3");
+    PlayMove(mv);
+    mv.TerseIn(this,"b8c6");
+    PlayMove(mv);
+    mv.TerseIn(this,"a1b1");
+    PlayMove(mv);
+    mv.TerseIn(this,"a8b8");
+    PlayMove(mv);
+    mv.TerseIn(this,"b1a1");
+    PlayMove(mv);
+    printf( "WKING BKING WQUEEN castling not allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"b8a8");
+    PlayMove(mv);
+    printf( "WKING BKING WQUEEN BQUEEN castling not allowed %08x\n", *DETAIL_ADDR );
+    ChessPosition::Init();
+    printf( "All castling allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"e2e3");
+    PlayMove(mv);
+    mv.TerseIn(this,"e7e6");
+    PlayMove(mv);
+    printf( "All castling allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"e1e2");
+    PlayMove(mv);
+    mv.TerseIn(this,"e8e7");
+    PlayMove(mv);
+    mv.TerseIn(this,"e2e1");
+    PlayMove(mv);
+    printf( "WKING WQUEEN castling not allowed %08x\n", *DETAIL_ADDR );
+    mv.TerseIn(this,"e7e8");
+    PlayMove(mv);
+    printf( "WKING WQUEEN BKING BQUEEN castling not allowed %08x\n", *DETAIL_ADDR );
+    const char *fen = "b3k2r/8/8/8/8/8/8/R3K2R w KQk - 0 1";
+    Move move;
+    Forsyth(fen);
+    printf( "Addresses etc.;\n" );
+    printf( " this = 0x%p\n",                         this );
+    printf( " (void *)this = 0x%p\n",                 (void *)this );
+    printf( " &white = 0x%p\n",                       &white );
+    printf( " &squares[0] = 0x%p\n",                  &squares[0] );
+    printf( " &half_move_clock = 0x%p\n",             &half_move_clock );
+    printf( " &full_move_count = 0x%p\n",             &full_move_count );
+    printf( " size to end of full_move_count = %lu", ((char *)&full_move_count - (char *)this) + sizeof(full_move_count) );
+    printf( " sizeof(ChessPosition) = %lu (should be 4 more than size to end of full_move_count)\n",
+           sizeof(ChessPosition) );
+    printf( " sizeof(Move) = %lu\n",                  sizeof(Move) );
+    
+    printf( " sizeof(ChessPositionRaw) = %lu\n", sizeof(ChessPositionRaw) );
+    printf( " (offsetof(ChessPositionRaw,full_move_count) + sizeof(full_move_count) + sizeof(DETAIL) =");
+    printf( " %lu + %lu + %lu = %lu\n",
+           offsetof(ChessPositionRaw,full_move_count), sizeof(full_move_count), sizeof(DETAIL),
+           offsetof(ChessPositionRaw,full_move_count) + sizeof(full_move_count) + sizeof(DETAIL)
+           );
+    for( int i=0; i<6; i++ )
+    {
+        switch(i)
+        {
+            case 0: move.TerseIn(this,"h1h2");    break;
+            case 1: move.TerseIn(this,"a8h1");    break;
+            case 2: move.TerseIn(this,"e1c1");    break;
+            case 3: move.TerseIn(this,"h1a8");    break;
+            case 4: move.TerseIn(this,"c1b1");    break;
+            case 5: move.TerseIn(this,"e8g8");    break;
+        }
+        unsigned char *p = (unsigned char *)DETAIL_ADDR;
+        printf( " DETAIL_ADDR = 0x%p\n",  p );
+        printf( " DETAIL_ADDR[0] = %02x\n",  p[0] );
+        printf( " DETAIL_ADDR[1] = %02x\n",  p[1] );
+        printf( " DETAIL_ADDR[2] = %02x\n",  p[2] );
+        printf( " DETAIL_ADDR[3] = %02x\n",  p[3] );
+        printf( "Before %s: enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
+               " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
+               move.TerseOut().c_str(),
+               enpassant_target,
+               wking_square,
+               bking_square,
+               wking ?"true":"false",
+               wqueen?"true":"false",
+               bking ?"true":"false",
+               bqueen?"true":"false" );
+        PushMove(move);
+        printf( "After PushMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
+               " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
+               enpassant_target,
+               wking_square,
+               bking_square,
+               wking ?"true":"false",
+               wqueen?"true":"false",
+               bking ?"true":"false",
+               bqueen?"true":"false" );
+        PopMove(move);
+        printf( "After PopMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
+               " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
+               enpassant_target,
+               wking_square,
+               bking_square,
+               wking ?"true":"false",
+               wqueen?"true":"false",
+               bking ?"true":"false",
+               bqueen?"true":"false" );
+        PushMove(move);
+        printf( "After PushMove(): enpassant_target=0x%02x, wking_square=0x%02x, bking_square=0x%02x,"
+               " wking=%s, wqueen=%s, bking=%s, bqueen=%s\n",
+               enpassant_target,
+               wking_square,
+               bking_square,
+               wking ?"true":"false",
+               wqueen?"true":"false",
+               bking ?"true":"false",
+               bqueen?"true":"false" );
+    }
+}
+
+
 
 /****************************************************************************
  * Play a move

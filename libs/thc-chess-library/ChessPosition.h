@@ -7,6 +7,7 @@
 #ifndef CHESSPOSITION_H
 #define CHESSPOSITION_H
 #include <string>
+#include <cstring>
 #include <stddef.h>
 #include "ChessPositionRaw.h"
 

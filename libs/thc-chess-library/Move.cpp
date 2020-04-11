@@ -11,6 +11,7 @@
 #include <ctype.h>
 #include <algorithm>
 #include <string>
+#include <cstring>
 #include "DebugPrintf.h"
 #include "PrivateChessDefs.h"
 #include "ChessRules.h"
@@ -124,7 +125,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
     // Castling
     if( okay )
     {
-        if( 0==strcmpi(move,"oo") || 0==strcmpi(move,"o-o") )
+        if( 0==strcmp(move,"oo") || 0==strcmp(move,"o-o") )
         {
             strcpy( move, (white?"e1g1":"e8g8") );
             len       = 4;
@@ -132,7 +133,7 @@ bool Move::NaturalIn( ChessRules *cr, const char *natural_in )
             default_piece = false;
             kcastling = true;
         }
-        else if( 0==strcmpi(move,"ooo") || 0==strcmpi(move,"o-o-o") )
+        else if( 0==strcmp(move,"ooo") || 0==strcmp(move,"o-o-o") )
         {
             strcpy( move, (white?"e1c1":"e8c8") );
             len       = 4;

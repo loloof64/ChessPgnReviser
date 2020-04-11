@@ -22,15 +22,15 @@ SOURCES += \
     libs/thc-chess-library/ChessPosition.cpp \
     libs/thc-chess-library/ChessRules.cpp \
     libs/thc-chess-library/Move.cpp \
-    libs/thc-chess-library/Portability.cpp \
     libs/thc-chess-library/PrivateChessDefs.cpp \
+    libs/thc-chess-library/util.cpp \
     main.cpp \
 
 HEADERS += \
     gui/adapters/thcposition.h \
     gui/chessboard/IPosition.h \
     gui/chessboard/chessboard.h \
-    gui/mainwindow.h \
+    gui/mainwindow.h \ \
     libs/thc-chess-library/ChessDefs.h \
     libs/thc-chess-library/ChessPosition.h \
     libs/thc-chess-library/ChessPositionRaw.h \
@@ -39,9 +39,8 @@ HEADERS += \
     libs/thc-chess-library/GeneratedLookupTables.h \
     libs/thc-chess-library/HashLookup.h \
     libs/thc-chess-library/Move.h \
-    libs/thc-chess-library/Portability.h \
     libs/thc-chess-library/PrivateChessDefs.h \
-    libs/thc-chess-library/thc-original-umbrella.h \
+    libs/thc-chess-library/util.h
 
 TRANSLATIONS += \
     ChessPgnReviser_en_GB.ts
@@ -70,5 +69,11 @@ DISTFILES += \
     resources/icons/swap.svg
 
 RESOURCES += \
+    resources.qrc \
+    resources.qrc \
+    resources.qrc \
+    resources.qrc \
+    resources.qrc \
+    resources.qrc \
     resources.qrc \
     resources.qrc

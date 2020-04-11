@@ -6,7 +6,8 @@
  ****************************************************************************/
 #ifndef CHESSDEFS_H
 #define CHESSDEFS_H
-#include "Portability.h"
+
+#include <cstdint>
 
 inline bool is_dark( int sq )
 {

@@ -6,7 +6,6 @@
  ****************************************************************************/
 #ifndef DEBUG_PRINTF_H
 #define DEBUG_PRINTF_H
-#include "Portability.h"
 
 // We used to use the old C double parenthesis trick to make DebugPrintf() a conditional compilation, eg;
 //  dbg_printf(("Hello world, x=%d",x));    // <- eliminated unless _DEBUG build
