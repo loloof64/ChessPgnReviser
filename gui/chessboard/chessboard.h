@@ -21,6 +21,18 @@ namespace loloof64 {
         int pieceX, pieceY;
     };
 
+    struct LastMoveCoordinates
+    {
+        explicit LastMoveCoordinates(int startFile, int startRank,
+                                     int endFile, int endRank):
+        startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
+
+        LastMoveCoordinates(const LastMoveCoordinates&) = delete;
+        LastMoveCoordinates(const LastMoveCoordinates&&) = delete;
+
+        int startFile, startRank, endFile, endRank;
+    };
+
     class ChessBoard : public QWidget
     {
         Q_OBJECT
@@ -39,6 +51,7 @@ namespace loloof64 {
         bool _reversed;
         IPosition *_relatedPosition;
         DndData *_dndData;
+        LastMoveCoordinates *_lastMoveCoordinates;
         void mousePressEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;

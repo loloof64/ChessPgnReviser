@@ -38,12 +38,15 @@ ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cells
 {
     _relatedPosition = new ThcPosition();
     _dndData = nullptr;
+    _lastMoveCoordinates = nullptr;
+    _reversed = false;
     auto wholeSize = 9 * cellsSize;
     setFixedSize(wholeSize, wholeSize);
 }
 
 ChessBoard::~ChessBoard()
 {
+    if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
     if (_dndData != nullptr) delete _dndData;
     delete _relatedPosition;
 }
@@ -66,6 +69,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     const auto dndCrossCellColor = QColor(200, 115, 207);
     const auto dndStartCellColor = Qt::green;
     const auto dndEndCellColor = Qt::red;
+    const auto lastMoveArrowColor = QColor(0, 0, 255, 100);
+    const auto lastMoveArrowPointerColor = QColor(255, 0, 0, 160);
 
     QPainter painter(this);
 
@@ -122,6 +127,34 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
             }
 
         }
+    }
+
+    // paiting last move arrow
+    if (_lastMoveCoordinates != nullptr)
+    {
+        QPen pen{lastMoveArrowColor};
+        pen.setWidth(floor(_cellsSize * 0.2));
+        painter.setPen(pen);
+
+        const auto startCol = _reversed ? 7-_lastMoveCoordinates->startFile : _lastMoveCoordinates->startFile;
+        const auto startRow = _reversed ? _lastMoveCoordinates->startRank : 7-_lastMoveCoordinates->startRank;
+        const auto endCol = _reversed ? 7-_lastMoveCoordinates->endFile : _lastMoveCoordinates->endFile;
+        const auto endRow = _reversed ? _lastMoveCoordinates->endRank : 7-_lastMoveCoordinates->endRank;
+
+        painter.drawLine(
+            floor(_cellsSize * (startCol + 1)),
+            floor(_cellsSize * (startRow + 1)),
+            floor(_cellsSize * (endCol + 1)),
+            floor(_cellsSize * (endRow + 1))
+        );
+
+        painter.setBrush(QBrush(lastMoveArrowPointerColor));
+        painter.drawEllipse(
+            floor(_cellsSize * (endCol + 0.75)),
+            floor(_cellsSize * (endRow + 0.75)),
+            floor(_cellsSize * 0.5),
+            floor(_cellsSize * 0.5)
+        );
     }
 
     // painting coordinates
@@ -276,6 +309,14 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
+    const auto updateLastMove = [this, file, rank]()
+    {
+       if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
+       if (_dndData != nullptr) {
+            _lastMoveCoordinates = new LastMoveCoordinates(_dndData->startFile, _dndData->startRank, file, rank);
+       }
+    };
+
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
     if (isPromotionMove)
     {
@@ -286,6 +327,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
@@ -295,6 +337,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
@@ -304,6 +347,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
@@ -313,6 +357,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
             delete _relatedPosition;
             _relatedPosition = new ThcPosition(newPositionFen);
+            updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
@@ -327,6 +372,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank);
         delete _relatedPosition;
         _relatedPosition = new ThcPosition(newPositionFen);
+        updateLastMove();
         clearDndData();
         repaint();
     }
