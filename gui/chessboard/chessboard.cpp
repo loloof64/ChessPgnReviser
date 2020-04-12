@@ -63,6 +63,9 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     const auto backgroundColor = QColor(108, 93, 167);
     const auto whiteCellsColor = QColor(255, 206, 158);
     const auto blackCellsColor = QColor(209, 139, 71);
+    const auto dndCrossCellColor = QColor(200, 115, 207);
+    const auto dndStartCellColor = Qt::green;
+    const auto dndEndCellColor = Qt::red;
 
     QPainter painter(this);
 
@@ -74,17 +77,33 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     {
         for (auto col: colsIndexes)
         {
+            const auto file = _reversed ? 7-col : col;
+            const auto rank = _reversed ? row : 7-row;
+
             // draw cell
             const auto isWhiteCell = (row+col) %2 == 0;
             const auto x = floor(_cellsSize * (0.5 + col));
             const auto y = floor(_cellsSize * (0.5 + row));
-            const auto cellColor = isWhiteCell ? whiteCellsColor : blackCellsColor;
+            auto cellColor = isWhiteCell ? whiteCellsColor : blackCellsColor;
+
+           if (_dndData != nullptr && _dndData->pointerInBounds)
+           {
+               const auto isACrossDndCell = (file == _dndData->endFile) || (rank == _dndData->endRank);
+
+               const auto isDndStartCell = (file == _dndData->startFile) && (rank == _dndData->startRank);
+
+
+               const auto isDndEndCell = (file == _dndData->endFile) && (rank == _dndData->endRank);
+
+               if (isACrossDndCell) cellColor = dndCrossCellColor;
+               if (isDndStartCell) cellColor = dndStartCellColor;
+               if (isDndEndCell) cellColor = dndEndCellColor;
+
+           }
 
             painter.fillRect(x, y, _cellsSize, _cellsSize, cellColor);
 
             // draw piece
-            const auto file = _reversed ? 7-col : col;
-            const auto rank = _reversed ? row : 7-row;
             const auto pieceValue = _relatedPosition->getPieceFenAt(file, rank);
 
             const auto notAnEmptyPiece = QVector<char>{
@@ -189,6 +208,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
     if (! isAPieceOfSideInTurn) return;
 
     _dndData = new DndData(movedPiece, file, rank, x, y);
+    _dndData->pointerInBounds = true;
 
    repaint();
 }
@@ -210,11 +230,14 @@ void ChessBoard::mouseMoveEvent(QMouseEvent *event)
     _dndData->pieceY = y;
 
     if (file < 0 || file > 7 || rank < 0 || rank > 7) {
+        _dndData->pointerInBounds = false;
         repaint();
         return;
     }
+
     _dndData->endFile = file;
     _dndData->endRank = rank;
+    _dndData->pointerInBounds = true;
 
     repaint();
 }

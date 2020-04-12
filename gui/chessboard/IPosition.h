@@ -59,6 +59,21 @@ namespace loloof64 {
         virtual bool isPromotionMove(
                 int /*startFile*/, int /*startRank*/, int /*endFile*/, int /*endRank*/) const
         { UnimplementedException ex; throw ex;}
+
+        // Should return true if it is checkmate, false otherwise.
+        virtual bool isCheckmate() const{ UnimplementedException ex; throw ex;}
+
+        // Should return true if it is stalemate, false otherwise.
+        virtual bool isStalemate() const { UnimplementedException ex; throw ex;}
+
+        // Should return true if it is draw by insuficient material, false otherwise.
+        virtual bool isInsuficientMaterialDraw() const { UnimplementedException ex; throw ex;}
+
+        // Should return true if it is draw by 3-folds repetitions, false otherwise.
+        virtual bool isThreeFoldRepetitionsDraw() const { UnimplementedException ex; throw ex;}
+
+        // Should return true if it is draw by the 50-moves rule, false otherwise.
+        virtual bool isFiftyMovesRuleDraw() const { UnimplementedException ex; throw ex;}
     };
 }
 

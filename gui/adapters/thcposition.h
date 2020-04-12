@@ -24,7 +24,6 @@ namespace loloof64 {
         // Takes an option string of the Forsyth-Edwards Notation of the position,
         // sets to standard if no given.
         ThcPosition(std::string fen="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-
         // Gets the Forsyth-Edwards Notation of the position
         std::string getFen() const override;
 
@@ -50,6 +49,21 @@ namespace loloof64 {
         // True if the given move leads to a promotion.
         // False if not or if it is an illegal move.
         bool isPromotionMove(int startFile, int startRank, int endFile, int endRank) const override;
+
+        // True if it is checkmate, false otherwise.
+        bool isCheckmate() const override;
+
+        // True if it is stalemate, false otherwise.
+        bool isStalemate() const override;
+
+        // True if it is draw by the 50 moves rule, false otherwise.
+        bool isFiftyMovesRuleDraw() const override;
+
+        // True if it is draw by insufficient material, false otherwise.
+        bool isInsuficientMaterialDraw() const override;
+
+        // True if it is draw by 3-folds repetition, false otherwise.
+        bool isThreeFoldRepetitionsDraw() const override;
     private:
         thc::ChessRules _position;
     };

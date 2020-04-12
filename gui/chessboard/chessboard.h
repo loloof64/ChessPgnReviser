@@ -10,11 +10,12 @@ namespace loloof64 {
     {
         explicit DndData(char pieceFen, int startFile, int startRank,
                          int pieceX, int pieceY):
-            pieceFen(pieceFen), startFile(startFile), startRank(startRank),
+            pieceFen(pieceFen), pointerInBounds(false), startFile(startFile), startRank(startRank),
             pieceX(pieceX), pieceY(pieceY){};
         DndData(const DndData&) = delete;
         DndData(const DndData&&) = delete;
         char pieceFen;
+        bool pointerInBounds;
         int startFile, startRank;
         int endFile, endRank;
         int pieceX, pieceY;

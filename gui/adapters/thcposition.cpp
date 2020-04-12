@@ -121,3 +121,28 @@ namespace loloof64 {
         return copy.ForsythPublish();
     }
 }
+
+bool loloof64::ThcPosition::isCheckmate() const
+{
+    throw new UnimplementedException();
+}
+
+bool loloof64::ThcPosition::isStalemate() const
+{
+    throw new UnimplementedException();
+}
+
+bool loloof64::ThcPosition::isFiftyMovesRuleDraw() const
+{
+    throw new UnimplementedException();
+}
+
+bool loloof64::ThcPosition::isInsuficientMaterialDraw() const
+{
+    throw new UnimplementedException();
+}
+
+bool loloof64::ThcPosition::isThreeFoldRepetitionsDraw() const
+{
+    throw new UnimplementedException();
+}
