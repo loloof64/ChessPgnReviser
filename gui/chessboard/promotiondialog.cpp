@@ -2,7 +2,7 @@
 #include <QString>
 
 loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer, int imagesSize) :
-    QDialog(parent, Qt::WindowTitleHint)
+    QDialog(parent, Qt::WindowTitleHint | Qt::CustomizeWindowHint)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(10);

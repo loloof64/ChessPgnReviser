@@ -280,6 +280,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     if (isPromotionMove)
     {
         PromotionDialog promotionDialog(this, _relatedPosition->isWhiteTurn(), _cellsSize);
+
         connect(&promotionDialog, &PromotionDialog::validateQueenPromotion, this,
                 [=, &promotionDialog](){
             const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
