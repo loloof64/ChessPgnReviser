@@ -5,10 +5,9 @@
 #include <QVector>
 #include <QString>
 #include <QSvgRenderer>
+#include <QMessageBox>
 #include <cmath>
 #include <cctype>
-
-#include <QMessageLogger>
 
 using namespace loloof64;
 
@@ -309,6 +308,36 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
+    const auto handleGameFinished = [this]()
+    {
+        const auto isCheckmate = _relatedPosition->isCheckmate();
+        const auto isStalemate = _relatedPosition->isStalemate();
+        const auto isDrawByThreeFolds = _relatedPosition->isThreeFoldRepetitionsDraw();
+        const auto isInsuficientMaterial = _relatedPosition->isInsuficientMaterialDraw();
+        const auto isFiftyMovesRuleDraw = _relatedPosition->isFiftyMovesRuleDraw();
+
+        if (isCheckmate)
+        {
+            QMessageBox::information(this, tr("Game finished"), tr("Checkmate"));
+        }
+        else if (isStalemate)
+        {
+            QMessageBox::information(this, tr("Game finished"), tr("Stalemate"));
+        }
+        else if (isDrawByThreeFolds)
+        {
+            QMessageBox::information(this, tr("Game finished"), tr("Draw by 3-folds repetition"));
+        }
+        else if (isInsuficientMaterial)
+        {
+            QMessageBox::information(this, tr("Game finished"), tr("Draw by insuficient material"));
+        }
+        else if (isFiftyMovesRuleDraw)
+        {
+            QMessageBox::information(this, tr("Game finished"), tr("Draw by the 50 moves rule"));
+        }
+    };
+
     const auto updateLastMove = [this, file, rank]()
     {
        if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
@@ -324,43 +353,39 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         connect(&promotionDialog, &PromotionDialog::validateQueenPromotion, this,
                 [=, &promotionDialog](){
-            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
-            delete _relatedPosition;
-            _relatedPosition = new ThcPosition(newPositionFen);
+            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
+            handleGameFinished();
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
-            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
-            delete _relatedPosition;
-            _relatedPosition = new ThcPosition(newPositionFen);
+            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
+            handleGameFinished();
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
-            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
-            delete _relatedPosition;
-            _relatedPosition = new ThcPosition(newPositionFen);
+            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
+            handleGameFinished();
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
-            const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
-            delete _relatedPosition;
-            _relatedPosition = new ThcPosition(newPositionFen);
+            _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
+            handleGameFinished();
         });
 
         promotionDialog.exec();
@@ -369,12 +394,11 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
     try
     {
-        const auto newPositionFen = _relatedPosition->makeMove(startFile, startRank, file, rank);
-        delete _relatedPosition;
-        _relatedPosition = new ThcPosition(newPositionFen);
+        _relatedPosition->makeMove(startFile, startRank, file, rank);
         updateLastMove();
         clearDndData();
         repaint();
+        handleGameFinished();
     }
     catch (IllegalMoveException const *e)
     {

@@ -3,6 +3,8 @@
 
 #include "../chessboard/IPosition.h"
 #include "../../libs/thc-chess-library/ChessRules.h"
+#include <QMap>
+#include <QString>
 
 namespace loloof64 {
 
@@ -66,6 +68,7 @@ namespace loloof64 {
         bool isThreeFoldRepetitionsDraw() const override;
     private:
         thc::ChessRules _position;
+        QMap<std::string, int> _recordedPositions;
     };
 
 }
