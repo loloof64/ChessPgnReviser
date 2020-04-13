@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
     _mainToolBar->addAction(QIcon(QPixmap(":/icons/swap.svg")), QString(tr("Toggle side")), [this](){
         this->_board->reverse();
     });
+    _mainToolBar->addAction(QIcon(QPixmap(":/icons/start.svg")), QString(tr("New game")), [this](){
+        this->_board->newGame();
+    });
 
     addToolBar(_mainToolBar);
     setCentralWidget(_board);

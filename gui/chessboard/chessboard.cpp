@@ -35,9 +35,9 @@ QString pieceFenToPieceImageReference(char pieceFen)
 
 ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cellsSize(cellsSize)
 {
-    _relatedPosition = new ThcPosition();
+    _relatedPosition = new ThcPosition("8/8/8/8/8/8/8/8 w - - 0 1");
     _dndData = nullptr;
-    _gameInProgress = true;
+    _gameInProgress = false;
     _lastMoveCoordinates = nullptr;
     _reversed = false;
     auto wholeSize = 9 * cellsSize;
@@ -54,6 +54,17 @@ ChessBoard::~ChessBoard()
 void ChessBoard::reverse()
 {
     _reversed = ! _reversed;
+    repaint();
+}
+
+void ChessBoard::newGame()
+{
+    if (_lastMoveCoordinates != nullptr) {
+        delete _lastMoveCoordinates;
+        _lastMoveCoordinates = nullptr;
+    }
+    _relatedPosition = new ThcPosition();
+    _gameInProgress = true;
     repaint();
 }
 
@@ -350,7 +361,10 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
     const auto updateLastMove = [this, file, rank]()
     {
-       if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
+       if (_lastMoveCoordinates != nullptr) {
+           delete _lastMoveCoordinates;
+           _lastMoveCoordinates = nullptr;
+       }
        if (_dndData != nullptr) {
             _lastMoveCoordinates = new LastMoveCoordinates(_dndData->startFile, _dndData->startRank, file, rank);
        }

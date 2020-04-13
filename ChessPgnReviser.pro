@@ -68,6 +68,7 @@ DISTFILES += \
     resources/chess_vectors/Chess_qlt45.svg \
     resources/chess_vectors/Chess_rdt45.svg \
     resources/chess_vectors/Chess_rlt45.svg \
+    resources/icons/start.svg \
     resources/icons/swap.svg
 
 RESOURCES += \

@@ -16,4 +16,5 @@ This project has been made with QtCreator and Qt 5.14
 
 Using some icon resources from [FlatIcon](https://www.flaticon.com/).
 
-* swap.svg by Good Ware
+* swap svg by Good Ware
+* start svg by SmashIcons

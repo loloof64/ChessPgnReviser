@@ -42,6 +42,7 @@ namespace loloof64 {
 
     public slots:
         void reverse();
+        void newGame();
 
     protected:
         void paintEvent(QPaintEvent *event) override;
