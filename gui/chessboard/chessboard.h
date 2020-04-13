@@ -49,6 +49,7 @@ namespace loloof64 {
     private:
         int _cellsSize;
         bool _reversed;
+        bool _gameInProgress;
         IPosition *_relatedPosition;
         DndData *_dndData;
         LastMoveCoordinates *_lastMoveCoordinates;

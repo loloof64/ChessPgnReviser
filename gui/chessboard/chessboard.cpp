@@ -37,6 +37,7 @@ ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cells
 {
     _relatedPosition = new ThcPosition();
     _dndData = nullptr;
+    _gameInProgress = true;
     _lastMoveCoordinates = nullptr;
     _reversed = false;
     auto wholeSize = 9 * cellsSize;
@@ -214,6 +215,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
+    if (!_gameInProgress) return;
+
     const auto x = event->x();
     const auto y = event->y();
 
@@ -247,6 +250,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
 
 void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 {
+    if (!_gameInProgress) return;
     if (_dndData == nullptr) return;
 
     const auto x = event->x();
@@ -276,6 +280,7 @@ void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 
 void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (!_gameInProgress) return;
     if (_dndData == nullptr) return;
 
     const auto x = event->x();
@@ -318,22 +323,27 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         if (isCheckmate)
         {
+            _gameInProgress = false;
             QMessageBox::information(this, tr("Game finished"), tr("Checkmate"));
         }
         else if (isStalemate)
         {
+            _gameInProgress = false;
             QMessageBox::information(this, tr("Game finished"), tr("Stalemate"));
         }
         else if (isDrawByThreeFolds)
         {
+            _gameInProgress = false;
             QMessageBox::information(this, tr("Game finished"), tr("Draw by 3-folds repetition"));
         }
         else if (isInsuficientMaterial)
         {
+            _gameInProgress = false;
             QMessageBox::information(this, tr("Game finished"), tr("Draw by insuficient material"));
         }
         else if (isFiftyMovesRuleDraw)
         {
+            _gameInProgress = false;
             QMessageBox::information(this, tr("Game finished"), tr("Draw by the 50 moves rule"));
         }
     };
