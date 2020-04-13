@@ -39,10 +39,12 @@ namespace loloof64 {
     public:
         explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
+        inline bool gameInProgress(){ return _gameInProgress; }
 
     public slots:
         void reverse();
         void newGame();
+        void stopGame();
 
     protected:
         void paintEvent(QPaintEvent *event) override;

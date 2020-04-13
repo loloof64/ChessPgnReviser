@@ -59,12 +59,19 @@ void ChessBoard::reverse()
 
 void ChessBoard::newGame()
 {
-    if (_lastMoveCoordinates != nullptr) {
+    if (_lastMoveCoordinates != nullptr)
+    {
         delete _lastMoveCoordinates;
         _lastMoveCoordinates = nullptr;
     }
     _relatedPosition = new ThcPosition();
     _gameInProgress = true;
+    repaint();
+}
+
+void ChessBoard::stopGame()
+{
+    _gameInProgress = false;
     repaint();
 }
 
