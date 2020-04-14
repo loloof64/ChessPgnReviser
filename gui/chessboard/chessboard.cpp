@@ -342,27 +342,27 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         if (isCheckmate)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished"), tr("Checkmate"));
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
         }
         else if (isStalemate)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished"), tr("Stalemate"));
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
         }
         else if (isDrawByThreeFolds)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished"), tr("Draw by 3-folds repetition"));
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
         }
         else if (isInsuficientMaterial)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished"), tr("Draw by insuficient material"));
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
         }
         else if (isFiftyMovesRuleDraw)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished"), tr("Draw by the 50 moves rule"));
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
         }
     };
 

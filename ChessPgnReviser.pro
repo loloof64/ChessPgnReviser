@@ -45,7 +45,9 @@ HEADERS += \
     libs/thc-chess-library/util.h
 
 TRANSLATIONS += \
-    ChessPgnReviser_en_GB.ts
+    translations/ChessPgnReviser.en.ts \
+    translations/ChessPgnReviser.fr.ts \
+    translations/ChessPgnReviser.es.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -73,10 +75,4 @@ DISTFILES += \
 
 RESOURCES += \
     resources.qrc \
-    resources.qrc \
-    resources.qrc \
-    resources.qrc \
-    resources.qrc \
-    resources.qrc \
-    resources.qrc \
-    resources.qrc
+
