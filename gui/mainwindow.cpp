@@ -11,7 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
         this->_componentsZone->reverseBoard();
     });
     _mainToolBar->addAction(QIcon(QPixmap(":/icons/start.svg")), QString(tr("New game", "Caption for the button 'new game'")), [this](){
-        this->_componentsZone->newGame();
+        if (! _componentsZone->gameInProgress()) {
+            this->_componentsZone->newGame();
+            return;
+        }
+        int confirmation = QMessageBox::question(this,
+                                                 tr("Confirm stop game ?", "Confirm stop game modal title"),
+                                                 tr("Are you sure you want to stop the current game ?", "Confirm stop game modal text"),
+                            QMessageBox::Yes | QMessageBox::No);
+        if (confirmation == QMessageBox::Yes) this->_componentsZone->newGame();
     });
     _mainToolBar->addAction(QIcon(QPixmap(":/icons/stop.svg")), QString(tr("Stop game", "Caption for the button 'stop game'")), [this](){
         if (! _componentsZone->gameInProgress()) return;
