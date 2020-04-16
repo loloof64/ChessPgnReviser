@@ -16,19 +16,21 @@
         <translation>Nuevo juego</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="16"/>
+        <location filename="../gui/mainwindow.cpp" line="24"/>
         <source>Stop game</source>
         <comment>Caption for the button &apos;stop game&apos;</comment>
         <translation>Dejar el juego</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="19"/>
+        <location filename="../gui/mainwindow.cpp" line="27"/>
         <source>Confirm stop game ?</source>
         <comment>Confirm stop game modal title</comment>
         <translation>Dejar el juego ?</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="20"/>
+        <location filename="../gui/mainwindow.cpp" line="28"/>
         <source>Are you sure you want to stop the current game ?</source>
         <comment>Confirm stop game modal text</comment>
         <translation>Usted quiere dejar el juego ?</translation>
@@ -70,6 +72,24 @@
         <location filename="../gui/chessboard/chessboard.cpp" line="365"/>
         <source>Draw by the 50 moves rule</source>
         <translation>Igualdad por la ley de los 50 golpes</translation>
+    </message>
+</context>
+<context>
+    <name>loloof64::MovesHistory</name>
+    <message>
+        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <source>Move number</source>
+        <translation>Nombre</translation>
+    </message>
+    <message>
+        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <source>White</source>
+        <translation>Blanco</translation>
+    </message>
+    <message>
+        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <source>Black</source>
+        <translation>Negro</translation>
     </message>
 </context>
 <context>
