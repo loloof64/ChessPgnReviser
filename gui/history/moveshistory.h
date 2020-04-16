@@ -15,11 +15,12 @@ namespace loloof64 {
         void newGame(int moveNumber = 1);
         void addMoveFan(QString moveFan);
     private:
+        int moveNumber{1};
         int currentRow{-1}, currentCol{-1};
         QVector<QWidget *> items;
         void clearMoves();
         void addComponent(QWidget *component);
-        QLabel *buildMoveNumber(int moveNumber);
+        QLabel *buildMoveNumber();
     };
 }
 

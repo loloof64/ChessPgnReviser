@@ -1,6 +1,7 @@
 #include "moveshistory.h"
 #include <QLabel>
 #include <QHeaderView>
+#include <QPushButton>
 #include <string>
 
 loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
@@ -18,14 +19,16 @@ loloof64::MovesHistory::~MovesHistory()
 void loloof64::MovesHistory::newGame(int moveNumber)
 {
     clearMoves();
-
-
-    addComponent(buildMoveNumber(moveNumber));
+    this->moveNumber = moveNumber;
+    addComponent(buildMoveNumber());
 }
 
 void loloof64::MovesHistory::addMoveFan(QString moveFan)
 {
-    // add move fan as a qpushbutton
+    auto moveButton = new QPushButton(moveFan, this);
+    moveButton->setFlat(true);
+    moveButton->setStyleSheet("text-align: right; margin: 5px; font-size: 18px;");
+    addComponent(moveButton);
 }
 
 void loloof64::MovesHistory::clearMoves()
@@ -52,26 +55,34 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
         currentRow = 0;
 
         setCellWidget(currentRow, currentCol, component);
+
+        currentCol++;
     }
     else {
         setCellWidget(currentRow, currentCol, component);
         const auto isEndOfLine = currentCol == 2;
         if (isEndOfLine) {
+            moveNumber++;
             insertRow(currentRow+1);
+
             currentRow++;
             currentCol = 0;
+            auto *numberComponent = buildMoveNumber();
+            items.push_back(component);
+            setCellWidget(currentRow, currentCol, numberComponent);
         }
-        else {
-            currentCol++;
-        }
+        currentCol++;
     }
 }
 
-QLabel* loloof64::MovesHistory::buildMoveNumber(int moveNumber)
+QLabel* loloof64::MovesHistory::buildMoveNumber()
 {
     auto *numberComponent = new QLabel{QString(std::to_string(moveNumber).c_str()), this};
     numberComponent->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     numberComponent->setMargin(5);
+    auto font = QFont();
+    font.setPointSize(18);
+    numberComponent->setFont(QFont());
 
     return numberComponent;
 }
