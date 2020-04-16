@@ -19,6 +19,8 @@ SOURCES += \
     gui/adapters/thcposition.cpp \
     gui/chessboard/chessboard.cpp \
     gui/chessboard/promotiondialog.cpp \
+    gui/componentszone.cpp \
+    gui/history/moveshistory.cpp \
     gui/mainwindow.cpp \
     libs/thc-chess-library/ChessPosition.cpp \
     libs/thc-chess-library/ChessRules.cpp \
@@ -32,7 +34,9 @@ HEADERS += \
     gui/chessboard/IPosition.h \
     gui/chessboard/chessboard.h \
     gui/chessboard/promotiondialog.h \
-    gui/mainwindow.h \ \
+    gui/componentszone.h \
+    gui/history/moveshistory.h \
+    gui/mainwindow.h \
     libs/thc-chess-library/ChessDefs.h \
     libs/thc-chess-library/ChessPosition.h \
     libs/thc-chess-library/ChessPositionRaw.h \

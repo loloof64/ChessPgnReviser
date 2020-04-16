@@ -66,6 +66,18 @@ namespace loloof64 {
 
         // True if it is draw by 3-folds repetition, false otherwise.
         bool isThreeFoldRepetitionsDraw() const override;
+
+        // Returns the given move Short Algebraic Notation on the current position.
+        // Throws IllegalMoveException if the move is not legal.
+        // promotionFen should be 'q' or 'Q' (either value whatever the side to move) for queen, 'r' or 'R' for rook,
+        // 'b' or 'B' for bishop, or 'n' or 'N' for knight.
+        QString getMoveSan(int, int, int, int, char = 0) const override;
+
+        // Returns the given move Figurine Algebraic Notation on the current position.
+        // Throws IllegalMoveException if the move is not legal.
+        // promotionFen should be 'q' or 'Q' (either value whatever the side to move) for queen, 'r' or 'R' for rook,
+        // 'b' or 'B' for bishop, or 'n' or 'N' for knight.
+        QString getMoveFan(int, int, int, int, char = 0) const override;
     private:
         thc::ChessRules _position;
         QMap<std::string, int> _recordedPositions;

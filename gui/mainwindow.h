@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include "chessboard/chessboard.h"
+#include "componentszone.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,7 +15,7 @@ public:
     ~MainWindow();
 
 private:
-    loloof64::ChessBoard *_board;
     QToolBar *_mainToolBar;
+    loloof64::ComponentsZone *_componentsZone;
 };
 #endif // MAINWINDOW_H

@@ -384,7 +384,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         connect(&promotionDialog, &PromotionDialog::validateQueenPromotion, this,
                 [=, &promotionDialog](){
+            const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'q');
+            const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'q');
+
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
+
+            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
+
             updateLastMove();
             clearDndData();
             repaint();
@@ -393,7 +402,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
+            const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'r');
+            const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'r');
+
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
+
+            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
+
             updateLastMove();
             clearDndData();
             repaint();
@@ -402,7 +420,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
+            const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'b');
+            const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'b');
+
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
+
+            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
+
             updateLastMove();
             clearDndData();
             repaint();
@@ -411,7 +438,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
+            const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'n');
+            const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'n');
+
             _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
+
+            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
+
             updateLastMove();
             clearDndData();
             repaint();
@@ -425,7 +461,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
     try
     {
+        const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank);
+        const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank);
+
         _relatedPosition->makeMove(startFile, startRank, file, rank);
+
+        const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+        LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+        emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
+        emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
+
         updateLastMove();
         clearDndData();
         repaint();

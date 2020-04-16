@@ -6,7 +6,6 @@
 #include <string>
 
 #include <QMessageLogger>
-#include <QTextStream>
 
 namespace loloof64 {
 
@@ -232,4 +231,35 @@ bool loloof64::ThcPosition::isThreeFoldRepetitionsDraw() const
     positionWithStrippedMoveCounts = positionWithStrippedMoveCounts.substr(0, current-2);
 
     return _recordedPositions[positionWithStrippedMoveCounts] >= 3;
+}
+
+QString loloof64::ThcPosition::getMoveSan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
+{
+    QString moveStr;
+    char startFileChar = 97 + startFile;
+    char startRankChar = 49 + startRank;
+    char endFileChar = 97 + endFile;
+    char endRankChar = 49 + endRank;
+
+    moveStr += startFileChar;
+    moveStr += startRankChar;
+    moveStr += endFileChar;
+    moveStr += endRankChar;
+    moveStr += tolower(promotionFen);
+
+    thc::ChessRules copy{_position};
+    thc::Move moveToTest;
+    moveToTest.TerseIn(&copy, moveStr.toStdString().c_str());
+
+    const auto moveNotation = moveToTest.NaturalOut(&copy);
+    const auto isLegal = moveNotation != std::string("--");
+
+    if (! isLegal) throw new IllegalMoveException();
+    return QString(moveNotation.c_str());
+}
+
+QString loloof64::ThcPosition::getMoveFan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
+{
+    const auto moveSan = getMoveSan(startFile, startRank, endFile, endRank, promotionFen);
+    return moveSan;
 }

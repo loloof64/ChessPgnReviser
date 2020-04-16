@@ -1,7 +1,7 @@
 #ifndef IPOSITION_H
 #define IPOSITION_H
 
-#include <string>
+#include <QString>
 
 namespace loloof64 {
 
@@ -74,6 +74,16 @@ namespace loloof64 {
 
         // Should return true if it is draw by the 50-moves rule, false otherwise.
         virtual bool isFiftyMovesRuleDraw() const { UnimplementedException ex; throw ex;}
+
+        // Should return the Short Algebraic Notation of the given move, for the current position.
+        virtual QString getMoveSan(
+                int /*startFile*/, int /*startRank*/, int /*endFile*/, int /*endRank*/, char /* promotionFen*/ = 0) const
+        { UnimplementedException ex; throw ex;};
+
+        // Should return the Figurine Algebraic Notation of the given move, for the current position.
+        virtual QString getMoveFan(
+                int /*startFile*/, int /*startRank*/, int /*endFile*/, int /*endRank*/, char /* promotionFen*/ = 0) const
+        { UnimplementedException ex; throw ex;};
     };
 }
 

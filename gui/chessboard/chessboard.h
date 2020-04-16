@@ -27,9 +27,6 @@ namespace loloof64 {
                                      int endFile, int endRank):
         startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
 
-        LastMoveCoordinates(const LastMoveCoordinates&) = delete;
-        LastMoveCoordinates(const LastMoveCoordinates&&) = delete;
-
         int startFile, startRank, endFile, endRank;
     };
 
@@ -40,6 +37,19 @@ namespace loloof64 {
         explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
         inline bool gameInProgress(){ return _gameInProgress; }
+
+    signals:
+        // a move has been made
+        // 1st parameter: the move san (QString)
+        // 2nd parameter: the resulting position fen (QString)
+        // 3rd parameter: the move coordinates (LastMoveCoordinates)
+        void moveDoneAsSan(QString, QString, LastMoveCoordinates);
+
+        // a move has been made
+        // 1st parameter: the move fan (QString)
+        // 2nd parameter: the resulting position fen (QString)
+        // 3rd parameter: the move coordinates (LastMoveCoordinates)
+        void moveDoneAsFan(QString, QString, LastMoveCoordinates);
 
     public slots:
         void reverse();
