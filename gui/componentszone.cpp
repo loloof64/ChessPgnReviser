@@ -13,8 +13,12 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     resize(800, 540);
 
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsFan,
-            [this](QString moveFan){
-        _movesHistory->addMoveFan(moveFan);
+            [this](QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove){
+        _movesHistory->addHistoryItem(new HistoryItem(moveFan, newPositionFen, lastMove));
+    });
+    connect(_movesHistory, &loloof64::MovesHistory::requestPositionOnBoard,
+            [this](HistoryItem *item){
+       _chessBoard->setPosition(item);
     });
 }
 

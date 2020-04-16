@@ -21,15 +21,6 @@ namespace loloof64 {
         int pieceX, pieceY;
     };
 
-    struct LastMoveCoordinates
-    {
-        explicit LastMoveCoordinates(int startFile, int startRank,
-                                     int endFile, int endRank):
-        startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
-
-        int startFile, startRank, endFile, endRank;
-    };
-
     class ChessBoard : public QWidget
     {
         Q_OBJECT
@@ -55,6 +46,9 @@ namespace loloof64 {
         void reverse();
         void newGame();
         void stopGame();
+        // Sets the requested position if the game is not in progress.
+        // Simply ignoring the moveFan part of the given HistoryItem.
+        void setPosition(const HistoryItem *);
 
     protected:
         void paintEvent(QPaintEvent *event) override;

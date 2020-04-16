@@ -19,70 +19,85 @@ loloof64::MovesHistory::~MovesHistory()
 void loloof64::MovesHistory::newGame(int moveNumber)
 {
     clearMoves();
-    this->moveNumber = moveNumber;
+    this->_moveNumber = moveNumber;
     addComponent(buildMoveNumber());
 }
 
-void loloof64::MovesHistory::addMoveFan(QString moveFan)
+void loloof64::MovesHistory::addHistoryItem(HistoryItem *item)
 {
-    auto moveButton = new QPushButton(moveFan, this);
+    auto moveButton = new QPushButton(item->moveFan, this);
     moveButton->setFlat(true);
     moveButton->setStyleSheet("text-align: right; margin: 5px; font-size: 18px;");
+    connect(moveButton, &QPushButton::clicked, [this, item](){
+        emit requestPositionOnBoard(item);
+    });
+    _dataItems.push_back(item);
     addComponent(moveButton);
 }
 
 void loloof64::MovesHistory::clearMoves()
 {
-    clearContents();
-    //setRowCount(0);
-    for (auto it = items.rbegin(); it != items.rend(); ++it )
+    setRowCount(0);
+
+    for (auto it = _widgetsItems.rbegin(); it != _widgetsItems.rend(); ++it )
     {
-        if (*it != nullptr) {
+        if (*it != nullptr)
+        {
             delete *it;
             *it = nullptr;
         }
     }
-    currentRow = -1;
-    currentCol = -1;
+
+    for (auto it = _dataItems.rbegin(); it != _dataItems.rend(); ++it)
+    {
+        if (*it != nullptr)
+        {
+            delete *it;
+            *it = nullptr;
+        }
+    }
+
+    _currentRow = -1;
+    _currentCol = -1;
 }
 
 void loloof64::MovesHistory::addComponent(QWidget *component)
 {
-    items.push_back(component);
-    const auto notStarted = currentCol == -1 && currentRow == -1;
+    _widgetsItems.push_back(component);
+    const auto notStarted = _currentCol == -1 && _currentRow == -1;
     if (notStarted){
         insertRow(0);
-        currentCol = 0;
-        currentRow = 0;
+        _currentCol = 0;
+        _currentRow = 0;
 
-        setCellWidget(currentRow, currentCol, component);
-        setCurrentCell(currentRow, currentCol);
+        setCellWidget(_currentRow, _currentCol, component);
+        setCurrentCell(_currentRow, _currentCol);
 
-        currentCol++;
+        _currentCol++;
     }
     else {
-        setCellWidget(currentRow, currentCol, component);
-        const auto isEndOfLine = currentCol == 2;
+        setCellWidget(_currentRow, _currentCol, component);
+        const auto isEndOfLine = _currentCol == 2;
         if (isEndOfLine) {
-            moveNumber++;
-            insertRow(currentRow+1);
+            _moveNumber++;
+            insertRow(_currentRow+1);
 
-            currentRow++;
-            currentCol = 0;
+            _currentRow++;
+            _currentCol = 0;
             auto *numberComponent = buildMoveNumber();
-            items.push_back(numberComponent);
-            setCellWidget(currentRow, currentCol, numberComponent);
+            _widgetsItems.push_back(numberComponent);
+            setCellWidget(_currentRow, _currentCol, numberComponent);
         }
-        setCurrentCell(currentRow, currentCol);
+        setCurrentCell(_currentRow, _currentCol);
         scrollToBottom();
 
-        currentCol++;
+        _currentCol++;
     }
 }
 
 QLabel* loloof64::MovesHistory::buildMoveNumber()
 {
-    auto *numberComponent = new QLabel{QString(std::to_string(moveNumber).c_str()), this};
+    auto *numberComponent = new QLabel{QString(std::to_string(_moveNumber).c_str()), this};
     numberComponent->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     numberComponent->setMargin(5);
     auto font = QFont();

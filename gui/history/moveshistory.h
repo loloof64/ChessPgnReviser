@@ -4,6 +4,7 @@
 #include <QTableWidget>
 #include <QVector>
 #include <QLabel>
+#include "../chessboard/IPosition.h"
 
 namespace loloof64 {
     class MovesHistory : public QTableWidget
@@ -13,11 +14,14 @@ namespace loloof64 {
         explicit MovesHistory(QWidget *parent = nullptr);
         ~MovesHistory();
         void newGame(int moveNumber = 1);
-        void addMoveFan(QString moveFan);
+        void addHistoryItem(HistoryItem *item);
+    signals:
+        void requestPositionOnBoard(HistoryItem *item);
     private:
-        int moveNumber{1};
-        int currentRow{-1}, currentCol{-1};
-        QVector<QWidget *> items;
+        int _moveNumber{1};
+        int _currentRow{-1}, _currentCol{-1};
+        QVector<QWidget *> _widgetsItems;
+        QVector<HistoryItem *> _dataItems;
         void clearMoves();
         void addComponent(QWidget *component);
         QLabel *buildMoveNumber();

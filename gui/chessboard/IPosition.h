@@ -27,6 +27,25 @@ namespace loloof64 {
         RANK_8
     };
 
+    struct LastMoveCoordinates
+    {
+        explicit LastMoveCoordinates(int startFile, int startRank,
+                                     int endFile, int endRank):
+        startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
+
+        int startFile, startRank, endFile, endRank;
+    };
+
+    struct HistoryItem
+    {
+        HistoryItem(QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove):
+            moveFan(moveFan), newPositionFen(newPositionFen), lastMove(lastMove){}
+
+        const QString moveFan;
+        const QString newPositionFen;
+        const LastMoveCoordinates lastMove;
+    };
+
     class UnimplementedException{};
 
     class IPosition {

@@ -482,3 +482,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         repaint();
     }
 }
+
+void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
+{
+    if (_gameInProgress) return;
+
+    if (_relatedPosition != nullptr) delete _relatedPosition;
+    _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
+
+    if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
+    _lastMoveCoordinates = new LastMoveCoordinates(historyItem->lastMove);
+
+    repaint();
+}
