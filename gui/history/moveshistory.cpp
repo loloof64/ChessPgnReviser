@@ -33,7 +33,8 @@ void loloof64::MovesHistory::addMoveFan(QString moveFan)
 
 void loloof64::MovesHistory::clearMoves()
 {
-    setRowCount(0);
+    clearContents();
+    //setRowCount(0);
     for (auto it = items.rbegin(); it != items.rend(); ++it )
     {
         if (*it != nullptr) {
@@ -69,7 +70,7 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
             currentRow++;
             currentCol = 0;
             auto *numberComponent = buildMoveNumber();
-            items.push_back(component);
+            items.push_back(numberComponent);
             setCellWidget(currentRow, currentCol, numberComponent);
         }
         setCurrentCell(currentRow, currentCol);
