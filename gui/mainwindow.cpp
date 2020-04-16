@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     addToolBar(_mainToolBar);
     setCentralWidget(_componentsZone);
 
-    resize(885, 540);
+    resize(880, 540);
 }
 
 MainWindow::~MainWindow()
