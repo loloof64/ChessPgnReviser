@@ -34,13 +34,15 @@ namespace loloof64 {
         // 1st parameter: the move san (QString)
         // 2nd parameter: the resulting position fen (QString)
         // 3rd parameter: the move coordinates (LastMoveCoordinates)
-        void moveDoneAsSan(QString, QString, LastMoveCoordinates);
+        // 4th parameter: true if the game is finished just after this move, false otherwise (bool)
+        void moveDoneAsSan(QString, QString, LastMoveCoordinates, bool gameFinished);
 
         // a move has been made
         // 1st parameter: the move fan (QString)
         // 2nd parameter: the resulting position fen (QString)
         // 3rd parameter: the move coordinates (LastMoveCoordinates)
-        void moveDoneAsFan(QString, QString, LastMoveCoordinates);
+        // 4th parameter: true if the game is finished just after this move, false otherwise (bool)
+        void moveDoneAsFan(QString, QString, LastMoveCoordinates, bool gameFinished);
 
     public slots:
         void reverse();

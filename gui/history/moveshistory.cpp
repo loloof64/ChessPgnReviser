@@ -25,7 +25,7 @@ void loloof64::MovesHistory::newGame(int moveNumber)
     addComponent(buildMoveNumber());
 }
 
-void loloof64::MovesHistory::addHistoryItem(HistoryItem *item)
+void loloof64::MovesHistory::addHistoryItem(HistoryItem *item, bool gameFinished)
 {
     auto moveButton = new QPushButton(item->moveFan, this);
     moveButton->setFlat(true);
@@ -34,7 +34,7 @@ void loloof64::MovesHistory::addHistoryItem(HistoryItem *item)
         emit requestPositionOnBoard(item);
     });
     _dataItems.push_back(item);
-    addComponent(moveButton);
+    addComponent(moveButton, gameFinished);
 }
 
 void loloof64::MovesHistory::clearMoves()
@@ -63,7 +63,7 @@ void loloof64::MovesHistory::clearMoves()
     _currentCol = -1;
 }
 
-void loloof64::MovesHistory::addComponent(QWidget *component)
+void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
 {
     _widgetsItems.push_back(component);
     const auto notStarted = _currentCol == -1 && _currentRow == -1;
@@ -80,7 +80,7 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
     else {
         setCellWidget(_currentRow, _currentCol, component);
         const auto isEndOfLine = _currentCol == 2;
-        if (isEndOfLine) {
+        if (isEndOfLine && !gameFinished) {
             _moveNumber++;
             insertRow(_currentRow+1);
 
@@ -90,8 +90,8 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
             _widgetsItems.push_back(numberComponent);
             setCellWidget(_currentRow, _currentCol, numberComponent);
         }
-        setCurrentCell(_currentRow, _currentCol);
         scrollToBottom();
+        setCurrentCell(_currentRow, _currentCol);
 
         _currentCol++;
     }

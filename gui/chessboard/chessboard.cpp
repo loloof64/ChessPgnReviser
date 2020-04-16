@@ -391,14 +391,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
 
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
             handleGameFinished();
+
+            const auto gameFinished = ! gameInProgress();
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
@@ -409,14 +411,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
 
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
             handleGameFinished();
+
+            const auto gameFinished = ! gameInProgress();
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
@@ -427,14 +431,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
 
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
             handleGameFinished();
+
+            const auto gameFinished = ! gameInProgress();
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
@@ -445,14 +451,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
 
             updateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
             handleGameFinished();
+
+            const auto gameFinished = ! gameInProgress();
+            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
         });
 
         promotionDialog.exec();
@@ -468,13 +476,16 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         const auto resultingFen = QString(_relatedPosition->getFen().c_str());
         LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
-        emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords);
-        emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords);
 
         updateLastMove();
         clearDndData();
         repaint();
         handleGameFinished();
+
+        const auto gameFinished = ! gameInProgress();
+        emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+        emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+
     }
     catch (IllegalMoveException const *e)
     {

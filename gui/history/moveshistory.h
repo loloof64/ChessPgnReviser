@@ -14,7 +14,7 @@ namespace loloof64 {
         explicit MovesHistory(QWidget *parent = nullptr);
         ~MovesHistory();
         void newGame(int moveNumber = 1);
-        void addHistoryItem(HistoryItem *item);
+        void addHistoryItem(HistoryItem *item, bool gameFinished = false);
     signals:
         void requestPositionOnBoard(HistoryItem *item);
     private:
@@ -23,7 +23,7 @@ namespace loloof64 {
         QVector<QWidget *> _widgetsItems;
         QVector<HistoryItem *> _dataItems;
         void clearMoves();
-        void addComponent(QWidget *component);
+        void addComponent(QWidget *component, bool gameFinished = false);
         QLabel *buildMoveNumber();
     };
 }
