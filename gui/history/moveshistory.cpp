@@ -9,6 +9,8 @@ loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
     setColumnCount(3);
     setHorizontalHeaderLabels(QStringList(QList<QString>{tr("Move number"), tr("White"), tr("Black")}));
     verticalHeader()->hide();
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader()->setDefaultSectionSize(36);
 }
 
 loloof64::MovesHistory::~MovesHistory()
