@@ -19,12 +19,11 @@ namespace loloof64 {
         void requestPositionOnBoard(HistoryItem *item);
     private:
         int _moveNumber{1};
-        int _currentRow{-1}, _currentCol{-1};
+        int _currentRow{0}, _currentCol{0};
         QVector<QWidget *> _widgetsItems;
         QVector<HistoryItem *> _dataItems;
         void clearMoves();
         void addComponent(QWidget *component, bool gameFinished = false);
-        QLabel *buildMoveNumber();
     };
 }
 

@@ -36,7 +36,7 @@ void loloof64::ComponentsZone::reverseBoard()
 
 void loloof64::ComponentsZone::newGame()
 {
-    _movesHistory->newGame();
+    _movesHistory->newGame(15);
     _chessBoard->newGame();
 }
 
