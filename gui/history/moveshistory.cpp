@@ -55,6 +55,7 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
         currentRow = 0;
 
         setCellWidget(currentRow, currentCol, component);
+        setCurrentCell(currentRow, currentCol);
 
         currentCol++;
     }
@@ -71,6 +72,9 @@ void loloof64::MovesHistory::addComponent(QWidget *component)
             items.push_back(component);
             setCellWidget(currentRow, currentCol, numberComponent);
         }
+        setCurrentCell(currentRow, currentCol);
+        scrollToBottom();
+
         currentCol++;
     }
 }
