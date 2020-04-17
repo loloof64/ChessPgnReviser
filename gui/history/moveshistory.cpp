@@ -85,6 +85,7 @@ void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
            setCellWidget(_currentRow, _currentCol, component);
            const auto isEndOfLine = _currentCol == 2;
            if (isEndOfLine && !gameFinished) {
+               setCurrentCell(_currentRow, _currentCol);
                _moveNumber++;
                insertRow(_currentRow+1);
 
@@ -93,9 +94,12 @@ void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
                auto *numberComponent = buildMoveNumber();
                _widgetsItems.push_back(numberComponent);
                setCellWidget(_currentRow, _currentCol, numberComponent);
+               scrollToBottom();
            }
-           setCurrentCell(_currentRow, _currentCol);
-           scrollToBottom();
+           else {
+               setCurrentCell(_currentRow, _currentCol);
+               scrollToBottom();
+           }
 
            _currentCol++;
        }
