@@ -235,6 +235,11 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
     if (!_gameInProgress) return;
 
+    const auto whiteTurn = _relatedPosition->isWhiteTurn();
+    const auto playerIsHuman = (whiteTurn && (_whitePlayer == PlayerType::HUMAN)) ||
+            (!whiteTurn && (_blackPlayer == PlayerType::HUMAN));
+    if (!playerIsHuman) return;
+
     const auto x = event->x();
     const auto y = event->y();
 
@@ -380,7 +385,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
        }
     };
 
-    const auto showGameFinishedMessage = [this](GameFinishedStatus gameFinishedStatus)
+    const auto showGameFinishedMessageIfNecessary = [this](GameFinishedStatus gameFinishedStatus)
     {
         switch (gameFinishedStatus) {
         case GameFinishedStatus::CHECKMATE:
@@ -401,6 +406,17 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         default:
             break;
         }
+    };
+
+    const auto emitExternalPlayerTurnIfNecessary = [this]()
+    {
+        const auto whiteTurn = _relatedPosition->isWhiteTurn();
+        const auto isExternalTurn = (whiteTurn && (_whitePlayer == PlayerType::EXTERNAL)) ||
+                (!whiteTurn && (_blackPlayer == PlayerType::EXTERNAL));
+        if (!isExternalTurn) return;
+
+        const auto currentPosition = QString(_relatedPosition->getFen().c_str());
+        emit externalTurn(currentPosition);
     };
 
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
@@ -427,8 +443,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+            emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessage(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
@@ -449,8 +466,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+            emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessage(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
@@ -471,8 +489,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+            emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessage(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
@@ -493,8 +512,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+            emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessage(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary(gameFinishedStatus);
         });
 
         promotionDialog.exec();
@@ -519,8 +539,9 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         const auto gameFinished = ! gameInProgress();
         emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
         emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+        emitExternalPlayerTurnIfNecessary();
 
-        showGameFinishedMessage(gameFinishedStatus);
+        showGameFinishedMessageIfNecessary(gameFinishedStatus);
     }
     catch (IllegalMoveException const *e)
     {
@@ -540,4 +561,24 @@ void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
     _lastMoveCoordinates = new LastMoveCoordinates(historyItem->lastMove);
 
     repaint();
+}
+
+bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, int endRank, char promotionFen)
+{
+    if (!gameInProgress()) return false;
+
+    const auto whiteTurn = _relatedPosition->isWhiteTurn();
+    const auto isHumanPlayer = (whiteTurn && (_whitePlayer == PlayerType::HUMAN)) ||
+            (!whiteTurn && (_blackPlayer == PlayerType::HUMAN));
+    if (isHumanPlayer) return false;
+
+    try
+    {
+        _relatedPosition->makeMove(startFile, startRank, endFile, endRank, promotionFen);
+        return true;
+    }
+    catch (UnimplementedException const *e)
+    {
+        return false;
+    }
 }

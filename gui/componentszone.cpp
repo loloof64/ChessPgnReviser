@@ -13,12 +13,19 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     resize(800, 540);
 
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsFan,
-            [this](QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove, bool gameFinished){
+            [this](QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove, bool gameFinished)
+    {
         _movesHistory->addHistoryItem(new HistoryItem(moveFan, newPositionFen, lastMove), gameFinished);
     });
     connect(_movesHistory, &loloof64::MovesHistory::requestPositionOnBoard,
-            [this](HistoryItem *item){
+            [this](HistoryItem *item)
+    {
        _chessBoard->setPosition(item);
+    });
+    connect(_chessBoard, &loloof64::ChessBoard::externalTurn,
+            [this](QString /*currentPosition*/)
+    {
+
     });
 }
 
@@ -36,7 +43,7 @@ void loloof64::ComponentsZone::reverseBoard()
 
 void loloof64::ComponentsZone::newGame()
 {
-    _movesHistory->newGame(15);
+    _movesHistory->newGame();
     _chessBoard->newGame();
 }
 

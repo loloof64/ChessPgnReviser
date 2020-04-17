@@ -31,6 +31,12 @@ namespace loloof64 {
         REPETITIONS,
     };
 
+    enum class PlayerType
+    {
+        HUMAN, // player draw the moves with his mouse
+        EXTERNAL, // player has to retranscript the move by calling playMove()
+    };
+
     class ChessBoard : public QWidget
     {
         Q_OBJECT
@@ -38,6 +44,11 @@ namespace loloof64 {
         explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
         inline bool gameInProgress(){ return _gameInProgress; }
+        inline void setWhitePlayerType(PlayerType playerType) { _whitePlayer = playerType; };
+        inline void setBlackPlayerType(PlayerType playerType) { _blackPlayer = playerType; };
+        // Only effective if the current turn belongs to an external player
+        // Returns true if, and only if, the move could be done.
+        bool playMove(int startFile, int startRank, int endFile, int endRank, char promotionFen = 0);
 
     signals:
         // a move has been made
@@ -53,6 +64,9 @@ namespace loloof64 {
         // 3rd parameter: the move coordinates (LastMoveCoordinates)
         // 4th parameter: true if the game is finished just after this move, false otherwise (bool)
         void moveDoneAsFan(QString, QString, LastMoveCoordinates, bool gameFinished);
+
+        // Notify that is is the turn of an external player
+        void externalTurn(QString currentPosition);
 
     public slots:
         void reverse();
@@ -72,6 +86,8 @@ namespace loloof64 {
         IPosition *_relatedPosition;
         DndData *_dndData;
         LastMoveCoordinates *_lastMoveCoordinates;
+        PlayerType _whitePlayer{PlayerType::HUMAN};
+        PlayerType _blackPlayer{PlayerType::HUMAN};
         void mousePressEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
