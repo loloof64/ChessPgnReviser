@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include "chessboard/chessboard.h"
 #include "history/moveshistory.h"
+#include "../libs/chessx-pgn/pgndatabase.h"
 
 namespace loloof64 {
     class ComponentsZone : public QWidget
@@ -24,6 +25,11 @@ namespace loloof64 {
         QHBoxLayout *_mainLayout;
         loloof64::ChessBoard *_chessBoard;
         loloof64::MovesHistory *_movesHistory;
+        PgnDatabase _pgnDatabase;
+        Game _currentGame;
+        bool _isWhitePly;
+
+        void handleMoveVerification(QString moveSan);
     };
 }
 

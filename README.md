@@ -10,7 +10,7 @@ This project has been made with QtCreator and Qt 5.14
 ## Credits
 
 * Using some code from project [thc-chess-library](https://github.com/billforsternz/thc-chess-library).
-* Using some code from project [pgnlib](https://sourceforge.net/projects/pgnlib/).
+* Using some code from project [chessx](http://chessx.sourceforge.net/).
 * Chess pieces vectors have been downloaded from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).
 
 ### FlatIcon

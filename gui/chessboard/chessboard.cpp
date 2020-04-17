@@ -57,16 +57,18 @@ void ChessBoard::reverse()
     repaint();
 }
 
-void ChessBoard::newGame()
+void ChessBoard::newGame(QString startPosition)
 {
     if (_lastMoveCoordinates != nullptr)
     {
         delete _lastMoveCoordinates;
         _lastMoveCoordinates = nullptr;
     }
-    _relatedPosition = new ThcPosition();
+    _relatedPosition = new ThcPosition(startPosition.toStdString());
     _gameInProgress = true;
     repaint();
+
+    emitExternalPlayerTurnIfNecessary();
 }
 
 void ChessBoard::stopGame()
@@ -408,17 +410,6 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         }
     };
 
-    const auto emitExternalPlayerTurnIfNecessary = [this]()
-    {
-        const auto whiteTurn = _relatedPosition->isWhiteTurn();
-        const auto isExternalTurn = (whiteTurn && (_whitePlayer == PlayerType::EXTERNAL)) ||
-                (!whiteTurn && (_blackPlayer == PlayerType::EXTERNAL));
-        if (!isExternalTurn) return;
-
-        const auto currentPosition = QString(_relatedPosition->getFen().c_str());
-        emit externalTurn(currentPosition);
-    };
-
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
     if (isPromotionMove)
     {
@@ -581,4 +572,15 @@ bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, i
     {
         return false;
     }
+}
+
+void loloof64::ChessBoard::emitExternalPlayerTurnIfNecessary()
+{
+    const auto whiteTurn = _relatedPosition->isWhiteTurn();
+    const auto isExternalTurn = (whiteTurn && (_whitePlayer == PlayerType::EXTERNAL)) ||
+            (!whiteTurn && (_blackPlayer == PlayerType::EXTERNAL));
+    if (!isExternalTurn) return;
+
+    const auto currentPosition = QString(_relatedPosition->getFen().c_str());
+    emit externalTurn(currentPosition);
 }

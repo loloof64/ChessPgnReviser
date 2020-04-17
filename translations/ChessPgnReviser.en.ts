@@ -39,55 +39,79 @@
 <context>
     <name>loloof64::ChessBoard</name>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="345"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="350"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="355"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="360"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="365"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="392"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="395"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="398"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="401"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="404"/>
         <source>Game finished</source>
         <comment>Game finished modal title</comment>
         <translation>Game finished</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="345"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="392"/>
         <source>Checkmate</source>
         <translation>Checkmate</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="350"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="395"/>
         <source>Stalemate</source>
         <translation>Stalemate</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="355"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="398"/>
         <source>Draw by 3-folds repetition</source>
         <translation>Draw by 3 folds repetition</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="360"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="401"/>
         <source>Draw by insuficient material</source>
         <translation>Draw by insuficient material</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="365"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="404"/>
         <source>Draw by the 50 moves rule</source>
         <translation>Draw by the 50 moves rule</translation>
     </message>
 </context>
 <context>
+    <name>loloof64::ComponentsZone</name>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="56"/>
+        <source>Select the game pgn</source>
+        <translation>Select the game pgn</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="57"/>
+        <source>Chess game (*.pgn)</source>
+        <translation>Chess game file (*.pgn)</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="83"/>
+        <location filename="../gui/componentszone.cpp" line="89"/>
+        <source>Unable to open file</source>
+        <translation>Unable to open selected file</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="84"/>
+        <source>Wrong game data</source>
+        <translation>Wrong game data</translation>
+    </message>
+</context>
+<context>
     <name>loloof64::MovesHistory</name>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>Move number</source>
         <translation>Move number</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>White</source>
         <translation>White</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>Black</source>
         <translation>Black</translation>
     </message>

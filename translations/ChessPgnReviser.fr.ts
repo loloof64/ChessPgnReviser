@@ -39,55 +39,79 @@
 <context>
     <name>loloof64::ChessBoard</name>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="345"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="350"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="355"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="360"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="365"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="392"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="395"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="398"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="401"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="404"/>
         <source>Game finished</source>
         <comment>Game finished modal title</comment>
         <translation>Fin de partie</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="345"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="392"/>
         <source>Checkmate</source>
         <translation>Echec et mat</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="350"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="395"/>
         <source>Stalemate</source>
         <translation>Pat</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="355"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="398"/>
         <source>Draw by 3-folds repetition</source>
         <translation>Nulle par triple répétition</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="360"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="401"/>
         <source>Draw by insuficient material</source>
         <translation>Nulle par insufisance matérielle</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="365"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="404"/>
         <source>Draw by the 50 moves rule</source>
         <translation>Nulle par la règle des 50 coups</translation>
     </message>
 </context>
 <context>
+    <name>loloof64::ComponentsZone</name>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="56"/>
+        <source>Select the game pgn</source>
+        <translation>Choisissez le pgn de la partie</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="57"/>
+        <source>Chess game (*.pgn)</source>
+        <translation>Base d&apos;échecs (*.pgn)</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="83"/>
+        <location filename="../gui/componentszone.cpp" line="89"/>
+        <source>Unable to open file</source>
+        <translation>Erreur de chargement du fichier sélectionné</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="84"/>
+        <source>Wrong game data</source>
+        <translation>Mauvaises données de jeu</translation>
+    </message>
+</context>
+<context>
     <name>loloof64::MovesHistory</name>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>Move number</source>
         <translation>Numéro</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>White</source>
         <translation>Blanc</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="6"/>
+        <location filename="../gui/history/moveshistory.cpp" line="12"/>
         <source>Black</source>
         <translation>Noir</translation>
     </message>

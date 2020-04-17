@@ -44,8 +44,11 @@ namespace loloof64 {
         explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
         inline bool gameInProgress(){ return _gameInProgress; }
+        inline bool isWhiteTurn(){ return _relatedPosition->isWhiteTurn(); }
         inline void setWhitePlayerType(PlayerType playerType) { _whitePlayer = playerType; };
         inline void setBlackPlayerType(PlayerType playerType) { _blackPlayer = playerType; };
+        inline PlayerType getWhitePlayerType() const { return _whitePlayer; };
+        inline PlayerType getBlackPlayerType() const { return _blackPlayer; };
         // Only effective if the current turn belongs to an external player
         // Returns true if, and only if, the move could be done.
         bool playMove(int startFile, int startRank, int endFile, int endRank, char promotionFen = 0);
@@ -70,7 +73,7 @@ namespace loloof64 {
 
     public slots:
         void reverse();
-        void newGame();
+        void newGame(QString startPosition);
         void stopGame();
         // Sets the requested position if the game is not in progress.
         // Simply ignoring the moveFan part of the given HistoryItem.
@@ -91,6 +94,7 @@ namespace loloof64 {
         void mousePressEvent(QMouseEvent *event) override;
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
+        void emitExternalPlayerTurnIfNecessary();
     };
 }
 

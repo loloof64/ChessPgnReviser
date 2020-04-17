@@ -1,6 +1,15 @@
 #include "componentszone.h"
+#include "./adapters/thcposition.h"
+#include <fstream>
+#include <QString>
+#include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
+#include <QDataStream>
 
-loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
+#include <iostream>
+
+loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent), _pgnDatabase(false)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(20);
@@ -27,6 +36,11 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     {
 
     });
+    connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsSan,
+            [this](QString moveFan, QString /*newPositionFen*/, LastMoveCoordinates /*lastMove*/, bool /*gameFinished*/)
+    {
+        handleMoveVerification(moveFan);
+    });
 }
 
 loloof64::ComponentsZone::~ComponentsZone()
@@ -43,11 +57,56 @@ void loloof64::ComponentsZone::reverseBoard()
 
 void loloof64::ComponentsZone::newGame()
 {
-    _movesHistory->newGame();
-    _chessBoard->newGame();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select the game pgn"), "",
+                                                   tr("Chess game (*.pgn)"));
+
+
+    if (fileName.isEmpty())
+            return;
+
+    try {
+        _pgnDatabase.open(fileName, true);
+        _pgnDatabase.loadGame(0, _currentGame);
+
+        const auto moveNumber = _currentGame.moveNumber();
+        const auto startPosition = _currentGame.toFen();
+
+        // Starts game
+
+        _movesHistory->newGame(moveNumber);
+
+        _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
+        _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
+        _chessBoard->newGame(startPosition);
+    }
+    catch (loloof64::IllegalPositionException const &e)
+    {
+        QMessageBox::information(this, tr("Unable to open file"),
+                        tr("Wrong game data"));
+                    return;
+    }
+    catch (std::exception const &e)
+    {
+        QMessageBox::information(this, tr("Unable to open file"),
+                        e.what());
+                    return;
+    }
 }
 
 void loloof64::ComponentsZone::stopGame()
 {
     _chessBoard->stopGame();
+}
+
+void loloof64::ComponentsZone::handleMoveVerification(QString moveSan)
+{
+    const auto whiteTurn = _chessBoard->isWhiteTurn();
+    const auto externalPlayerTurn = (whiteTurn && (_chessBoard->getWhitePlayerType() == PlayerType::EXTERNAL)) ||
+            (!whiteTurn && (_chessBoard->getBlackPlayerType() == PlayerType::EXTERNAL));
+    if (externalPlayerTurn) {
+        return;
+    }
+    else {
+
+    }
 }
