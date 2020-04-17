@@ -21,6 +21,16 @@ namespace loloof64 {
         int pieceX, pieceY;
     };
 
+    enum class GameFinishedStatus
+    {
+        NOT_FINISHED,
+        CHECKMATE,
+        STALEMATE,
+        FIFTY_MOVES_RULE,
+        INSUFICIENT_MATERIAL,
+        REPETITIONS,
+    };
+
     class ChessBoard : public QWidget
     {
         Q_OBJECT

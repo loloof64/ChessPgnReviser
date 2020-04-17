@@ -331,7 +331,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    const auto handleGameFinished = [this]()
+    const auto handleGameFinished = [this]() -> GameFinishedStatus
     {
         const auto isCheckmate = _relatedPosition->isCheckmate();
         const auto isStalemate = _relatedPosition->isStalemate();
@@ -342,39 +342,65 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         if (isCheckmate)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
+            return GameFinishedStatus::CHECKMATE;
         }
         else if (isStalemate)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
+            return GameFinishedStatus::STALEMATE;
         }
         else if (isDrawByThreeFolds)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
+            return GameFinishedStatus::REPETITIONS;
         }
         else if (isInsuficientMaterial)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
+            return GameFinishedStatus::INSUFICIENT_MATERIAL;
         }
         else if (isFiftyMovesRuleDraw)
         {
             _gameInProgress = false;
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
+            return GameFinishedStatus::FIFTY_MOVES_RULE;
         }
+        return GameFinishedStatus::NOT_FINISHED;
     };
 
     const auto updateLastMove = [this, file, rank]()
     {
-       if (_lastMoveCoordinates != nullptr) {
+       if (_lastMoveCoordinates != nullptr)
+       {
            delete _lastMoveCoordinates;
            _lastMoveCoordinates = nullptr;
        }
-       if (_dndData != nullptr) {
+       if (_dndData != nullptr)
+       {
             _lastMoveCoordinates = new LastMoveCoordinates(_dndData->startFile, _dndData->startRank, file, rank);
        }
+    };
+
+    const auto showGameFinishedMessage = [this](GameFinishedStatus gameFinishedStatus)
+    {
+        switch (gameFinishedStatus) {
+        case GameFinishedStatus::CHECKMATE:
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
+            break;
+        case GameFinishedStatus::STALEMATE:
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
+            break;
+        case GameFinishedStatus::REPETITIONS:
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
+            break;
+        case GameFinishedStatus::INSUFICIENT_MATERIAL:
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
+            break;
+        case GameFinishedStatus::FIFTY_MOVES_RULE:
+            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
+            break;
+        default:
+            break;
+        }
     };
 
     bool isPromotionMove{_relatedPosition->isPromotionMove(startFile, startRank, file, rank)};
@@ -396,11 +422,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             clearDndData();
             repaint();
             promotionDialog.hide();
-            handleGameFinished();
+            const auto gameFinishedStatus = handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+
+            showGameFinishedMessage(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
@@ -416,11 +444,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             clearDndData();
             repaint();
             promotionDialog.hide();
-            handleGameFinished();
+            const auto gameFinishedStatus = handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+
+            showGameFinishedMessage(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
@@ -436,11 +466,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             clearDndData();
             repaint();
             promotionDialog.hide();
-            handleGameFinished();
+            const auto gameFinishedStatus = handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+
+            showGameFinishedMessage(gameFinishedStatus);
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
@@ -456,11 +488,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             clearDndData();
             repaint();
             promotionDialog.hide();
-            handleGameFinished();
+            const auto gameFinishedStatus = handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+
+            showGameFinishedMessage(gameFinishedStatus);
         });
 
         promotionDialog.exec();
@@ -480,12 +514,13 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         updateLastMove();
         clearDndData();
         repaint();
-        handleGameFinished();
+        const auto gameFinishedStatus = handleGameFinished();
 
         const auto gameFinished = ! gameInProgress();
         emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
         emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
 
+        showGameFinishedMessage(gameFinishedStatus);
     }
     catch (IllegalMoveException const *e)
     {
