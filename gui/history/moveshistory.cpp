@@ -4,10 +4,13 @@
 #include <QPushButton>
 #include <string>
 
+#include <QMessageLogger>
+
 loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
 {
-    setColumnCount(2);
-    setHorizontalHeaderLabels(QStringList(QList<QString>{tr("White"), tr("Black")}));
+    setColumnCount(3);
+    setHorizontalHeaderLabels(QStringList(QList<QString>{tr("Move number"), tr("White"), tr("Black")}));
+    verticalHeader()->hide();
     verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     verticalHeader()->setDefaultSectionSize(36);
 }
@@ -20,10 +23,8 @@ loloof64::MovesHistory::~MovesHistory()
 void loloof64::MovesHistory::newGame(int moveNumber)
 {
     clearMoves();
-    insertRow(0);
     this->_moveNumber = moveNumber;
-    auto moveNumberItem = QTableWidgetItem(QString{std::to_string(moveNumber).c_str()});
-    setVerticalHeaderItem(_currentRow, &moveNumberItem);
+    addComponent(buildMoveNumber());
 }
 
 void loloof64::MovesHistory::addHistoryItem(HistoryItem *item, bool gameFinished)
@@ -60,26 +61,55 @@ void loloof64::MovesHistory::clearMoves()
         }
     }
 
-    _currentRow = 0;
-    _currentCol = 0;
+    _currentRow = -1;
+    _currentCol = -1;
 }
 
 void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
 {
     _widgetsItems.push_back(component);
+    const auto notStarted = _currentCol == -1 && _currentRow == -1;
 
-    setCellWidget(_currentRow, _currentCol, component);
-    setCurrentCell(_currentRow, _currentCol);
-    const auto isEndOfLine = _currentCol == 1;
-    if (isEndOfLine && !gameFinished) {
-        _moveNumber++;
-        insertRow(_currentRow+1);
-        _currentRow++;
-        _currentCol = 0;
-    }
-    else {
-        _currentCol++;
-    }
+    if (notStarted){
+           insertRow(0);
+           _currentCol = 0;
+           _currentRow = 0;
+
+           setCellWidget(_currentRow, _currentCol, component);
+           setCurrentCell(_currentRow, _currentCol);
+           scrollToBottom();
+
+           _currentCol++;
+       }
+       else {
+           setCellWidget(_currentRow, _currentCol, component);
+           const auto isEndOfLine = _currentCol == 2;
+           if (isEndOfLine && !gameFinished) {
+               _moveNumber++;
+               insertRow(_currentRow+1);
+
+               _currentRow++;
+               _currentCol = 0;
+               auto *numberComponent = buildMoveNumber();
+               _widgetsItems.push_back(numberComponent);
+               setCellWidget(_currentRow, _currentCol, numberComponent);
+           }
+           setCurrentCell(_currentRow, _currentCol);
+           scrollToBottom();
+
+           _currentCol++;
+       }
+}
+
+QLabel* loloof64::MovesHistory::buildMoveNumber()
+{
+    auto *numberComponent = new QLabel{QString(std::to_string(_moveNumber).c_str()), this};
+    numberComponent->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    numberComponent->setMargin(5);
+    auto font = QFont();
+    font.setPointSize(18);
+    numberComponent->setFont(QFont());
 
     scrollToBottom();
+    return numberComponent;
 }
