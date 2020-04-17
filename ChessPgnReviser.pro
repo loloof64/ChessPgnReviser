@@ -22,6 +22,20 @@ SOURCES += \
     gui/componentszone.cpp \
     gui/history/moveshistory.cpp \
     gui/mainwindow.cpp \
+    libs/pgnlib/PGNCommentText.cpp \
+    libs/pgnlib/PGNException.cpp \
+    libs/pgnlib/PGNGame.cpp \
+    libs/pgnlib/PGNGameCollection.cpp \
+    libs/pgnlib/PGNGameResult.cpp \
+    libs/pgnlib/PGNMove.cpp \
+    libs/pgnlib/PGNMoveList.cpp \
+    libs/pgnlib/PGNParser.cpp \
+    libs/pgnlib/PGNPiece.cpp \
+    libs/pgnlib/PGNPly.cpp \
+    libs/pgnlib/PGNPosition.cpp \
+    libs/pgnlib/PGNSquare.cpp \
+    libs/pgnlib/PGNTag.cpp \
+    libs/pgnlib/PGNTagList.cpp \
     libs/thc-chess-library/ChessPosition.cpp \
     libs/thc-chess-library/ChessRules.cpp \
     libs/thc-chess-library/Move.cpp \
@@ -37,6 +51,20 @@ HEADERS += \
     gui/componentszone.h \
     gui/history/moveshistory.h \
     gui/mainwindow.h \
+    libs/pgnlib/PGNCommentText.h \
+    libs/pgnlib/PGNException.h \
+    libs/pgnlib/PGNGame.h \
+    libs/pgnlib/PGNGameCollection.h \
+    libs/pgnlib/PGNGameResult.h \
+    libs/pgnlib/PGNMove.h \
+    libs/pgnlib/PGNMoveList.h \
+    libs/pgnlib/PGNParser.h \
+    libs/pgnlib/PGNPiece.h \
+    libs/pgnlib/PGNPly.h \
+    libs/pgnlib/PGNPosition.h \
+    libs/pgnlib/PGNSquare.h \
+    libs/pgnlib/PGNTag.h \
+    libs/pgnlib/PGNTagList.h \
     libs/thc-chess-library/ChessDefs.h \
     libs/thc-chess-library/ChessPosition.h \
     libs/thc-chess-library/ChessPositionRaw.h \
