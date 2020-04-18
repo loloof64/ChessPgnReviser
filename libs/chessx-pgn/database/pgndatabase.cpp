@@ -333,7 +333,7 @@ bool PgnDatabase::openFile(const QString& filename)
     }
     file->open(QIODevice::ReadOnly);
     m_file = file;
-    return true;
+    return parseFile(); // Modified by loloof64
 }
 
 bool PgnDatabase::openString(const QString& content)

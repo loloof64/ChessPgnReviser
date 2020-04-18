@@ -7,8 +7,6 @@
 #include <QMessageBox>
 #include <QDataStream>
 
-#include <iostream>
-
 loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent), _pgnDatabase(false)
 {
     _mainLayout = new QHBoxLayout(this);
@@ -66,18 +64,26 @@ void loloof64::ComponentsZone::newGame()
 
     try {
         _pgnDatabase.open(fileName, true);
-        _pgnDatabase.loadGame(0, _currentGame);
+        const auto success = _pgnDatabase.loadGame(0, _currentGame);
 
-        const auto moveNumber = _currentGame.moveNumber();
-        const auto startPosition = _currentGame.toFen();
+        if (success)
+        {
+            const auto moveNumber = _currentGame.moveNumber();
+            const auto startPosition = _currentGame.toFen();
 
-        // Starts game
+            // Starts game
 
-        _movesHistory->newGame(moveNumber);
+            _movesHistory->newGame(moveNumber);
 
-        _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
-        _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
-        _chessBoard->newGame(startPosition);
+            _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
+            _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
+            _chessBoard->newGame(startPosition);
+        }
+        else
+        {
+            QMessageBox::information(this, tr("Unable to load game"),
+                            tr("Failed to load the game"));
+        }
     }
     catch (loloof64::IllegalPositionException const &e)
     {
