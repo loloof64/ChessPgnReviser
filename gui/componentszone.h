@@ -5,7 +5,7 @@
 #include <QHBoxLayout>
 #include "chessboard/chessboard.h"
 #include "history/moveshistory.h"
-#include "../libs/chessx-pgn/pgndatabase.h"
+#include "../libs/chessx-pgn/database/pgndatabase.h"
 
 namespace loloof64 {
     class ComponentsZone : public QWidget
