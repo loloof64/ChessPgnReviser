@@ -25,7 +25,7 @@ namespace loloof64 {
         QHBoxLayout *_mainLayout;
         loloof64::ChessBoard *_chessBoard;
         loloof64::MovesHistory *_movesHistory;
-        PgnDatabase _pgnDatabase;
+        PgnDatabase *_pgnDatabase;
         Game _currentGame;
         bool _isWhitePly;
 

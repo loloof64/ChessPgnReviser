@@ -56,6 +56,9 @@ public:
     virtual quint64 count() const;
 
 protected:
+    //added by loloof64
+    QString indexPath() const;
+
     //parsing methods
     /** Reads moves from the file and adds them to the game. Performs position searches if any are active */
     bool parseMoves(Game* game);
@@ -84,18 +87,18 @@ protected:
 
     bool readIndexFile(QDataStream& in, volatile  bool *breakFlag, short version);
     bool writeIndexFile(QDataStream& out) const;
-    /* removed by loloof64
+
     QString offsetFilename(const QString& filename) const;
     bool readOffsetFile(const QString&, volatile bool *breakFlag, bool &bUpdate);
     bool writeOffsetFile(const QString&) const;
-    */
+
 
     // Open a PGN data File
     bool openFile(const QString& filename);
 
-    /* removed by loloof64
+
     bool hasIndexFile() const;
-    */
+
 
     /** Resets/initialises important member variables. Called by constructor and close methods */
     void initialise();

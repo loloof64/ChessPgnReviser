@@ -444,6 +444,7 @@ bool Index::isIndexItemEqual(GameId i, GameId j) const
     return (iItem.isEqual(jItem));
 }
 
+// modified by loloof64
 void Index::loadGameHeaders(GameId id, Game& game) const
 {
     QReadLocker m(&m_mutex);
@@ -452,7 +453,9 @@ void Index::loadGameHeaders(GameId id, Game& game) const
     foreach(TagIndex tagIndex, m_indexItems[id].getTagIndices())
     {
         // qDebug() << "lGH>" << &game << " " << id << " " << tagName(tagIndex) << " " << tagValue(tagIndex, id);
-        game.setTag(tagName(tagIndex), tagValue(tagIndex, id));
+        auto name = tagName(tagIndex);
+        auto value = tagValue(tagIndex, id);
+        game.setTag(name, value);
     }
 }
 

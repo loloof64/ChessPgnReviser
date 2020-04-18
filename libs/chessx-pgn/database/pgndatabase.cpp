@@ -39,17 +39,15 @@ PgnDatabase::~PgnDatabase()
     close();
 }
 
+// Modified by loloof64
 bool PgnDatabase::open(const QString& filename, bool utf8)
 {
-    if(!m_file)
+    m_break = false;
+    m_filename = filename;
+    if(openFile(filename))
     {
-        m_break = false;
-        m_filename = filename;
-        if(openFile(filename))
-        {
-            m_utf8 = utf8;
-            return true;
-        }
+        m_utf8 = utf8;
+        return true;
     }
     return false;
 }
@@ -69,19 +67,30 @@ bool PgnDatabase::writeIndexFile(QDataStream& out) const
     return (index()->write(out));
 }
 
-/* removed by loloof64
 QString PgnDatabase::offsetFilename(const QString& filename) const
 {
     QFileInfo fi = QFileInfo(filename);
     QString basefile = fi.completeBaseName();
     basefile.append(".cxi");
-    QString indexPath = AppSettings->indexPath();
-    return(indexPath + QDir::separator() + basefile);
+    return(indexPath() + QDir::separator() + basefile);
+}
+
+QString PgnDatabase::indexPath() const
+{
+#if QT_VERSION < 0x050000
+    QString dataPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + QDir::separator() + "ChessPgnReviser";
+#else
+    QString dataPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QDir::separator() + "ChessPgnReviser";
+#endif
+    return dataPath;
 }
 
 bool PgnDatabase::hasIndexFile() const
 {
-    return AppSettings->getValue("/General/useIndexFile").toBool();
+    // return AppSettings->getValue("/General/useIndexFile").toBool();
+
+    //modified by loloof64
+    return false;
 }
 
 bool PgnDatabase::readOffsetFile(const QString& filename, volatile bool *breakFlag, bool& bUpdate)
@@ -215,12 +224,13 @@ bool PgnDatabase::writeOffsetFile(const QString& filename) const
 
     return true;
 }
-*/
 
+// modified by loloof64
 bool PgnDatabase::parseFile()
 {
+    /*
     bool bUpdate = false;
-    /* removed by loloof64
+
     if(readOffsetFile(m_filename, &m_break, bUpdate))
     {
         m_count = m_allocated;
@@ -231,8 +241,7 @@ bool PgnDatabase::parseFile()
         }
         emit progress(100);
         return true;
-    }
-    */
+    }*/
 
     if(m_break)
     {
@@ -240,12 +249,11 @@ bool PgnDatabase::parseFile()
     }
 
     bool ok = parseFileIntern();
-    /* removed by loloof64
-    if (ok)
+
+    /*if (ok)
     {
         writeOffsetFile(m_filename);
-    }
-    */
+    }*/
     return ok;
 }
 
@@ -331,6 +339,7 @@ bool PgnDatabase::openFile(const QString& filename)
         delete file;
         return false;
     }
+
     file->open(QIODevice::ReadOnly);
     m_file = file;
     return parseFile(); // Modified by loloof64
@@ -428,7 +437,8 @@ bool PgnDatabase::loadGame(GameId gameId, Game& game)
        if (!success) return false;
     }
 
-    parseMoves(&game);
+    const auto movesParsedWithSuccess = parseMoves(&game);
+    if (!movesParsedWithSuccess) return false;
 
     return m_variation != -1 || (fen != "?" && fen != "");  // Not sure of all of the ramifications of this  // modified by loloof64
     // but it seeems to fix the problem with FENs

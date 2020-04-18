@@ -1,18 +1,22 @@
 #include "componentszone.h"
 #include "./adapters/thcposition.h"
-#include <fstream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
 #include <QString>
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>
 #include <QDataStream>
 
-loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent), _pgnDatabase(false)
+loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(20);
     _chessBoard = new ChessBoard(60, this);
     _movesHistory = new MovesHistory(this);
+    _pgnDatabase = new PgnDatabase(false);
 
     _mainLayout->addWidget(_chessBoard);
     _mainLayout->addWidget(_movesHistory);
@@ -43,6 +47,12 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent), _pg
 
 loloof64::ComponentsZone::~ComponentsZone()
 {
+    if (_pgnDatabase != nullptr)
+    {
+        _pgnDatabase->close();
+        delete _pgnDatabase;
+        _pgnDatabase = nullptr;
+    }
     delete _movesHistory;
     delete _chessBoard;
     delete _mainLayout;
@@ -63,27 +73,36 @@ void loloof64::ComponentsZone::newGame()
             return;
 
     try {
-        _pgnDatabase.open(fileName, true);
-        const auto success = _pgnDatabase.loadGame(0, _currentGame);
-
-        if (success)
+        if (_pgnDatabase != nullptr)
         {
-            const auto moveNumber = _currentGame.moveNumber();
-            const auto startPosition = _currentGame.toFen();
-
-            // Starts game
-
-            _movesHistory->newGame(moveNumber);
-
-            _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
-            _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
-            _chessBoard->newGame(startPosition);
+            _pgnDatabase->close();
+            delete _pgnDatabase;
+            _pgnDatabase = nullptr;
         }
-        else
+        _pgnDatabase = new PgnDatabase(false);
+        _pgnDatabase->open(fileName, true);
+        _pgnDatabase->loadGameHeaders(0, _currentGame);
+
+        QString startPosition{"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
+        auto moveNumber = 1;
+        if (_currentGame.hasTag("FEN"))
         {
-            QMessageBox::information(this, tr("Unable to load game"),
-                            tr("Failed to load the game"));
+            startPosition = _currentGame.tag("FEN");
+
+            //extract move number from position
+            std::stringstream ss{startPosition.toStdString()};
+            std::string number;
+                while (std::getline(ss, number, ' '));
+            moveNumber = std::stoi(number);
         }
+
+        // Starts game
+
+        _movesHistory->newGame(moveNumber);
+
+        _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
+        _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
+        _chessBoard->newGame(startPosition);
     }
     catch (loloof64::IllegalPositionException const &e)
     {
@@ -102,6 +121,12 @@ void loloof64::ComponentsZone::newGame()
 void loloof64::ComponentsZone::stopGame()
 {
     _chessBoard->stopGame();
+    if (_pgnDatabase != nullptr)
+    {
+        delete _pgnDatabase;
+        _pgnDatabase->close();
+        _pgnDatabase = nullptr;
+    }
 }
 
 void loloof64::ComponentsZone::handleMoveVerification(QString moveSan)
