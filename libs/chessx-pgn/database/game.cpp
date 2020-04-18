@@ -1954,12 +1954,13 @@ void Game::setStartingBoard(const Board& startingBoard, QString text, bool chess
     emit signalGameModified(true, state, text);
 }
 
-void Game::dbSetStartingBoard(const QString& fen, bool chess960)
+bool Game::dbSetStartingBoard(const QString& fen, bool chess960) // modified by loloof64
 {
     clear();
     setChess960(chess960);
     m_startingBoard.setChess960(chess960);
-    m_startingBoard.fromFen(fen);
+    const auto success = m_startingBoard.fromFen(fen); // modified by loloof64
+    if  (!success) return false;
     if(m_startingBoard != Board::standardStartBoard)
     {
         m_tags[TagNameFEN] = fen;
@@ -1970,6 +1971,7 @@ void Game::dbSetStartingBoard(const QString& fen, bool chess960)
         *m_currentBoard = m_startingBoard;
     }
     m_startPly = (m_startingBoard.moveNumber() - 1) * 2 + (m_startingBoard.toMove() == Black);
+    return true;
 }
 
 void Game::dbSetResult(Result result)

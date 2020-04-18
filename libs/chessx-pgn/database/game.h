@@ -308,8 +308,9 @@ public :
     void truncateVariation(Position position = AfterMove);
     /** Removes all tags and moves */
     void clear();
-    /** Set the game start position from FEN. */
-    void dbSetStartingBoard(const QString& fen, bool chess960 = false);
+    // Modified by loloof64
+    /** Set the game start position from FEN. Returns true only if success*/
+    bool dbSetStartingBoard(const QString& fen, bool chess960 = false);
     /** set comment associated with game */
     void setGameComment(const QString& gameComment);
     /** Remove all variations */

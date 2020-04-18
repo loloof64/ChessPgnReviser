@@ -422,14 +422,15 @@ bool PgnDatabase::loadGame(GameId gameId, Game& game)
     QString fen = m_index.tagValue(TagNameFEN, gameId);
     QString variant = m_index.tagValue(TagNameVariant, gameId).toLower();
     bool chess960 = (variant.startsWith("fischer") || variant.endsWith("960"));
-    if(fen != "?")
+    if(fen != "?" && fen != "") // modified by loloof64
     {
-        game.dbSetStartingBoard(fen, chess960);
+       bool success = game.dbSetStartingBoard(fen, chess960);
+       if (!success) return false;
     }
 
     parseMoves(&game);
 
-    return m_variation != -1 || fen != "?";  // Not sure of all of the ramifications of this
+    return m_variation != -1 || (fen != "?" && fen != "");  // Not sure of all of the ramifications of this  // modified by loloof64
     // but it seeems to fix the problem with FENs
 }
 
