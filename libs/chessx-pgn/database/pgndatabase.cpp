@@ -57,6 +57,7 @@ void PgnDatabase::parseGame()
     skipMoves();
 }
 
+/* removed by loloof64
 bool PgnDatabase::readIndexFile(QDataStream &in, volatile bool* breakFlag, short version)
 {
     return (index()->read(in, breakFlag, version));
@@ -224,6 +225,7 @@ bool PgnDatabase::writeOffsetFile(const QString& filename) const
 
     return true;
 }
+*/
 
 // modified by loloof64
 bool PgnDatabase::parseFile()
