@@ -42,10 +42,10 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             [this](QString moveSan, QString /*newPositionFen*/, LastMoveCoordinates moveCoordinates, bool /*gameFinished*/)
     {
         const auto stdMoveSan = moveSan.toStdString();
-        auto promotion = 0;
-        const auto equalSign = stdMoveSan.find_last_of("=");
-        if (equalSign > -1) {
-            const auto promotionPart = stdMoveSan.substr(equalSign);
+        char promotion = 0;
+        const auto equalSignPos = stdMoveSan.find("=");
+        if (equalSignPos != std::string::npos) {
+            const auto promotionPart = stdMoveSan.substr(equalSignPos+1);
             promotion = promotionPart[0];
         }
         handleMoveVerification(moveCoordinates, promotion);
@@ -145,19 +145,19 @@ void loloof64::ComponentsZone::handleMoveVerification(LastMoveCoordinates moveCo
         switch (promotion) {
         case 'Q':
         case 'q':
-            promotion = PieceType::Queen;
+            promotionPiece = PieceType::Queen;
             break;
         case 'R':
         case 'r':
-            promotion = PieceType::Rook;
+            promotionPiece = PieceType::Rook;
             break;
         case 'B':
         case 'b':
-            promotion = PieceType::Bishop;
+            promotionPiece = PieceType::Bishop;
             break;
         case 'N':
         case 'n':
-            promotion = PieceType::Knight;
+            promotionPiece = PieceType::Knight;
             break;
         }
 
