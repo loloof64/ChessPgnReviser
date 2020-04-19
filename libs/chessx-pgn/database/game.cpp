@@ -1392,13 +1392,15 @@ NagSet Game::nags(MoveId moveId) const
     return NagSet();
 }
 
+// modified by loloof64
 MoveId Game::nodeValid(MoveId moveId) const
 {
+    const auto limit = m_moveNodes.size();
     if(moveId == CURRENT_MOVE)
     {
         moveId = m_currentNode;
     }
-    if((moveId >= 0) && (moveId < m_moveNodes.size()))
+    if((moveId >= 0) && (moveId < limit))
     {
         if(m_moveNodes[moveId].Removed())
         {
@@ -1457,12 +1459,14 @@ int Game::ply(MoveId moveId) const
     return 0;
 }
 
+// modified by loloof64
 int Game::moveNumber(MoveId moveId) const
 {
     MoveId node = nodeValid(moveId);
     if(node != NO_MOVE)
     {
-        if(int plyNum = ply(node))
+        const auto plyNum = ply(node);
+        if(plyNum > -1)
         {
             return (m_startPly + plyNum - 1) / 2 + 1;
         }

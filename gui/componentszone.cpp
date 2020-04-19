@@ -88,7 +88,7 @@ void loloof64::ComponentsZone::newGame()
         _currentGame.moveToStart();
 
         // Starts game
-        const auto moveNumber = _currentGame.moveNumber();
+        const auto moveNumber = _currentGame.moveNumber(0);
         auto startPosition = _currentGame.board().toFen();
 
         _movesHistory->newGame(moveNumber);
