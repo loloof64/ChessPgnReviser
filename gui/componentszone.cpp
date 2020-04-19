@@ -27,6 +27,11 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             [this](QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove, bool gameFinished)
     {
         _movesHistory->addHistoryItem(new HistoryItem(moveFan, newPositionFen, lastMove), gameFinished);
+        const auto noMoreMove = ! _currentGame.hasNextMove();
+        if (noMoreMove){
+            _chessBoard->stopGame();
+            QMessageBox::information(this, tr("Congratulation"), tr("You found all the moves"));
+        }
     });
     connect(_movesHistory, &loloof64::MovesHistory::requestPositionOnBoard,
             [this](HistoryItem *item)
