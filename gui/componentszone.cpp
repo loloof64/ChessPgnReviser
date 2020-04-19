@@ -167,12 +167,11 @@ void loloof64::ComponentsZone::handleMoveVerification(LastMoveCoordinates moveCo
 
         if (! isAMatchingMove)
         {
-            QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
             _chessBoard->stopGame();
-        }
-        else
-        {
-            //_currentGame.moveToId();
+            QTimer timer(this);
+            timer.singleShot(500, this, [this](){
+                showLoosingMessage();
+            });
         }
     }
 }
@@ -215,4 +214,9 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
     else {
         _chessBoard->playMove(startFile, startRank, endFile, endRank);
     }
+}
+
+void loloof64::ComponentsZone::showLoosingMessage()
+{
+    QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
 }

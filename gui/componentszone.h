@@ -31,6 +31,7 @@ namespace loloof64 {
 
         void handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion = 0);
         void makeComputerPlayNextMove();
+        void showLoosingMessage();
     };
 }
 
