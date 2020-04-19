@@ -81,22 +81,15 @@ void loloof64::ComponentsZone::newGame()
         }
         _pgnDatabase = new PgnDatabase(false);
         _pgnDatabase->open(fileName, true);
-        _pgnDatabase->loadGameHeaders(0, _currentGame);
 
-        QString startPosition{"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
-        auto moveNumber = 1;
-        if (_currentGame.hasTag("FEN"))
-        {
-            startPosition = _currentGame.tag("FEN");
+        auto selectedGameIndex = 0;
 
-            //extract move number from position
-            std::stringstream ss{startPosition.toStdString()};
-            std::string number;
-                while (std::getline(ss, number, ' '));
-            moveNumber = std::stoi(number);
-        }
+        _pgnDatabase->loadGame(selectedGameIndex, _currentGame);
+        _currentGame.moveToStart();
 
         // Starts game
+        const auto moveNumber = _currentGame.moveNumber();
+        auto startPosition = _currentGame.board().toFen();
 
         _movesHistory->newGame(moveNumber);
 
