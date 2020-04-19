@@ -7,13 +7,6 @@
 #include "../chessboard/IPosition.h"
 
 namespace loloof64 {
-    struct HistoryCellCoordinates
-    {
-        HistoryCellCoordinates(int col, int row): col(col), row(row){}
-        int col;
-        int row;
-    };
-
     class MovesHistory : public QTableWidget
     {
         Q_OBJECT
@@ -27,13 +20,9 @@ namespace loloof64 {
         void gotoLastPosition();
         void gotoPreviousPosition();
         void gotoNextPosition();
-
-        void commitPositionRequest();
-        void clearPositionRequest();
     signals:
         void requestPositionOnBoard(HistoryItem *item);
     private:
-        HistoryCellCoordinates *_cellToUpdate;
         QString _startPosition;
         int _moveNumber{1};
         int _currentRow{-1}, _currentCol{-1};

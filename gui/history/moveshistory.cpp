@@ -6,7 +6,6 @@
 
 loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
 {
-    _cellToUpdate = nullptr;
     setColumnCount(3);
     setHorizontalHeaderLabels(QStringList(QList<QString>{tr("Move number"), tr("White"), tr("Black")}));
     verticalHeader()->hide();
@@ -73,7 +72,6 @@ void loloof64::MovesHistory::clearMoves()
 
     _currentRow = -1;
     _currentCol = -1;
-    _cellToUpdate = nullptr;
 }
 
 void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
@@ -131,8 +129,7 @@ QLabel* loloof64::MovesHistory::buildMoveNumber()
 
 void loloof64::MovesHistory::gotoFirstPosition()
 {
-    _cellToUpdate = nullptr;
-    emit requestPositionOnBoard(new HistoryItem(QString(), _startPosition, LastMoveCoordinates(-1, -1, -1, -1)));
+
 }
 
 void loloof64::MovesHistory::gotoLastPosition()
@@ -148,22 +145,4 @@ void loloof64::MovesHistory::gotoPreviousPosition()
 void loloof64::MovesHistory::gotoNextPosition()
 {
 
-}
-
-void loloof64::MovesHistory::commitPositionRequest()
-{
-    if (_cellToUpdate == nullptr)
-    {
-        clearSelection();
-        scrollToTop();
-    }
-    else {
-        setCurrentCell(_cellToUpdate->row, _cellToUpdate->col);
-    }
-    clearPositionRequest();
-}
-
-void loloof64::MovesHistory::clearPositionRequest()
-{
-    _cellToUpdate = nullptr;
 }
