@@ -30,6 +30,7 @@ namespace loloof64 {
         bool _isWhitePly;
 
         void handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion = 0);
+        void makeComputerPlayNextMove();
     };
 }
 

@@ -108,7 +108,7 @@ namespace loloof64 {
         moveStr += startRankChar;
         moveStr += endFileChar;
         moveStr += endRankChar;
-        moveStr += tolower(promotionFen);
+        if (promotionFen) moveStr += tolower(promotionFen);
 
         thc::ChessRules copy{_position};
         thc::Move moveToTest;

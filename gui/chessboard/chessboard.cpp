@@ -37,7 +37,7 @@ ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cells
 {
     _relatedPosition = new ThcPosition("8/8/8/8/8/8/8/8 w - - 0 1");
     _dndData = nullptr;
-    _gameInProgress = false;
+    _gameFinishedStatus = GameFinishedStatus::STOPPED;
     _lastMoveCoordinates = nullptr;
     _reversed = false;
     auto wholeSize = 9 * cellsSize;
@@ -65,7 +65,7 @@ void ChessBoard::newGame(QString startPosition)
         _lastMoveCoordinates = nullptr;
     }
     _relatedPosition = new ThcPosition(startPosition.toStdString());
-    _gameInProgress = true;
+    _gameFinishedStatus = GameFinishedStatus::NOT_FINISHED;
     repaint();
 
     emitExternalPlayerTurnIfNecessary();
@@ -73,7 +73,7 @@ void ChessBoard::newGame(QString startPosition)
 
 void ChessBoard::stopGame()
 {
-    _gameInProgress = false;
+    _gameFinishedStatus = GameFinishedStatus::STOPPED;
     repaint();
 }
 
@@ -235,7 +235,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
 void ChessBoard::mousePressEvent(QMouseEvent *event)
 {
-    if (!_gameInProgress) return;
+    if (_gameFinishedStatus != GameFinishedStatus::NOT_FINISHED) return;
 
     const auto whiteTurn = _relatedPosition->isWhiteTurn();
     const auto playerIsHuman = (whiteTurn && (_whitePlayer == PlayerType::HUMAN)) ||
@@ -275,7 +275,7 @@ void ChessBoard::mousePressEvent(QMouseEvent *event)
 
 void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!_gameInProgress) return;
+    if (_gameFinishedStatus != GameFinishedStatus::NOT_FINISHED) return;
     if (_dndData == nullptr) return;
 
     const auto x = event->x();
@@ -305,7 +305,7 @@ void ChessBoard::mouseMoveEvent(QMouseEvent *event)
 
 void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (!_gameInProgress) return;
+    if (_gameFinishedStatus != GameFinishedStatus::NOT_FINISHED) return;
     if (_dndData == nullptr) return;
 
     const auto x = event->x();
@@ -338,75 +338,11 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         return;
     }
 
-    const auto handleGameFinished = [this]() -> GameFinishedStatus
+    const auto localUpdateLastMove = [this, file, rank]()
     {
-        const auto isCheckmate = _relatedPosition->isCheckmate();
-        const auto isStalemate = _relatedPosition->isStalemate();
-        const auto isDrawByThreeFolds = _relatedPosition->isThreeFoldRepetitionsDraw();
-        const auto isInsuficientMaterial = _relatedPosition->isInsuficientMaterialDraw();
-        const auto isFiftyMovesRuleDraw = _relatedPosition->isFiftyMovesRuleDraw();
-
-        if (isCheckmate)
+        if (_dndData != nullptr)
         {
-            _gameInProgress = false;
-            return GameFinishedStatus::CHECKMATE;
-        }
-        else if (isStalemate)
-        {
-            _gameInProgress = false;
-            return GameFinishedStatus::STALEMATE;
-        }
-        else if (isDrawByThreeFolds)
-        {
-            _gameInProgress = false;
-            return GameFinishedStatus::REPETITIONS;
-        }
-        else if (isInsuficientMaterial)
-        {
-            _gameInProgress = false;
-            return GameFinishedStatus::INSUFICIENT_MATERIAL;
-        }
-        else if (isFiftyMovesRuleDraw)
-        {
-            _gameInProgress = false;
-            return GameFinishedStatus::FIFTY_MOVES_RULE;
-        }
-        return GameFinishedStatus::NOT_FINISHED;
-    };
-
-    const auto updateLastMove = [this, file, rank]()
-    {
-       if (_lastMoveCoordinates != nullptr)
-       {
-           delete _lastMoveCoordinates;
-           _lastMoveCoordinates = nullptr;
-       }
-       if (_dndData != nullptr)
-       {
-            _lastMoveCoordinates = new LastMoveCoordinates(_dndData->startFile, _dndData->startRank, file, rank);
-       }
-    };
-
-    const auto showGameFinishedMessageIfNecessary = [this](GameFinishedStatus gameFinishedStatus)
-    {
-        switch (gameFinishedStatus) {
-        case GameFinishedStatus::CHECKMATE:
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
-            break;
-        case GameFinishedStatus::STALEMATE:
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
-            break;
-        case GameFinishedStatus::REPETITIONS:
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
-            break;
-        case GameFinishedStatus::INSUFICIENT_MATERIAL:
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
-            break;
-        case GameFinishedStatus::FIFTY_MOVES_RULE:
-            QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
-            break;
-        default:
-            break;
+            updateLastMove(_dndData->startFile, _dndData->startRank, file, rank);
         }
     };
 
@@ -425,18 +361,18 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            updateLastMove();
+            localUpdateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
-            const auto gameFinishedStatus = handleGameFinished();
+            handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
             emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary();
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
@@ -448,18 +384,18 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            updateLastMove();
+            localUpdateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
-            const auto gameFinishedStatus = handleGameFinished();
+            handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
             emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary();
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
@@ -471,18 +407,18 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            updateLastMove();
+            localUpdateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
-            const auto gameFinishedStatus = handleGameFinished();
+            handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
             emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary();
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
@@ -494,18 +430,18 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
             LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            updateLastMove();
+            localUpdateLastMove();
             clearDndData();
             repaint();
             promotionDialog.hide();
-            const auto gameFinishedStatus = handleGameFinished();
+            handleGameFinished();
 
             const auto gameFinished = ! gameInProgress();
             emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
             emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
             emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary(gameFinishedStatus);
+            showGameFinishedMessageIfNecessary();
         });
 
         promotionDialog.exec();
@@ -522,17 +458,17 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         const auto resultingFen = QString(_relatedPosition->getFen().c_str());
         LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-        updateLastMove();
+        localUpdateLastMove();
         clearDndData();
         repaint();
-        const auto gameFinishedStatus = handleGameFinished();
+        handleGameFinished();
 
         const auto gameFinished = ! gameInProgress();
         emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
         emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
         emitExternalPlayerTurnIfNecessary();
 
-        showGameFinishedMessageIfNecessary(gameFinishedStatus);
+        showGameFinishedMessageIfNecessary();
     }
     catch (IllegalMoveException const *e)
     {
@@ -543,7 +479,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
 void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
 {
-    if (_gameInProgress) return;
+    if (_gameFinishedStatus != GameFinishedStatus::NOT_FINISHED) return;
 
     if (_relatedPosition != nullptr) delete _relatedPosition;
     _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
@@ -565,7 +501,25 @@ bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, i
 
     try
     {
+        const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, endFile, endRank);
+        const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, endFile, endRank);
+
         _relatedPosition->makeMove(startFile, startRank, endFile, endRank, promotionFen);
+        const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+
+        LastMoveCoordinates lastMoveCoords(startFile, startRank, endFile, endRank);
+        updateLastMove(startFile, startRank, endFile, endRank);
+        repaint();
+
+        handleGameFinished();
+
+        const auto gameFinished = ! gameInProgress();
+        emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+        emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+        emitExternalPlayerTurnIfNecessary();
+
+        showGameFinishedMessageIfNecessary();
+
         return true;
     }
     catch (UnimplementedException const *e)
@@ -583,4 +537,68 @@ void loloof64::ChessBoard::emitExternalPlayerTurnIfNecessary()
 
     const auto currentPosition = QString(_relatedPosition->getFen().c_str());
     emit externalTurn(currentPosition);
+}
+
+void loloof64::ChessBoard::updateLastMove(int startFile, int startRank, int endFile, int endRank)
+{
+    if (_lastMoveCoordinates != nullptr)
+    {
+        delete _lastMoveCoordinates;
+        _lastMoveCoordinates = nullptr;
+    }
+    _lastMoveCoordinates = new LastMoveCoordinates(startFile, startRank, endFile, endRank);
+}
+
+
+void loloof64::ChessBoard::handleGameFinished()
+{
+    const auto isCheckmate = _relatedPosition->isCheckmate();
+    const auto isStalemate = _relatedPosition->isStalemate();
+    const auto isDrawByThreeFolds = _relatedPosition->isThreeFoldRepetitionsDraw();
+    const auto isInsuficientMaterial = _relatedPosition->isInsuficientMaterialDraw();
+    const auto isFiftyMovesRuleDraw = _relatedPosition->isFiftyMovesRuleDraw();
+
+    if (isCheckmate)
+    {
+        _gameFinishedStatus = GameFinishedStatus::CHECKMATE;
+    }
+    else if (isStalemate)
+    {
+        _gameFinishedStatus = GameFinishedStatus::STALEMATE;
+    }
+    else if (isDrawByThreeFolds)
+    {
+        _gameFinishedStatus = GameFinishedStatus::REPETITIONS;
+    }
+    else if (isInsuficientMaterial)
+    {
+        _gameFinishedStatus = GameFinishedStatus::INSUFICIENT_MATERIAL;
+    }
+    else if (isFiftyMovesRuleDraw)
+    {
+        _gameFinishedStatus = GameFinishedStatus::FIFTY_MOVES_RULE;
+    }
+}
+
+void loloof64::ChessBoard::showGameFinishedMessageIfNecessary()
+{
+    switch (_gameFinishedStatus) {
+    case GameFinishedStatus::CHECKMATE:
+        QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
+        break;
+    case GameFinishedStatus::STALEMATE:
+        QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
+        break;
+    case GameFinishedStatus::REPETITIONS:
+        QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
+        break;
+    case GameFinishedStatus::INSUFICIENT_MATERIAL:
+        QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
+        break;
+    case GameFinishedStatus::FIFTY_MOVES_RULE:
+        QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
+        break;
+    default:
+        break;
+    }
 }

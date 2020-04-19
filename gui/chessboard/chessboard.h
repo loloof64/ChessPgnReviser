@@ -29,6 +29,7 @@ namespace loloof64 {
         FIFTY_MOVES_RULE,
         INSUFICIENT_MATERIAL,
         REPETITIONS,
+        STOPPED,
     };
 
     enum class PlayerType
@@ -43,7 +44,7 @@ namespace loloof64 {
     public:
         explicit ChessBoard(int cellsSize, QWidget *parent = nullptr);
         ~ChessBoard();
-        inline bool gameInProgress(){ return _gameInProgress; }
+        inline bool gameInProgress(){ return _gameFinishedStatus == GameFinishedStatus::NOT_FINISHED; }
         inline bool isWhiteTurn(){ return _relatedPosition->isWhiteTurn(); }
         inline void setWhitePlayerType(PlayerType playerType) { _whitePlayer = playerType; };
         inline void setBlackPlayerType(PlayerType playerType) { _blackPlayer = playerType; };
@@ -85,7 +86,7 @@ namespace loloof64 {
     private:
         int _cellsSize;
         bool _reversed;
-        bool _gameInProgress;
+        GameFinishedStatus _gameFinishedStatus;
         IPosition *_relatedPosition;
         DndData *_dndData;
         LastMoveCoordinates *_lastMoveCoordinates;
@@ -95,6 +96,9 @@ namespace loloof64 {
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
         void emitExternalPlayerTurnIfNecessary();
+        void updateLastMove(int startFile, int startRank, int endFile, int endRank);
+        void handleGameFinished();
+        void showGameFinishedMessageIfNecessary();
     };
 }
 

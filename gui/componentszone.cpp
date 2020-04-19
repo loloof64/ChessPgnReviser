@@ -36,7 +36,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     connect(_chessBoard, &loloof64::ChessBoard::externalTurn,
             [this](QString /*currentPosition*/)
     {
-
+        makeComputerPlayNextMove();
     });
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsSan,
             [this](QString moveSan, QString /*newPositionFen*/, LastMoveCoordinates moveCoordinates, bool /*gameFinished*/)
@@ -165,13 +165,54 @@ void loloof64::ComponentsZone::handleMoveVerification(LastMoveCoordinates moveCo
             fromSquare, toSquare, promotionPiece
         );
 
-        if (isAMatchingMove)
+        if (! isAMatchingMove)
         {
-
-        }
-        else {
             QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
             _chessBoard->stopGame();
         }
+        else
+        {
+            //_currentGame.moveToId();
+        }
+    }
+}
+
+void loloof64::ComponentsZone::makeComputerPlayNextMove()
+{
+    if (!gameInProgress()) return;
+    const auto whiteTurn = _chessBoard->isWhiteTurn();
+    const auto isExternalTurn = (whiteTurn && _chessBoard->getWhitePlayerType() == PlayerType::EXTERNAL) ||
+            (!whiteTurn && _chessBoard->getBlackPlayerType() == PlayerType::EXTERNAL);
+    if (!isExternalTurn) return;
+
+    const auto moveId = _currentGame.nextMove();
+    const auto move = _currentGame.move(moveId);
+
+    const auto startFile = move.from() % 8;
+    const auto startRank = move.from() / 8;
+    const auto endFile = move.to() % 8;
+    const auto endRank = move.to() / 8;
+
+    _currentGame.findNextMove(move);
+    if (move.isPromotion())
+    {
+        const auto promotion = move.promotedPiece();
+        char promotionFen = 0;
+
+        switch (promotion) {
+        case Piece::WhiteQueen: promotionFen = 'Q'; break;
+        case Piece::BlackQueen: promotionFen = 'q'; break;
+        case Piece::WhiteRook: promotionFen = 'R'; break;
+        case Piece::BlackRook: promotionFen = 'r'; break;
+        case Piece::WhiteBishop: promotionFen = 'B'; break;
+        case Piece::BlackBishop: promotionFen = 'b'; break;
+        case Piece::WhiteKnight: promotionFen = 'N'; break;
+        case Piece::BlackKnight: promotionFen = 'n'; break;
+        default: ;
+        }
+        _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+    }
+    else {
+        _chessBoard->playMove(startFile, startRank, endFile, endRank);
     }
 }
