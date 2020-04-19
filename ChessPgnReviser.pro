@@ -22,6 +22,7 @@ SOURCES += \
     gui/chessboard/promotiondialog.cpp \
     gui/componentszone.cpp \
     gui/history/moveshistory.cpp \
+    gui/history/moveshistoryfullcomponent.cpp \
     gui/mainwindow.cpp \
     libs/chessx-pgn/database/analysis.cpp \
     libs/chessx-pgn/database/arenabook.cpp \
@@ -91,6 +92,7 @@ HEADERS += \
     gui/chessboard/promotiondialog.h \
     gui/componentszone.h \
     gui/history/moveshistory.h \
+    gui/history/moveshistoryfullcomponent.h \
     gui/mainwindow.h \
     libs/chessx-pgn/database/abk.h \
     libs/chessx-pgn/database/analysis.h \
@@ -204,7 +206,12 @@ DISTFILES += \
     resources/chess_vectors/Chess_qlt45.svg \
     resources/chess_vectors/Chess_rdt45.svg \
     resources/chess_vectors/Chess_rlt45.svg \
+    resources/icons/left-arrow.svg \
+    resources/icons/next.svg \
+    resources/icons/previous.svg \
+    resources/icons/right-arrow.svg \
     resources/icons/start.svg \
+    resources/icons/stop.svg \
     resources/icons/swap.svg
 
 RESOURCES += \

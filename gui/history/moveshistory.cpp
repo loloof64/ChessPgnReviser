@@ -4,8 +4,6 @@
 #include <QPushButton>
 #include <string>
 
-#include <QMessageLogger>
-
 loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
 {
     setColumnCount(3);

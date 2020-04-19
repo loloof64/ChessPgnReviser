@@ -479,7 +479,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
 void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
 {
-    if (_gameFinishedStatus != GameFinishedStatus::NOT_FINISHED) return;
+    if (_gameFinishedStatus == GameFinishedStatus::NOT_FINISHED) return;
 
     if (_relatedPosition != nullptr) delete _relatedPosition;
     _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());

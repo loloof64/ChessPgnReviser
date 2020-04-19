@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include "chessboard/chessboard.h"
-#include "history/moveshistory.h"
+#include "history/moveshistoryfullcomponent.h"
 #include "../libs/chessx-pgn/database/pgndatabase.h"
 
 namespace loloof64 {
@@ -24,7 +24,7 @@ namespace loloof64 {
     private:
         QHBoxLayout *_mainLayout;
         loloof64::ChessBoard *_chessBoard;
-        loloof64::MovesHistory *_movesHistory;
+        loloof64::MovesHistoryFullComponent *_movesHistory;
         PgnDatabase *_pgnDatabase;
         Game _currentGame;
         bool _isWhitePly;

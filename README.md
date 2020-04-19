@@ -20,3 +20,4 @@ Using some icon resources from [FlatIcon](https://www.flaticon.com/).
 * swap svg by Good Ware
 * start svg by SmashIcons
 * stop svg by FreePik
+* previous, next, left-arrow, right-arrow svg by Roundicons
