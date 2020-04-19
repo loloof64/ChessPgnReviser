@@ -29,7 +29,7 @@ namespace loloof64 {
         Game _currentGame;
         bool _isWhitePly;
 
-        void handleMoveVerification(QString moveSan);
+        void handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion = 0);
     };
 }
 

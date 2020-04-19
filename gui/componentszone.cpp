@@ -39,9 +39,16 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
 
     });
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsSan,
-            [this](QString moveFan, QString /*newPositionFen*/, LastMoveCoordinates /*lastMove*/, bool /*gameFinished*/)
+            [this](QString moveSan, QString /*newPositionFen*/, LastMoveCoordinates moveCoordinates, bool /*gameFinished*/)
     {
-        handleMoveVerification(moveFan);
+        const auto stdMoveSan = moveSan.toStdString();
+        auto promotion = 0;
+        const auto equalSign = stdMoveSan.find_last_of("=");
+        if (equalSign > -1) {
+            const auto promotionPart = stdMoveSan.substr(equalSign);
+            promotion = promotionPart[0];
+        }
+        handleMoveVerification(moveCoordinates, promotion);
     });
 }
 
@@ -122,15 +129,49 @@ void loloof64::ComponentsZone::stopGame()
     }
 }
 
-void loloof64::ComponentsZone::handleMoveVerification(QString moveSan)
+void loloof64::ComponentsZone::handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion)
 {
-    const auto whiteTurn = _chessBoard->isWhiteTurn();
-    const auto externalPlayerTurn = (whiteTurn && (_chessBoard->getWhitePlayerType() == PlayerType::EXTERNAL)) ||
-            (!whiteTurn && (_chessBoard->getBlackPlayerType() == PlayerType::EXTERNAL));
+    const auto whiteTurnBeforeMove = ! _chessBoard->isWhiteTurn();
+    const auto externalPlayerTurn = (whiteTurnBeforeMove && (_chessBoard->getWhitePlayerType() == PlayerType::EXTERNAL)) ||
+            (!whiteTurnBeforeMove && (_chessBoard->getBlackPlayerType() == PlayerType::EXTERNAL));
+
     if (externalPlayerTurn) {
         return;
     }
     else {
+        auto promotionPiece = PieceType::None;
+        const auto fromSquare = SquareFromRankAndFile((unsigned char) moveCoordinates.startRank, (unsigned char) moveCoordinates.startFile);
+        const auto toSquare = SquareFromRankAndFile((unsigned char) moveCoordinates.endRank, (unsigned char) moveCoordinates.endFile);
+        switch (promotion) {
+        case 'Q':
+        case 'q':
+            promotion = PieceType::Queen;
+            break;
+        case 'R':
+        case 'r':
+            promotion = PieceType::Rook;
+            break;
+        case 'B':
+        case 'b':
+            promotion = PieceType::Bishop;
+            break;
+        case 'N':
+        case 'n':
+            promotion = PieceType::Knight;
+            break;
+        }
 
+        const auto isAMatchingMove = _currentGame.findNextMove(
+            fromSquare, toSquare, promotionPiece
+        );
+
+        if (isAMatchingMove)
+        {
+
+        }
+        else {
+            QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
+            _chessBoard->stopGame();
+        }
     }
 }
