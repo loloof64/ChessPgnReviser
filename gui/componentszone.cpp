@@ -55,6 +55,15 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
         }
         handleMoveVerification(moveCoordinates, promotion);
     });
+
+    connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestFirstPosition,
+            [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoFirstPosition(); });
+    connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestLastPosition,
+            [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoLastPosition(); });
+    connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestPreviousPosition,
+            [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoPreviousPosition(); });
+    connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestNextPosition,
+            [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoNextPosition(); });
 }
 
 loloof64::ComponentsZone::~ComponentsZone()
@@ -100,10 +109,9 @@ void loloof64::ComponentsZone::newGame()
         _currentGame.moveToStart();
 
         // Starts game
-        const auto moveNumber = _currentGame.moveNumber(0);
         auto startPosition = _currentGame.board().toFen();
 
-        _movesHistory->newGame(moveNumber);
+        _movesHistory->newGame(startPosition);
 
         _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
         _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);

@@ -485,7 +485,11 @@ void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
     _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
 
     if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
-    _lastMoveCoordinates = new LastMoveCoordinates(historyItem->lastMove);
+    bool lastMoveCanBeSet = historyItem->lastMove.startFile > -1 && historyItem->lastMove.startRank > -1 &&
+            historyItem->lastMove.endFile > -1 && historyItem->lastMove.endRank > -1;
+    if (lastMoveCanBeSet) {
+        _lastMoveCoordinates = new LastMoveCoordinates(historyItem->lastMove);
+    }
 
     repaint();
 }

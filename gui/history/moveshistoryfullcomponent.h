@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include "moveshistory.h"
+#include "moveshistorybuttons.h"
 
 namespace loloof64 {
     class MovesHistoryFullComponent: public QWidget
@@ -14,12 +15,14 @@ namespace loloof64 {
         ~MovesHistoryFullComponent();
 
         MovesHistory* getMovesHistoryMainComponent() const;
+        MovesHistoryButtons* getButtonsZone() const;
 
-        void newGame(int moveNumber = 1);
+        void newGame(QString startPosition);
         void addHistoryItem(HistoryItem *item, bool gameFinished = false);
     private:
         QVBoxLayout *_mainLayout;
         MovesHistory *_historyZone;
+        MovesHistoryButtons *_buttonsZone;
     };
 }
 

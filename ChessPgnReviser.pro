@@ -22,6 +22,7 @@ SOURCES += \
     gui/chessboard/promotiondialog.cpp \
     gui/componentszone.cpp \
     gui/history/moveshistory.cpp \
+    gui/history/moveshistorybuttons.cpp \
     gui/history/moveshistoryfullcomponent.cpp \
     gui/mainwindow.cpp \
     libs/chessx-pgn/database/analysis.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     gui/chessboard/promotiondialog.h \
     gui/componentszone.h \
     gui/history/moveshistory.h \
+    gui/history/moveshistorybuttons.h \
     gui/history/moveshistoryfullcomponent.h \
     gui/mainwindow.h \
     libs/chessx-pgn/database/abk.h \

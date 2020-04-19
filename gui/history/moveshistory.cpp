@@ -6,6 +6,7 @@
 
 loloof64::MovesHistory::MovesHistory(QWidget *parent) : QTableWidget(parent)
 {
+    _cellToUpdate = nullptr;
     setColumnCount(3);
     setHorizontalHeaderLabels(QStringList(QList<QString>{tr("Move number"), tr("White"), tr("Black")}));
     verticalHeader()->hide();
@@ -18,10 +19,21 @@ loloof64::MovesHistory::~MovesHistory()
     clearMoves();
 }
 
-void loloof64::MovesHistory::newGame(int moveNumber)
+void loloof64::MovesHistory::newGame(QString startPosition)
 {
+    _startPosition = startPosition;
     clearMoves();
-    this->_moveNumber = moveNumber;
+
+    std::size_t current, previous = 0;
+    char delim = ' ';
+    current = startPosition.toStdString().find(delim);
+    while (current != std::string::npos) {
+        previous = current + 1;
+        current = startPosition.toStdString().find(delim, previous);
+    }
+    auto moveNumberPart = startPosition.toStdString().substr(previous, current - previous);
+
+    this->_moveNumber = std::stoi(moveNumberPart);
     addComponent(buildMoveNumber());
 }
 
@@ -61,6 +73,7 @@ void loloof64::MovesHistory::clearMoves()
 
     _currentRow = -1;
     _currentCol = -1;
+    _cellToUpdate = nullptr;
 }
 
 void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
@@ -114,4 +127,43 @@ QLabel* loloof64::MovesHistory::buildMoveNumber()
 
     scrollToBottom();
     return numberComponent;
+}
+
+void loloof64::MovesHistory::gotoFirstPosition()
+{
+    _cellToUpdate = nullptr;
+    emit requestPositionOnBoard(new HistoryItem(QString(), _startPosition, LastMoveCoordinates(-1, -1, -1, -1)));
+}
+
+void loloof64::MovesHistory::gotoLastPosition()
+{
+
+}
+
+void loloof64::MovesHistory::gotoPreviousPosition()
+{
+
+}
+
+void loloof64::MovesHistory::gotoNextPosition()
+{
+
+}
+
+void loloof64::MovesHistory::commitPositionRequest()
+{
+    if (_cellToUpdate == nullptr)
+    {
+        clearSelection();
+        scrollToTop();
+    }
+    else {
+        setCurrentCell(_cellToUpdate->row, _cellToUpdate->col);
+    }
+    clearPositionRequest();
+}
+
+void loloof64::MovesHistory::clearPositionRequest()
+{
+    _cellToUpdate = nullptr;
 }
