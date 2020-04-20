@@ -89,8 +89,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     const auto dndCrossCellColor = QColor(200, 115, 207);
     const auto dndStartCellColor = Qt::red;
     const auto dndEndCellColor = Qt::green;
-    const auto lastMoveArrowColor = QColor(0, 0, 255, 100);
-    const auto lastMoveArrowPointerColor = QColor(255, 0, 0, 160);
+    const auto lastMoveArrowColor = QColor(0, 0, 255, 200);
 
     QPainter painter(this);
 
@@ -152,29 +151,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     // paiting last move arrow
     if (_lastMoveCoordinates != nullptr)
     {
-        QPen pen{lastMoveArrowColor};
-        pen.setWidth(floor(_cellsSize * 0.2));
-        painter.setPen(pen);
-
-        const auto startCol = _reversed ? 7-_lastMoveCoordinates->startFile : _lastMoveCoordinates->startFile;
-        const auto startRow = _reversed ? _lastMoveCoordinates->startRank : 7-_lastMoveCoordinates->startRank;
-        const auto endCol = _reversed ? 7-_lastMoveCoordinates->endFile : _lastMoveCoordinates->endFile;
-        const auto endRow = _reversed ? _lastMoveCoordinates->endRank : 7-_lastMoveCoordinates->endRank;
-
-        painter.drawLine(
-            floor(_cellsSize * (startCol + 1)),
-            floor(_cellsSize * (startRow + 1)),
-            floor(_cellsSize * (endCol + 1)),
-            floor(_cellsSize * (endRow + 1))
-        );
-
-        painter.setBrush(QBrush(lastMoveArrowPointerColor));
-        painter.drawEllipse(
-            floor(_cellsSize * (endCol + 0.75)),
-            floor(_cellsSize * (endRow + 0.75)),
-            floor(_cellsSize * 0.5),
-            floor(_cellsSize * 0.5)
-        );
+        drawArrowBetweenCells(painter, lastMoveArrowColor, _lastMoveCoordinates->startFile, _lastMoveCoordinates->startRank,
+                              _lastMoveCoordinates->endFile, _lastMoveCoordinates->endRank);
     }
 
     // painting coordinates
@@ -621,4 +599,46 @@ void loloof64::ChessBoard::showGameFinishedMessageIfNecessary()
     default:
         break;
     }
+}
+
+void loloof64::ChessBoard::drawArrowBetweenCells(QPainter &painter, QColor color, int startFile, int startRank, int endFile, int endRank)
+{
+    QPen pen{color};
+    pen.setWidth(floor(_cellsSize * 0.2));
+    painter.setPen(pen);
+
+    const auto startCol = _reversed ? 7-startFile : startFile;
+    const auto startRow = _reversed ? startRank : 7-startRank;
+    const auto endCol = _reversed ? 7-endFile : endFile;
+    const auto endRow = _reversed ? endRank : 7-endRank;
+
+    const auto deltaX = endCol - startCol;
+    const auto deltaY = endRow - startRow;
+    const auto baseLineLength = sqrt(deltaX*deltaX + deltaY*deltaY);
+    const auto baseLineAngleDegrees = atan2(deltaY, deltaX) * 180.0 / 3.1415927;
+    const auto arrowLineLength = floor(baseLineLength * 10);
+
+    const auto baseLineStartX = floor(_cellsSize * (startCol + 1));
+    const auto baseLineStartY = floor(_cellsSize * (startRow + 1));
+    const auto baseLineEndX = floor(_cellsSize * (endCol + 1));
+    const auto baseLineEndY = floor(_cellsSize * (endRow + 1));
+
+    const auto arrowAngleRad = 30 * 3.1415926 / 180.0;
+    const auto arrowLineEndX = -floor(arrowLineLength * cos(arrowAngleRad));
+    const auto arrowLineEndY = floor(arrowLineLength * sin(arrowAngleRad));
+
+
+    painter.drawLine(
+        baseLineStartX, baseLineStartY,
+        baseLineEndX, baseLineEndY
+    );
+
+    painter.save();
+    painter.translate(baseLineEndX, baseLineEndY);
+    painter.rotate(baseLineAngleDegrees);
+
+    painter.drawLine(0, 0, arrowLineEndX, arrowLineEndY);
+    painter.drawLine(0, 0, arrowLineEndX, -arrowLineEndY);
+
+    painter.restore();
 }

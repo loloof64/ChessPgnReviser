@@ -100,6 +100,7 @@ namespace loloof64 {
         void updateLastMove(int startFile, int startRank, int endFile, int endRank);
         void handleGameFinished();
         void showGameFinishedMessageIfNecessary();
+        void drawArrowBetweenCells(QPainter &painter, QColor color, int startFile, int startRank, int endFile, int endRank);
     };
 }
 
