@@ -21,6 +21,8 @@ SOURCES += \
     gui/chessboard/chessboard.cpp \
     gui/chessboard/promotiondialog.cpp \
     gui/componentszone.cpp \
+    gui/game_selection/gameselectiondialog.cpp \
+    gui/game_selection/gameselectionmainzone.cpp \
     gui/history/moveshistory.cpp \
     gui/history/moveshistorybuttons.cpp \
     gui/history/moveshistoryfullcomponent.cpp \
@@ -92,6 +94,8 @@ HEADERS += \
     gui/chessboard/chessboard.h \
     gui/chessboard/promotiondialog.h \
     gui/componentszone.h \
+    gui/game_selection/gameselectiondialog.h \
+    gui/game_selection/gameselectionmainzone.h \
     gui/history/moveshistory.h \
     gui/history/moveshistorybuttons.h \
     gui/history/moveshistoryfullcomponent.h \

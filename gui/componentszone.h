@@ -6,6 +6,7 @@
 #include "chessboard/chessboard.h"
 #include "history/moveshistoryfullcomponent.h"
 #include "../libs/chessx-pgn/database/pgndatabase.h"
+#include "./game_selection/gameselectiondialog.h"
 
 namespace loloof64 {
     class ComponentsZone : public QWidget
@@ -26,6 +27,7 @@ namespace loloof64 {
         loloof64::ChessBoard *_chessBoard;
         loloof64::MovesHistoryFullComponent *_movesHistory;
         PgnDatabase *_pgnDatabase;
+        loloof64::GameSelectionDialog *_gameSelectionDialog;
         Game _currentGame;
         bool _isWhitePly;
 

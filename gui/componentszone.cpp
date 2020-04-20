@@ -18,6 +18,8 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     _movesHistory = new MovesHistoryFullComponent(this);
     _pgnDatabase = new PgnDatabase(false);
 
+    _gameSelectionDialog = new GameSelectionDialog(this);
+
     _mainLayout->addWidget(_chessBoard);
     _mainLayout->addWidget(_movesHistory);
     setLayout(_mainLayout);
@@ -72,6 +74,9 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
 
 loloof64::ComponentsZone::~ComponentsZone()
 {
+    _gameSelectionDialog->close();
+    delete _gameSelectionDialog;
+
     if (_pgnDatabase != nullptr)
     {
         _pgnDatabase->close();
@@ -108,6 +113,12 @@ void loloof64::ComponentsZone::newGame()
         _pgnDatabase->open(fileName, true);
 
         auto selectedGameIndex = 0;
+        auto severalGamesInPgn = _pgnDatabase->count() > 1;
+
+        if (severalGamesInPgn)
+        {
+            _gameSelectionDialog->open();
+        }
 
         _pgnDatabase->loadGame(selectedGameIndex, _currentGame);
         _currentGame.moveToStart();
