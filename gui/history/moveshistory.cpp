@@ -156,6 +156,25 @@ void loloof64::MovesHistory::gotoLastPosition()
     _colToHighlight = _currentWorkingCol;
     _rowToHighlight = _currentWorkingRow;
 
+    // Searches the registered move cell just before this one
+    if (_colToHighlight == 1)
+    {
+        if (_rowToHighlight > 0)
+        {
+            _colToHighlight = 2;
+            _rowToHighlight--;
+        }
+        else
+        {
+            // there is no registered move cell
+            gotoFirstPosition();
+            return;
+        }
+    }
+    else {
+        _colToHighlight--;
+    }
+
     const auto item = itemToSet();
     const auto isValidItem = item != nullptr;
     if (isValidItem) emit requestPositionOnBoard(itemToSet());
@@ -174,8 +193,16 @@ void loloof64::MovesHistory::gotoPreviousPosition()
     if (inACell) {
         if (_colToHighlight == 1)
         {
-            _rowToHighlight--;
-            _colToHighlight = 2;
+            if (_rowToHighlight == 0)
+            {
+                gotoFirstPosition();
+                return;
+            }
+            else
+            {
+                _rowToHighlight--;
+                _colToHighlight = 2;
+            }
         }
         else {
             _colToHighlight--;
