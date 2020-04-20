@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QFrame>
+#include <QComboBox>
+#include <QPushButton>
 #include "gameselectionmainzone.h"
 
 namespace loloof64
@@ -23,6 +26,16 @@ namespace loloof64
         QLabel *_playersLabel;
         QLabel *_eventLabel;
         GameSelectionMainZone *_mainZone;
+        QPushButton *_validateButton;
+
+        QHBoxLayout *_whitePlayerSelectionLineLayout;
+        QHBoxLayout *_blackPlayerSelectionLineLayout;
+        QFrame *_whitePlayerSelectionLine;
+        QFrame *_blackPlayerSelectionLine;
+        QLabel *_whitePlayerSelectionLabel;
+        QLabel *_blackPlayerSelectionLabel;
+        QComboBox *_whitePlayerSelectionCombo;
+        QComboBox *_blackPlayerSelectionCombo;
     };
 };
 
