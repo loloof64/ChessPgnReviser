@@ -36,7 +36,11 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     connect(_movesHistory->getMovesHistoryMainComponent(), &loloof64::MovesHistory::requestPositionOnBoard,
             [this](HistoryItem *item)
     {
-       _chessBoard->setPosition(item);
+       const auto validated = _chessBoard->setPosition(item);
+       if (validated)
+       {
+           _movesHistory->commitHistoryNodeSelection();
+       }
     });
     connect(_chessBoard, &loloof64::ChessBoard::externalTurn,
             [this](QString /*currentPosition*/)

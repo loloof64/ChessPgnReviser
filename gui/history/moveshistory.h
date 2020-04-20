@@ -20,16 +20,20 @@ namespace loloof64 {
         void gotoLastPosition();
         void gotoPreviousPosition();
         void gotoNextPosition();
+
+        void commitHistoryNodeSelection();
     signals:
         void requestPositionOnBoard(HistoryItem *item);
     private:
         QString _startPosition;
         int _moveNumber{1};
-        int _currentRow{-1}, _currentCol{-1};
+        int _currentWorkingRow{-1}, _currentWorkingCol{-1};
+        int _rowToHighlight{-1}, _colToHighlight{-1};
         QVector<QWidget *> _widgetsItems;
         QVector<HistoryItem *> _dataItems;
         void clearMoves();
         void addComponent(QWidget *component, bool gameFinished = false);
+        HistoryItem* itemToSet() const;
         QLabel *buildMoveNumber();
     };
 }

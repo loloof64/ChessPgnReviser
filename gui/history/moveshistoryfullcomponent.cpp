@@ -37,3 +37,8 @@ loloof64::MovesHistoryButtons* loloof64::MovesHistoryFullComponent::getButtonsZo
 {
     return _buttonsZone;
 }
+
+void loloof64::MovesHistoryFullComponent::commitHistoryNodeSelection()
+{
+    _historyZone->commitHistoryNodeSelection();
+}

@@ -477,14 +477,28 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
+bool loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
 {
-    if (_gameFinishedStatus == GameFinishedStatus::NOT_FINISHED) return;
+    if (_gameFinishedStatus == GameFinishedStatus::NOT_FINISHED) return false;
 
-    if (_relatedPosition != nullptr) delete _relatedPosition;
-    _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
+    if (_relatedPosition != nullptr)
+    {
+        delete _relatedPosition;
+        _relatedPosition = nullptr;
+    }
 
-    if (_lastMoveCoordinates != nullptr) delete _lastMoveCoordinates;
+    try {
+        _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
+    } catch (IllegalPositionException &e) {
+        return false;
+    }
+
+    if (_lastMoveCoordinates != nullptr)
+    {
+        delete _lastMoveCoordinates;
+        _lastMoveCoordinates = nullptr;
+    }
+
     bool lastMoveCanBeSet = historyItem->lastMove.startFile > -1 && historyItem->lastMove.startRank > -1 &&
             historyItem->lastMove.endFile > -1 && historyItem->lastMove.endRank > -1;
     if (lastMoveCanBeSet) {
@@ -492,6 +506,8 @@ void loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
     }
 
     repaint();
+
+    return true;
 }
 
 bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, int endRank, char promotionFen)
