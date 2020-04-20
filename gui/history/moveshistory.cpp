@@ -60,6 +60,7 @@ void loloof64::MovesHistory::clearMoves()
             *it = nullptr;
         }
     }
+    _widgetsItems.clear();
 
     for (auto it = _dataItems.rbegin(); it != _dataItems.rend(); ++it)
     {
@@ -69,6 +70,7 @@ void loloof64::MovesHistory::clearMoves()
             *it = nullptr;
         }
     }
+    _dataItems.clear();
 
     _currentWorkingRow = -1;
     _currentWorkingCol = -1;
@@ -80,24 +82,30 @@ void loloof64::MovesHistory::clearMoves()
 void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
 {
     _widgetsItems.push_back(component);
-    const auto notStarted = _currentWorkingCol == -1 && _currentWorkingRow == -1;
+    const auto notStarted = _currentWorkingCol < 0 && _currentWorkingRow < 0;
 
-    if (notStarted){
+    if (notStarted)
+    {
            insertRow(0);
            _currentWorkingCol = 0;
            _currentWorkingRow = 0;
 
+           _rowToHighlight = _currentWorkingRow;
+           _colToHighlight = _currentWorkingCol;
+
            setCellWidget(_currentWorkingRow, _currentWorkingCol, component);
-           setCurrentCell(_currentWorkingRow, _currentWorkingCol);
            scrollToBottom();
 
            _currentWorkingCol++;
        }
-       else {
+       else
+       {
            setCellWidget(_currentWorkingRow, _currentWorkingCol, component);
+           _rowToHighlight = _currentWorkingRow;
+           _colToHighlight = _currentWorkingCol;
            const auto isEndOfLine = _currentWorkingCol == 2;
-           if (isEndOfLine && !gameFinished) {
-               setCurrentCell(_currentWorkingRow, _currentWorkingCol);
+           if (isEndOfLine && !gameFinished)
+           {
                _moveNumber++;
                insertRow(_currentWorkingRow+1);
 
@@ -108,16 +116,15 @@ void loloof64::MovesHistory::addComponent(QWidget *component, bool gameFinished)
                setCellWidget(_currentWorkingRow, _currentWorkingCol, numberComponent);
                scrollToBottom();
            }
-           else {
-               setCurrentCell(_currentWorkingRow, _currentWorkingCol);
+           else
+           {
                scrollToBottom();
            }
 
            _currentWorkingCol++;
-       }
 
-    _colToHighlight = _currentWorkingCol;
-    _rowToHighlight = _currentWorkingRow;
+           setCurrentCell(_rowToHighlight, _colToHighlight);
+       }
 }
 
 QLabel* loloof64::MovesHistory::buildMoveNumber()
@@ -143,8 +150,19 @@ void loloof64::MovesHistory::gotoFirstPosition()
 
 void loloof64::MovesHistory::gotoLastPosition()
 {
+    auto oldColToHighlight = _colToHighlight;
+    auto oldRowToHighlight = _rowToHighlight;
+
     _colToHighlight = _currentWorkingCol;
     _rowToHighlight = _currentWorkingRow;
+
+    const auto item = itemToSet();
+    const auto isValidItem = item != nullptr;
+    if (isValidItem) emit requestPositionOnBoard(itemToSet());
+    else {
+        _colToHighlight = oldColToHighlight;
+        _rowToHighlight = oldRowToHighlight;
+    }
 }
 
 void loloof64::MovesHistory::gotoPreviousPosition()
