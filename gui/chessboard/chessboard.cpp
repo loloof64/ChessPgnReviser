@@ -87,8 +87,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     const auto whiteCellsColor = QColor(255, 206, 158);
     const auto blackCellsColor = QColor(209, 139, 71);
     const auto dndCrossCellColor = QColor(200, 115, 207);
-    const auto dndStartCellColor = Qt::green;
-    const auto dndEndCellColor = Qt::red;
+    const auto dndStartCellColor = Qt::red;
+    const auto dndEndCellColor = Qt::green;
     const auto lastMoveArrowColor = QColor(0, 0, 255, 100);
     const auto lastMoveArrowPointerColor = QColor(255, 0, 0, 160);
 
