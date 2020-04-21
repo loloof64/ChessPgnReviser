@@ -112,3 +112,8 @@ void loloof64::GameSelectionMainZone::loadGameStart()
     emit gameEventChanged(event);
     emit gameSiteChanged(site);
 }
+
+quint64 loloof64::GameSelectionMainZone::getSelectedGameIndex() const
+{
+    return _selectedGameIndex;
+}

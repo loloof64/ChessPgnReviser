@@ -18,6 +18,9 @@ namespace loloof64
         explicit GameSelectionDialog(QWidget *parent = nullptr);
         ~GameSelectionDialog();
         void setPgnDatabase(PgnDatabase *database);
+        quint64 getSelectedGameIndex() const;
+        PlayerType getWhitePlayerType() const;
+        PlayerType getBlackPlayerType() const;
 
     signals:
 
@@ -45,6 +48,9 @@ namespace loloof64
         QString _eventName;
         QString _eventDate;
         QString _eventSite;
+
+        PlayerType _whitePlayerType;
+        PlayerType _blackPlayerType;
     };
 };
 

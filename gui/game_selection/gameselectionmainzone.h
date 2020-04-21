@@ -16,6 +16,8 @@ namespace loloof64 {
         ~GameSelectionMainZone();
         void setPgnDatabase(PgnDatabase *database);
 
+        quint64 getSelectedGameIndex() const;
+
     signals:
         void gameIndexChanged(quint64 index);
         void whitePlayerChanged(QString name);

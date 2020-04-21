@@ -119,6 +119,36 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
         _eventLabel->setText(QString("%1 - %2 (%3)").arg(newEventName).arg(newSite).arg(newDate));
     });
 
+    connect(_whitePlayerSelectionCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        if (index == 1)
+        {
+            _whitePlayerType = PlayerType::EXTERNAL;
+        }
+        else {
+            _whitePlayerType = PlayerType::HUMAN;
+        }
+    });
+
+    connect(_blackPlayerSelectionCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        if (index == 1)
+        {
+            _blackPlayerType = PlayerType::EXTERNAL;
+        }
+        else {
+            _blackPlayerType = PlayerType::HUMAN;
+        }
+    });
+
+    connect(_validateButton, &QPushButton::clicked, this, [this]()
+    {
+        accept();
+    });
+
+    _whitePlayerType = PlayerType::HUMAN;
+    _blackPlayerType = PlayerType::HUMAN;
+
     setModal(true);
 }
 
@@ -150,4 +180,19 @@ void loloof64::GameSelectionDialog::setPgnDatabase(PgnDatabase *database)
     _gamesCount = database->count();
 
     _gameIndexLabel->setText(QString("%1 / %2").arg(1).arg(_gamesCount));
+}
+
+quint64 loloof64::GameSelectionDialog::getSelectedGameIndex() const
+{
+    return _mainZone->getSelectedGameIndex();
+}
+
+loloof64::PlayerType loloof64::GameSelectionDialog::getWhitePlayerType() const
+{
+    return _whitePlayerType;
+}
+
+loloof64::PlayerType loloof64::GameSelectionDialog::getBlackPlayerType() const
+{
+    return _blackPlayerType;
 }

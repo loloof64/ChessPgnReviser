@@ -112,14 +112,18 @@ void loloof64::ComponentsZone::newGame()
         _pgnDatabase = new PgnDatabase(false);
         _pgnDatabase->open(fileName, true);
 
-        auto selectedGameIndex = 0;
-        auto severalGamesInPgn = _pgnDatabase->count() > 1;
-
-        if (severalGamesInPgn)
+        _gameSelectionDialog->setPgnDatabase(_pgnDatabase);
+        if (_gameSelectionDialog->exec() != QDialog::Accepted)
         {
-            _gameSelectionDialog->setPgnDatabase(_pgnDatabase);
-            _gameSelectionDialog->open();
+            return;
         }
+
+        auto selectedGameIndex = _gameSelectionDialog->getSelectedGameIndex();
+        auto whitePlayerType = _gameSelectionDialog->getWhitePlayerType();
+        auto blackPlayerType = _gameSelectionDialog->getBlackPlayerType();
+
+        _chessBoard->setWhitePlayerType(whitePlayerType);
+        _chessBoard->setBlackPlayerType(blackPlayerType);
 
         _pgnDatabase->loadGame(selectedGameIndex, _currentGame);
         _currentGame.moveToStart();
