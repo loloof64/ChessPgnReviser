@@ -83,6 +83,8 @@ void loloof64::GameSelectionMainZone::setPgnDatabase(PgnDatabase *database)
     {
         _selectedGameIndex = 0;
         loadGameStart();
+
+        emit gameIndexChanged(_selectedGameIndex);
     }
 }
 
@@ -95,4 +97,18 @@ void loloof64::GameSelectionMainZone::loadGameStart()
 
     auto gameStartPosition = _currentBaseGame.toFen();
     _board->setPosition(new HistoryItem(QString(), gameStartPosition, LastMoveCoordinates(-1, -1, -1, -1)));
+
+    auto whitePlayer = _currentBaseGame.tag("White");
+    auto blackPlayer = _currentBaseGame.tag("Black");
+
+    auto date = _currentBaseGame.tag("Date");
+    auto event = _currentBaseGame.tag("Event");
+    auto site = _currentBaseGame.tag("Site");
+
+    emit gameIndexChanged(_selectedGameIndex);
+    emit whitePlayerChanged(whitePlayer);
+    emit blackPlayerChanged(blackPlayer);
+    emit gameDateChanged(date);
+    emit gameEventChanged(event);
+    emit gameSiteChanged(site);
 }

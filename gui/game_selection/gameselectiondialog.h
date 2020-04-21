@@ -22,6 +22,8 @@ namespace loloof64
     signals:
 
     private:
+        int _gamesCount;
+
         QVBoxLayout *_layout;
         QLabel *_gameIndexLabel;
         QLabel *_playersLabel;
@@ -37,6 +39,12 @@ namespace loloof64
         QLabel *_blackPlayerSelectionLabel;
         QComboBox *_whitePlayerSelectionCombo;
         QComboBox *_blackPlayerSelectionCombo;
+
+        QString _whitePlayerName;
+        QString _blackPlayerName;
+        QString _eventName;
+        QString _eventDate;
+        QString _eventSite;
     };
 };
 

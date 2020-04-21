@@ -17,6 +17,12 @@ namespace loloof64 {
         void setPgnDatabase(PgnDatabase *database);
 
     signals:
+        void gameIndexChanged(quint64 index);
+        void whitePlayerChanged(QString name);
+        void blackPlayerChanged(QString name);
+        void gameEventChanged(QString name);
+        void gameDateChanged(QString date);
+        void gameSiteChanged(QString site);
 
     private:
         quint64 _selectedGameIndex;
