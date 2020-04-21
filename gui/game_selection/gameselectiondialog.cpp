@@ -43,6 +43,14 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _layout->addWidget(_blackPlayerSelectionLine);
     _layout->addWidget(_validateButton);
 
+    _layout->setAlignment(_gameIndexLabel, Qt::AlignHCenter);
+    _layout->setAlignment(_mainZone, Qt::AlignHCenter);
+    _layout->setAlignment(_playersLabel, Qt::AlignHCenter);
+    _layout->setAlignment(_eventLabel, Qt::AlignHCenter);
+    _layout->setAlignment(_whitePlayerSelectionLine, Qt::AlignHCenter);
+    _layout->setAlignment(_blackPlayerSelectionLine, Qt::AlignHCenter);
+    _layout->setAlignment(_validateButton, Qt::AlignHCenter);
+
     setLayout(_layout);
 
     connect(_mainZone, &GameSelectionMainZone::gameIndexChanged, this, [this](quint64 selectedIndex)
