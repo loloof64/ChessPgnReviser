@@ -132,9 +132,6 @@ void loloof64::ComponentsZone::newGame()
         auto startPosition = _currentGame.board().toFen();
 
         _movesHistory->newGame(startPosition);
-
-        _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
-        _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
         _chessBoard->newGame(startPosition);
 
         const auto noMoreMove = ! _currentGame.hasNextMove();

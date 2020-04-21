@@ -642,3 +642,13 @@ void loloof64::ChessBoard::drawArrowBetweenCells(QPainter &painter, QColor color
 
     painter.restore();
 }
+
+void loloof64::ChessBoard::setWhitePlayerType(PlayerType playerType)
+{
+    _whitePlayer = playerType;
+}
+
+void loloof64::ChessBoard::setBlackPlayerType(PlayerType playerType)
+{
+    _blackPlayer = playerType;
+}

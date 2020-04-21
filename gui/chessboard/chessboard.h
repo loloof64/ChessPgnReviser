@@ -46,8 +46,8 @@ namespace loloof64 {
         ~ChessBoard();
         inline bool gameInProgress(){ return _gameFinishedStatus == GameFinishedStatus::NOT_FINISHED; }
         inline bool isWhiteTurn(){ return _relatedPosition->isWhiteTurn(); }
-        inline void setWhitePlayerType(PlayerType playerType) { _whitePlayer = playerType; };
-        inline void setBlackPlayerType(PlayerType playerType) { _blackPlayer = playerType; };
+        void setWhitePlayerType(PlayerType playerType);
+        void setBlackPlayerType(PlayerType playerType);
         inline PlayerType getWhitePlayerType() const { return _whitePlayer; };
         inline PlayerType getBlackPlayerType() const { return _blackPlayer; };
         // Only effective if the current turn belongs to an external player
