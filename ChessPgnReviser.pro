@@ -27,6 +27,7 @@ SOURCES += \
     gui/history/moveshistorybuttons.cpp \
     gui/history/moveshistoryfullcomponent.cpp \
     gui/mainwindow.cpp \
+    gui/variantmovechooserdialog.cpp \
     libs/chessx-pgn/database/analysis.cpp \
     libs/chessx-pgn/database/arenabook.cpp \
     libs/chessx-pgn/database/bitboard.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     gui/history/moveshistorybuttons.h \
     gui/history/moveshistoryfullcomponent.h \
     gui/mainwindow.h \
+    gui/variantmovechooserdialog.h \
     libs/chessx-pgn/database/abk.h \
     libs/chessx-pgn/database/analysis.h \
     libs/chessx-pgn/database/arenabook.h \

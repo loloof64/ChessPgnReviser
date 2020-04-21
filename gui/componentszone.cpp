@@ -19,6 +19,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     _pgnDatabase = new PgnDatabase(false);
 
     _gameSelectionDialog = new GameSelectionDialog(this);
+    _moveSelectionDialog = new VariantMoveChooserDialog(this);
 
     _mainLayout->addWidget(_chessBoard);
     _mainLayout->addWidget(_movesHistory);
@@ -26,7 +27,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     resize(800, 540);
 
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsFan,
-            [this](QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove, bool gameFinished)
+            [this](QString moveFan, QString newPositionFen, MoveCoordinates lastMove, bool gameFinished)
     {
         _movesHistory->addHistoryItem(new HistoryItem(moveFan, newPositionFen, lastMove), gameFinished);
         const auto noMoreMove = ! _currentGame.hasNextMove();
@@ -50,7 +51,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
         makeComputerPlayNextMove();
     });
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsSan,
-            [this](QString moveSan, QString /*newPositionFen*/, LastMoveCoordinates moveCoordinates, bool /*gameFinished*/)
+            [this](QString moveSan, QString /*newPositionFen*/, MoveCoordinates moveCoordinates, bool /*gameFinished*/)
     {
         const auto stdMoveSan = moveSan.toStdString();
         char promotion = 0;
@@ -70,10 +71,63 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoPreviousPosition(); });
     connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestNextPosition,
             [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoNextPosition(); });
+
+    connect(_moveSelectionDialog, &VariantMoveChooserDialog::mainMoveSelected, this, [this]()
+    {
+        auto nextMoveId = _currentGame.nextMove();
+
+        const auto move = _currentGame.move(nextMoveId);
+        _currentGame.findNextMove(move);
+
+        const auto startFile = move.from() % 8;
+        const auto startRank = move.from() / 8;
+        const auto endFile = move.to() % 8;
+        const auto endRank = move.to() / 8;
+
+        if (move.isPromotion())
+        {
+            const auto promotion = move.promotedPiece();
+            char promotionFen = promotionPieceToPromotionFen(promotion);
+            _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+        }
+        else {
+            _chessBoard->playMove(startFile, startRank, endFile, endRank);
+        }
+
+        _moveSelectionDialog->close();
+    });
+
+    connect(_moveSelectionDialog, &VariantMoveChooserDialog::variationSelected, this, [this](int index)
+    {
+        const auto moveId = _currentGame.variations()[index];
+        const auto move = _currentGame.move(moveId);
+
+        _currentGame.findNextMove(move);
+
+        const auto startFile = move.from() % 8;
+        const auto startRank = move.from() / 8;
+        const auto endFile = move.to() % 8;
+        const auto endRank = move.to() / 8;
+
+        if (move.isPromotion())
+        {
+            const auto promotion = move.promotedPiece();
+            char promotionFen = promotionPieceToPromotionFen(promotion);
+            _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+        }
+        else {
+            _chessBoard->playMove(startFile, startRank, endFile, endRank);
+        }
+
+        _moveSelectionDialog->close();
+    });
 }
 
 loloof64::ComponentsZone::~ComponentsZone()
 {
+    _moveSelectionDialog->close();
+    delete _moveSelectionDialog;
+
     _gameSelectionDialog->close();
     delete _gameSelectionDialog;
 
@@ -165,7 +219,7 @@ void loloof64::ComponentsZone::stopGame()
     }
 }
 
-void loloof64::ComponentsZone::handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion)
+void loloof64::ComponentsZone::handleMoveVerification(MoveCoordinates moveCoordinates, char promotion)
 {
     const auto whiteTurnBeforeMove = ! _chessBoard->isWhiteTurn();
     const auto externalPlayerTurn = (whiteTurnBeforeMove && (_chessBoard->getWhitePlayerType() == PlayerType::EXTERNAL)) ||
@@ -220,39 +274,99 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
             (!whiteTurn && _chessBoard->getBlackPlayerType() == PlayerType::EXTERNAL);
     if (!isExternalTurn) return;
 
-    const auto moveId = _currentGame.nextMove();
-    const auto move = _currentGame.move(moveId);
 
-    const auto startFile = move.from() % 8;
-    const auto startRank = move.from() / 8;
-    const auto endFile = move.to() % 8;
-    const auto endRank = move.to() / 8;
-
-    _currentGame.findNextMove(move);
-    if (move.isPromotion())
+    if (_currentGame.variationCount() > 0)
     {
-        const auto promotion = move.promotedPiece();
-        char promotionFen = 0;
+        const auto nextMoveId = _currentGame.nextMove();
+        const auto nextMove = _currentGame.move(nextMoveId);
 
-        switch (promotion) {
-        case Piece::WhiteQueen: promotionFen = 'Q'; break;
-        case Piece::BlackQueen: promotionFen = 'q'; break;
-        case Piece::WhiteRook: promotionFen = 'R'; break;
-        case Piece::BlackRook: promotionFen = 'r'; break;
-        case Piece::WhiteBishop: promotionFen = 'B'; break;
-        case Piece::BlackBishop: promotionFen = 'b'; break;
-        case Piece::WhiteKnight: promotionFen = 'N'; break;
-        case Piece::BlackKnight: promotionFen = 'n'; break;
-        default: ;
+        const auto startFile = nextMove.from() % 8;
+        const auto startRank = nextMove.from() / 8;
+        const auto endFile = nextMove.to() % 8;
+        const auto endRank = nextMove.to() / 8;
+
+        char nextMovePromotionFen = 0;
+        if (nextMove.isPromotion())
+        {
+            const auto promotion = nextMove.promotedPiece();
+            nextMovePromotionFen = promotionPieceToPromotionFen(promotion);
         }
-        _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+
+        const auto mainMoveFan = _chessBoard->getMoveFan(startFile, startRank, endFile, endRank, nextMovePromotionFen);
+        _moveSelectionDialog->setMainMove(mainMoveFan);
+
+        QList<QString> variationsItems;
+
+        const auto variationsIds = _currentGame.variations();
+        for (const auto currentVariationId: variationsIds)
+        {
+            const auto variation = _currentGame.move(currentVariationId);
+
+            const auto variationStartFile = variation.from() % 8;
+            const auto variationStartRank = variation.from() / 8;
+            const auto variationEndFile = variation.to() % 8;
+            const auto variationEndRank = variation.to() / 8;
+
+            char variationPromotionFen = 0;
+            if (variation.isPromotion())
+            {
+                const auto promotion = variation.promotedPiece();
+                variationPromotionFen = promotionPieceToPromotionFen(promotion);
+            }
+
+            const auto variationMoveFan = _chessBoard->getMoveFan(variationStartFile, variationStartRank, variationEndFile, variationEndRank, variationPromotionFen);
+            variationsItems.push_back(variationMoveFan);
+        }
+
+        _moveSelectionDialog->setVariationsMoves(variationsItems);
+        _moveSelectionDialog->exec();
+
+        return;
     }
-    else {
-        _chessBoard->playMove(startFile, startRank, endFile, endRank);
+    else
+    {
+        auto nextMoveId = _currentGame.nextMove();
+
+        const auto move = _currentGame.move(nextMoveId);
+        _currentGame.findNextMove(move);
+
+        const auto startFile = move.from() % 8;
+        const auto startRank = move.from() / 8;
+        const auto endFile = move.to() % 8;
+        const auto endRank = move.to() / 8;
+
+        if (move.isPromotion())
+        {
+            const auto promotion = move.promotedPiece();
+            char promotionFen = promotionPieceToPromotionFen(promotion);
+            _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+        }
+        else {
+            _chessBoard->playMove(startFile, startRank, endFile, endRank);
+        }
     }
 }
 
 void loloof64::ComponentsZone::showLoosingMessage()
 {
     QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
+}
+
+char loloof64::ComponentsZone::promotionPieceToPromotionFen(Piece promotion) const
+{
+    char promotionFen = 0;
+
+    switch (promotion) {
+    case Piece::WhiteQueen: promotionFen = 'Q'; break;
+    case Piece::BlackQueen: promotionFen = 'q'; break;
+    case Piece::WhiteRook: promotionFen = 'R'; break;
+    case Piece::BlackRook: promotionFen = 'r'; break;
+    case Piece::WhiteBishop: promotionFen = 'B'; break;
+    case Piece::BlackBishop: promotionFen = 'b'; break;
+    case Piece::WhiteKnight: promotionFen = 'N'; break;
+    case Piece::BlackKnight: promotionFen = 'n'; break;
+    default: ;
+    }
+
+    return promotionFen;
 }

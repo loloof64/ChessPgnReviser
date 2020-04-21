@@ -53,6 +53,8 @@ namespace loloof64 {
         // Only effective if the current turn belongs to an external player
         // Returns true if, and only if, the move could be done.
         bool playMove(int startFile, int startRank, int endFile, int endRank, char promotionFen = 0);
+        QString getMoveSan(int startFile, int startRank, int endFile, int endRank, char promotionFen = 0) const;
+        QString getMoveFan(int startFile, int startRank, int endFile, int endRank, char promotionFen = 0) const;
 
     signals:
         // a move has been made
@@ -60,14 +62,14 @@ namespace loloof64 {
         // 2nd parameter: the resulting position fen (QString)
         // 3rd parameter: the move coordinates (LastMoveCoordinates)
         // 4th parameter: true if the game is finished just after this move, false otherwise (bool)
-        void moveDoneAsSan(QString, QString, LastMoveCoordinates, bool gameFinished);
+        void moveDoneAsSan(QString, QString, MoveCoordinates, bool gameFinished);
 
         // a move has been made
         // 1st parameter: the move fan (QString)
         // 2nd parameter: the resulting position fen (QString)
         // 3rd parameter: the move coordinates (LastMoveCoordinates)
         // 4th parameter: true if the game is finished just after this move, false otherwise (bool)
-        void moveDoneAsFan(QString, QString, LastMoveCoordinates, bool gameFinished);
+        void moveDoneAsFan(QString, QString, MoveCoordinates, bool gameFinished);
 
         // Notify that is is the turn of an external player
         void externalTurn(QString currentPosition);
@@ -90,7 +92,7 @@ namespace loloof64 {
         GameFinishedStatus _gameFinishedStatus;
         IPosition *_relatedPosition;
         DndData *_dndData;
-        LastMoveCoordinates *_lastMoveCoordinates;
+        MoveCoordinates *_lastMoveCoordinates;
         PlayerType _whitePlayer{PlayerType::HUMAN};
         PlayerType _blackPlayer{PlayerType::HUMAN};
         void mousePressEvent(QMouseEvent *event) override;

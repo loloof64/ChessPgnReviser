@@ -337,7 +337,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
             localUpdateLastMove();
             clearDndData();
@@ -360,7 +360,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
             localUpdateLastMove();
             clearDndData();
@@ -383,7 +383,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
             localUpdateLastMove();
             clearDndData();
@@ -406,7 +406,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
 
             const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
             localUpdateLastMove();
             clearDndData();
@@ -434,7 +434,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
         _relatedPosition->makeMove(startFile, startRank, file, rank);
 
         const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-        LastMoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+        MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
         localUpdateLastMove();
         clearDndData();
@@ -480,7 +480,7 @@ bool loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
     bool lastMoveCanBeSet = historyItem->lastMove.startFile > -1 && historyItem->lastMove.startRank > -1 &&
             historyItem->lastMove.endFile > -1 && historyItem->lastMove.endRank > -1;
     if (lastMoveCanBeSet) {
-        _lastMoveCoordinates = new LastMoveCoordinates(historyItem->lastMove);
+        _lastMoveCoordinates = new MoveCoordinates(historyItem->lastMove);
     }
 
     repaint();
@@ -505,7 +505,7 @@ bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, i
         _relatedPosition->makeMove(startFile, startRank, endFile, endRank, promotionFen);
         const auto resultingFen = QString(_relatedPosition->getFen().c_str());
 
-        LastMoveCoordinates lastMoveCoords(startFile, startRank, endFile, endRank);
+        MoveCoordinates lastMoveCoords(startFile, startRank, endFile, endRank);
         updateLastMove(startFile, startRank, endFile, endRank);
         repaint();
 
@@ -544,7 +544,7 @@ void loloof64::ChessBoard::updateLastMove(int startFile, int startRank, int endF
         delete _lastMoveCoordinates;
         _lastMoveCoordinates = nullptr;
     }
-    _lastMoveCoordinates = new LastMoveCoordinates(startFile, startRank, endFile, endRank);
+    _lastMoveCoordinates = new MoveCoordinates(startFile, startRank, endFile, endRank);
 }
 
 
@@ -651,4 +651,15 @@ void loloof64::ChessBoard::setWhitePlayerType(PlayerType playerType)
 void loloof64::ChessBoard::setBlackPlayerType(PlayerType playerType)
 {
     _blackPlayer = playerType;
+}
+
+QString loloof64::ChessBoard::getMoveSan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
+{
+    return _relatedPosition->getMoveSan(startFile, startRank, endFile, endRank, promotionFen);
+}
+
+
+QString loloof64::ChessBoard::getMoveFan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
+{
+    return _relatedPosition->getMoveFan(startFile, startRank, endFile, endRank, promotionFen);
 }

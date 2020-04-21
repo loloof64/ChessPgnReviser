@@ -12,7 +12,7 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _mainZone = new GameSelectionMainZone(this);
 
     _whitePlayerSelectionLine = new QFrame(this);
-    _whitePlayerSelectionLineLayout = new QHBoxLayout();
+    _whitePlayerSelectionLineLayout = new QHBoxLayout(this);
     _whitePlayerSelectionLineLayout->setSpacing(5);
     _whitePlayerSelectionLabel = new QLabel(tr("White player"), _whitePlayerSelectionLine);
     _whitePlayerSelectionCombo = new QComboBox(_whitePlayerSelectionLine);
@@ -23,7 +23,7 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _whitePlayerSelectionCombo->addItem(QString(tr("Computer")));
 
     _blackPlayerSelectionLine = new QFrame(this);
-    _blackPlayerSelectionLineLayout = new QHBoxLayout();
+    _blackPlayerSelectionLineLayout = new QHBoxLayout(this);
     _blackPlayerSelectionLineLayout->setSpacing(5);
     _blackPlayerSelectionLabel = new QLabel(tr("Black player"), _blackPlayerSelectionLine);
     _blackPlayerSelectionCombo = new QComboBox(_blackPlayerSelectionLine);
@@ -33,7 +33,7 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _blackPlayerSelectionCombo->addItem(QString(tr("Human")));
     _blackPlayerSelectionCombo->addItem(QString(tr("Computer")));
 
-    _validateButton = new QPushButton(tr("Validate"));
+    _validateButton = new QPushButton(tr("Validate"), this);
 
     _layout->addWidget(_gameIndexLabel);
     _layout->addWidget(_mainZone);

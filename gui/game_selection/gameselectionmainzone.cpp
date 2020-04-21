@@ -96,7 +96,7 @@ void loloof64::GameSelectionMainZone::loadGameStart()
     _currentBaseGame.moveToStart();
 
     auto gameStartPosition = _currentBaseGame.toFen();
-    _board->setPosition(new HistoryItem(QString(), gameStartPosition, LastMoveCoordinates(-1, -1, -1, -1)));
+    _board->setPosition(new HistoryItem(QString(), gameStartPosition, MoveCoordinates(-1, -1, -1, -1)));
 
     auto whitePlayer = _currentBaseGame.tag("White");
     auto blackPlayer = _currentBaseGame.tag("Black");

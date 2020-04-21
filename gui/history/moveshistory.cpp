@@ -145,7 +145,7 @@ void loloof64::MovesHistory::gotoFirstPosition()
     _colToHighlight = -1;
     _rowToHighlight = -1;
 
-    emit requestPositionOnBoard(new HistoryItem(QString(), _startPosition, LastMoveCoordinates(-1, -1, -1, -1)));
+    emit requestPositionOnBoard(new HistoryItem(QString(), _startPosition, MoveCoordinates(-1, -1, -1, -1)));
 }
 
 void loloof64::MovesHistory::gotoLastPosition()

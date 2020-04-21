@@ -27,9 +27,9 @@ namespace loloof64 {
         RANK_8
     };
 
-    struct LastMoveCoordinates
+    struct MoveCoordinates
     {
-        explicit LastMoveCoordinates(int startFile, int startRank,
+        explicit MoveCoordinates(int startFile, int startRank,
                                      int endFile, int endRank):
         startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
 
@@ -38,12 +38,12 @@ namespace loloof64 {
 
     struct HistoryItem
     {
-        HistoryItem(QString moveFan, QString newPositionFen, LastMoveCoordinates lastMove):
-            moveFan(moveFan), newPositionFen(newPositionFen), lastMove(lastMove){}
+        HistoryItem(QString moveFan, QString newPositionFen, MoveCoordinates lastMove):
+            moveFan(moveFan), newPositionFen(newPositionFen), lastMove(lastMove){};
 
-        const QString moveFan;
-        const QString newPositionFen;
-        const LastMoveCoordinates lastMove;
+        QString moveFan;
+        QString newPositionFen;
+        MoveCoordinates lastMove;
     };
 
     class UnimplementedException{};

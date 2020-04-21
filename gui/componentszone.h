@@ -3,10 +3,12 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QVector>
 #include "chessboard/chessboard.h"
 #include "history/moveshistoryfullcomponent.h"
 #include "../libs/chessx-pgn/database/pgndatabase.h"
 #include "./game_selection/gameselectiondialog.h"
+#include "./variantmovechooserdialog.h"
 
 namespace loloof64 {
     class ComponentsZone : public QWidget
@@ -24,16 +26,18 @@ namespace loloof64 {
 
     private:
         QHBoxLayout *_mainLayout;
-        loloof64::ChessBoard *_chessBoard;
-        loloof64::MovesHistoryFullComponent *_movesHistory;
+        ChessBoard *_chessBoard;
+        MovesHistoryFullComponent *_movesHistory;
         PgnDatabase *_pgnDatabase;
-        loloof64::GameSelectionDialog *_gameSelectionDialog;
+        GameSelectionDialog *_gameSelectionDialog;
+        VariantMoveChooserDialog *_moveSelectionDialog;
         Game _currentGame;
         bool _isWhitePly;
 
-        void handleMoveVerification(LastMoveCoordinates moveCoordinates, char promotion = 0);
+        void handleMoveVerification(MoveCoordinates moveCoordinates, char promotion = 0);
         void makeComputerPlayNextMove();
         void showLoosingMessage();
+        char promotionPieceToPromotionFen(Piece promotion) const;
     };
 }
 
