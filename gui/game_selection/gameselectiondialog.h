@@ -17,6 +17,7 @@ namespace loloof64
     public:
         explicit GameSelectionDialog(QWidget *parent = nullptr);
         ~GameSelectionDialog();
+        void setPgnDatabase(PgnDatabase *database);
 
     signals:
 

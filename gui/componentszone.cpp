@@ -117,6 +117,7 @@ void loloof64::ComponentsZone::newGame()
 
         if (severalGamesInPgn)
         {
+            _gameSelectionDialog->setPgnDatabase(_pgnDatabase);
             _gameSelectionDialog->open();
         }
 

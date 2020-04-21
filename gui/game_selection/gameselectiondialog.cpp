@@ -69,3 +69,8 @@ loloof64::GameSelectionDialog::~GameSelectionDialog()
     delete _gameIndexLabel;
     delete _layout;
 }
+
+void loloof64::GameSelectionDialog::setPgnDatabase(PgnDatabase *database)
+{
+    _mainZone->setPgnDatabase(database);
+}
