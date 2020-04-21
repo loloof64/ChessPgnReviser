@@ -136,6 +136,12 @@ void loloof64::ComponentsZone::newGame()
         _chessBoard->setWhitePlayerType(PlayerType::HUMAN);
         _chessBoard->setBlackPlayerType(PlayerType::EXTERNAL);
         _chessBoard->newGame(startPosition);
+
+        const auto noMoreMove = ! _currentGame.hasNextMove();
+        if (noMoreMove){
+            _chessBoard->stopGame();
+            QMessageBox::information(this, tr("Empty game"), tr("No move in this game"));
+        }
     }
     catch (loloof64::IllegalPositionException const &e)
     {
