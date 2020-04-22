@@ -14,14 +14,27 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
 {
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(20);
-    _chessBoard = new ChessBoard(60, this);
+    _chessBoard = new ChessBoard(45, this);
     _movesHistory = new MovesHistoryFullComponent(this);
     _pgnDatabase = new PgnDatabase(false);
 
     _gameSelectionDialog = new GameSelectionDialog(this);
-    _moveSelectionDialog = new VariantMoveChooserDialog(this);
+
+    _variantSelectionZone = new QScrollArea(this);
+    _variantSelectionZoneLayout = new QVBoxLayout(_variantSelectionZone);
+    _variantSelectionZoneLayout->setSpacing(10);
+    _variantSelectionZoneWidget = new QFrame(this);
+    _variantSelectionZoneWidget->setLayout(_variantSelectionZoneLayout);
+    _variantSelectionZoneLabel = new QLabel(tr("Variant selection"), this);
+    _variantMainButton = new QListWidget(_variantSelectionZoneWidget);
+    _variantVariantsButtons = new QListWidget(_variantSelectionZoneWidget);
+    _variantSelectionZoneLayout->addWidget(_variantSelectionZoneLabel);
+    _variantSelectionZoneLayout->addWidget(_variantMainButton);
+    _variantSelectionZoneLayout->addWidget(_variantVariantsButtons);
+    _variantSelectionZone->setWidget(_variantSelectionZoneWidget);
 
     _mainLayout->addWidget(_chessBoard);
+    _mainLayout->addWidget(_variantSelectionZone);
     _mainLayout->addWidget(_movesHistory);
     setLayout(_mainLayout);
     resize(800, 540);
@@ -72,7 +85,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     connect(_movesHistory->getButtonsZone(), &MovesHistoryButtons::requestNextPosition,
             [this](){ _movesHistory->getMovesHistoryMainComponent()->gotoNextPosition(); });
 
-    connect(_moveSelectionDialog, &VariantMoveChooserDialog::mainMoveSelected, this, [this]()
+    connect(_variantMainButton, &QListWidget::itemClicked, this, [this](QListWidgetItem * /*item*/)
     {
         auto nextMoveId = _currentGame.nextMove();
 
@@ -94,11 +107,12 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             _chessBoard->playMove(startFile, startRank, endFile, endRank);
         }
 
-        _moveSelectionDialog->close();
+        clearVariants();
     });
 
-    connect(_moveSelectionDialog, &VariantMoveChooserDialog::variationSelected, this, [this](int index)
+    connect(_variantVariantsButtons, &QListWidget::itemClicked, this, [this](QListWidgetItem *item)
     {
+        const auto index = _variantVariantsButtons->row(item);
         const auto moveId = _currentGame.variations()[index];
         const auto move = _currentGame.move(moveId);
 
@@ -119,14 +133,20 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             _chessBoard->playMove(startFile, startRank, endFile, endRank);
         }
 
-        _moveSelectionDialog->close();
+        clearVariants();
     });
 }
 
 loloof64::ComponentsZone::~ComponentsZone()
 {
-    _moveSelectionDialog->close();
-    delete _moveSelectionDialog;
+    clearVariants();
+
+    delete _variantVariantsButtons;
+    delete _variantMainButton;
+    delete _variantSelectionZoneLabel;
+    delete _variantSelectionZoneLayout;
+    delete _variantSelectionZoneWidget;
+    delete _variantSelectionZone;
 
     _gameSelectionDialog->close();
     delete _gameSelectionDialog;
@@ -293,9 +313,7 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
         }
 
         const auto mainMoveFan = _chessBoard->getMoveFan(startFile, startRank, endFile, endRank, nextMovePromotionFen);
-        _moveSelectionDialog->setMainMove(mainMoveFan);
-
-        QList<QString> variationsItems;
+        _variantMainButton->addItem(mainMoveFan);
 
         const auto variationsIds = _currentGame.variations();
         for (const auto currentVariationId: variationsIds)
@@ -315,11 +333,8 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
             }
 
             const auto variationMoveFan = _chessBoard->getMoveFan(variationStartFile, variationStartRank, variationEndFile, variationEndRank, variationPromotionFen);
-            variationsItems.push_back(variationMoveFan);
+            _variantVariantsButtons->addItem(variationMoveFan);
         }
-
-        _moveSelectionDialog->setVariationsMoves(variationsItems);
-        _moveSelectionDialog->exec();
 
         return;
     }
@@ -369,4 +384,10 @@ char loloof64::ComponentsZone::promotionPieceToPromotionFen(Piece promotion) con
     }
 
     return promotionFen;
+}
+
+void loloof64::ComponentsZone::clearVariants()
+{
+    _variantMainButton->clear();
+    _variantVariantsButtons->clear();
 }

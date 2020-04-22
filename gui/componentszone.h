@@ -2,13 +2,18 @@
 #define COMPONENTSZONE_H
 
 #include <QWidget>
+#include <QLabel>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QVector>
+#include <QFrame>
+#include <QScrollArea>
+#include <QListWidget>
+#include <QPushButton>
 #include "chessboard/chessboard.h"
 #include "history/moveshistoryfullcomponent.h"
 #include "../libs/chessx-pgn/database/pgndatabase.h"
 #include "./game_selection/gameselectiondialog.h"
-#include "./variantmovechooserdialog.h"
 
 namespace loloof64 {
     class ComponentsZone : public QWidget
@@ -28,9 +33,14 @@ namespace loloof64 {
         QHBoxLayout *_mainLayout;
         ChessBoard *_chessBoard;
         MovesHistoryFullComponent *_movesHistory;
+        QScrollArea *_variantSelectionZone;
+        QVBoxLayout *_variantSelectionZoneLayout;
+        QFrame *_variantSelectionZoneWidget;
+        QLabel *_variantSelectionZoneLabel;
+        QListWidget *_variantMainButton;
+        QListWidget *_variantVariantsButtons;
         PgnDatabase *_pgnDatabase;
         GameSelectionDialog *_gameSelectionDialog;
-        VariantMoveChooserDialog *_moveSelectionDialog;
         Game _currentGame;
         bool _isWhitePly;
 
@@ -38,6 +48,7 @@ namespace loloof64 {
         void makeComputerPlayNextMove();
         void showLoosingMessage();
         char promotionPieceToPromotionFen(Piece promotion) const;
+        void clearVariants();
     };
 }
 
