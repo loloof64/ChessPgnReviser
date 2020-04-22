@@ -3,7 +3,11 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPushButton>
+#include <QFrame>
+#include <QLineEdit>
+#include <QValidator>
 #include "../chessboard/chessboard.h"
 #include "../../libs/chessx-pgn/database/pgndatabase.h"
 
@@ -28,6 +32,10 @@ namespace loloof64 {
 
     private:
         quint64 _selectedGameIndex;
+        QFrame *_mainZone;
+        QLineEdit *_gameTextSelection;
+        QValidator *_gameTextValidator;
+        QVBoxLayout *_overallLayout;
         QHBoxLayout *_layout;
         QPushButton *_goFirstButton;
         QPushButton *_goPreviousButton;

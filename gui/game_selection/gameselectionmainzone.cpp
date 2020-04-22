@@ -2,22 +2,29 @@
 
 loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidget(parent)
 {
+    _overallLayout = new QVBoxLayout(this);
+
+    _gameTextSelection = new QLineEdit(this);
+    _gameTextSelection->setMaximumWidth(50);
+
+    _mainZone = new QFrame(this);
     _layout = new QHBoxLayout();
     _layout->setSpacing(10);
+    _mainZone->setLayout(_layout);
 
-    _goFirstButton = new QPushButton(QIcon(QPixmap(":/icons/previous.svg")), QString(), this);
+    _goFirstButton = new QPushButton(QIcon(QPixmap(":/icons/previous.svg")), QString(), _mainZone);
     _goFirstButton->setToolTip(QString(tr("Goto first")));
 
-    _goPreviousButton = new QPushButton(QIcon(QPixmap(":/icons/left.svg")), QString(), this);
+    _goPreviousButton = new QPushButton(QIcon(QPixmap(":/icons/left.svg")), QString(), _mainZone);
     _goPreviousButton->setToolTip(QString(tr("Goto previous")));
 
-    _goNextButton = new QPushButton(QIcon(QPixmap(":/icons/right.svg")), QString(), this);
+    _goNextButton = new QPushButton(QIcon(QPixmap(":/icons/right.svg")), QString(), _mainZone);
     _goNextButton->setToolTip(QString(tr("Goto next")));
 
-    _goLastButton = new QPushButton(QIcon(QPixmap(":/icons/next.svg")), QString(), this);
+    _goLastButton = new QPushButton(QIcon(QPixmap(":/icons/next.svg")), QString(), _mainZone);
     _goLastButton->setToolTip(QString(tr("Goto last")));
 
-    _board = new ChessBoard(20);
+    _board = new ChessBoard(20, _mainZone);
     _board->setWhitePlayerType(PlayerType::EXTERNAL);
     _board->setBlackPlayerType(PlayerType::EXTERNAL);
 
@@ -27,6 +34,7 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
        if (_pgnDatabase == nullptr) return;
 
        _selectedGameIndex = 0;
+       _gameTextSelection->setText(QString("%1").arg(_selectedGameIndex+1));
        loadGameStart();
     });
 
@@ -36,6 +44,7 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
         if (_selectedGameIndex == 0) return;
 
         _selectedGameIndex--;
+        _gameTextSelection->setText(QString("%1").arg(_selectedGameIndex+1));
         loadGameStart();
     });
 
@@ -45,6 +54,7 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
         if (_selectedGameIndex >= _pgnDatabase->count() - 1) return;
 
         _selectedGameIndex++;
+        _gameTextSelection->setText(QString("%1").arg(_selectedGameIndex+1));
         loadGameStart();
     });
 
@@ -53,7 +63,22 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
         if (_pgnDatabase == nullptr) return;
 
         _selectedGameIndex = _pgnDatabase->count() - 1;
+        _gameTextSelection->setText(QString("%1").arg(_selectedGameIndex+1));
         loadGameStart();
+    });
+
+    connect(_gameTextSelection, &QLineEdit::textChanged, this, [this](QString)
+    {
+        const auto valueText = _gameTextSelection->text();
+        if (valueText.isEmpty()) return;
+
+        const auto valuetoSet = static_cast<quint64>(std::stoi(valueText.toStdString().c_str())) -1;
+        const auto inBounds = valuetoSet >= 0 && valuetoSet < _pgnDatabase->count();
+        if (inBounds)
+        {
+            _selectedGameIndex = valuetoSet;
+            loadGameStart();
+        }
     });
 
     _layout->addWidget(_goFirstButton);
@@ -62,7 +87,12 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
     _layout->addWidget(_goNextButton);
     _layout->addWidget(_goLastButton);
 
-    setLayout(_layout);
+    _overallLayout->addWidget(_gameTextSelection);
+    _overallLayout->addWidget(_mainZone);
+    _overallLayout->setAlignment(_gameTextSelection, Qt::AlignHCenter);
+    _overallLayout->setAlignment(_mainZone, Qt::AlignHCenter);
+
+    setLayout(_overallLayout);
 }
 
 loloof64::GameSelectionMainZone::~GameSelectionMainZone()
@@ -73,6 +103,11 @@ loloof64::GameSelectionMainZone::~GameSelectionMainZone()
     delete _goPreviousButton;
     delete _goFirstButton;
     delete _layout;
+    delete _mainZone;
+
+    if (_gameTextValidator != nullptr) delete _gameTextValidator;
+    delete _gameTextSelection;
+    delete _overallLayout;
 }
 
 void loloof64::GameSelectionMainZone::setPgnDatabase(PgnDatabase *database)
@@ -81,7 +116,11 @@ void loloof64::GameSelectionMainZone::setPgnDatabase(PgnDatabase *database)
 
     if (_pgnDatabase != nullptr)
     {
+        _gameTextValidator = new QIntValidator(1, _pgnDatabase->count(), this);
+        _gameTextSelection->setValidator(_gameTextValidator);
+
         _selectedGameIndex = 0;
+        _gameTextSelection->setText(QString("%1").arg(_selectedGameIndex+1));
         loadGameStart();
 
         emit gameIndexChanged(_selectedGameIndex);
