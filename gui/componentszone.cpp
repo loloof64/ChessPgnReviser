@@ -29,10 +29,21 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     _variantSelectionZoneLabel = new QLabel(tr("Variant selection"), this);
     _variantMainButton = new QListWidget(_variantSelectionZoneWidget);
     _variantVariantsButtons = new QListWidget(_variantSelectionZoneWidget);
+    QFont font;
+    font.setPointSize(20);
+    _variantMainButton->setFont(font);
+    _variantVariantsButtons->setFont(font);
+    _variantMainButton->setMaximumHeight(50);
+    _variantVariantsButtons->setMinimumHeight(400);
+    _variantSelectionZoneLayout->setMargin(25);
     _variantSelectionZoneLayout->addWidget(_variantSelectionZoneLabel);
     _variantSelectionZoneLayout->addWidget(_variantMainButton);
     _variantSelectionZoneLayout->addWidget(_variantVariantsButtons);
+    _variantSelectionZoneLayout->setAlignment(_variantSelectionZoneLabel, Qt::AlignHCenter);
+    _variantSelectionZoneLayout->setAlignment(_variantMainButton, Qt::AlignHCenter);
+    _variantSelectionZoneLayout->setAlignment(_variantVariantsButtons, Qt::AlignHCenter);
     _variantSelectionZone->setWidget(_variantSelectionZoneWidget);
+    _variantSelectionZone->setAlignment(Qt::AlignHCenter);
 
     _mainLayout->addWidget(_chessBoard);
     _mainLayout->addWidget(_variantSelectionZone);
@@ -183,7 +194,9 @@ void loloof64::ComponentsZone::newGame()
 
 
     if (fileName.isEmpty())
-            return;
+        return;
+
+    clearVariants();
 
     try {
         if (_pgnDatabase != nullptr)
