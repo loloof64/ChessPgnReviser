@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QDataStream>
+#include <QTimer>
 
 loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
 {
@@ -97,17 +98,21 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
         const auto endFile = move.to() % 8;
         const auto endRank = move.to() / 8;
 
+        clearVariants();
+
         if (move.isPromotion())
         {
             const auto promotion = move.promotedPiece();
             char promotionFen = promotionPieceToPromotionFen(promotion);
-            _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+            QTimer::singleShot(600, [startFile, startRank, endFile, endRank, promotionFen, this](){
+                _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+            });
         }
         else {
-            _chessBoard->playMove(startFile, startRank, endFile, endRank);
+            QTimer::singleShot(600, [startFile, startRank, endFile, endRank, this](){
+                _chessBoard->playMove(startFile, startRank, endFile, endRank);
+            });
         }
-
-        clearVariants();
     });
 
     connect(_variantVariantsButtons, &QListWidget::itemClicked, this, [this](QListWidgetItem *item)
@@ -123,17 +128,21 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
         const auto endFile = move.to() % 8;
         const auto endRank = move.to() / 8;
 
+        clearVariants();
+
         if (move.isPromotion())
         {
             const auto promotion = move.promotedPiece();
             char promotionFen = promotionPieceToPromotionFen(promotion);
-            _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+            QTimer::singleShot(600, [startFile, startRank, endFile, endRank, promotionFen, this](){
+                _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+            });
         }
         else {
-            _chessBoard->playMove(startFile, startRank, endFile, endRank);
+            QTimer::singleShot(600, [startFile, startRank, endFile, endRank, this](){
+                _chessBoard->playMove(startFile, startRank, endFile, endRank);
+            });
         }
-
-        clearVariants();
     });
 }
 
