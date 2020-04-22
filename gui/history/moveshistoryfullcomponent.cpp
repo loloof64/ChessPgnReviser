@@ -23,7 +23,7 @@ void loloof64::MovesHistoryFullComponent::newGame(QString startPosition)
     _historyZone->newGame(startPosition);
 }
 
-void loloof64::MovesHistoryFullComponent::addHistoryItem(HistoryItem *item, bool gameFinished)
+void loloof64::MovesHistoryFullComponent::addHistoryItem(HistoryItem item, bool gameFinished)
 {
     _historyZone->addHistoryItem(item, gameFinished);
 }

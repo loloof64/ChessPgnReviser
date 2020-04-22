@@ -18,7 +18,7 @@ namespace loloof64 {
         MovesHistoryButtons* getButtonsZone() const;
 
         void newGame(QString startPosition);
-        void addHistoryItem(HistoryItem *item, bool gameFinished = false);
+        void addHistoryItem(HistoryItem item, bool gameFinished = false);
         void commitHistoryNodeSelection();
     private:
         QVBoxLayout *_mainLayout;

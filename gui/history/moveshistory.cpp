@@ -36,12 +36,15 @@ void loloof64::MovesHistory::newGame(QString startPosition)
     addComponent(buildMoveNumber());
 }
 
-void loloof64::MovesHistory::addHistoryItem(HistoryItem *item, bool gameFinished)
+void loloof64::MovesHistory::addHistoryItem(HistoryItem item, bool gameFinished)
 {
-    auto moveButton = new QPushButton(item->moveFan, this);
+    auto moveButton = new QPushButton(item.moveFan, this);
     moveButton->setFlat(true);
     moveButton->setStyleSheet("text-align: right; margin: 5px; font-size: 18px;");
     connect(moveButton, &QPushButton::clicked, [this, item](){
+        const auto itemIndexInData = _dataItems.indexOf(item);
+        _rowToHighlight = itemIndexInData / 2;
+        _colToHighlight = (itemIndexInData % 2) + 1;
         emit requestPositionOnBoard(item);
     });
     _dataItems.push_back(item);
@@ -61,15 +64,6 @@ void loloof64::MovesHistory::clearMoves()
         }
     }
     _widgetsItems.clear();
-
-    for (auto it = _dataItems.rbegin(); it != _dataItems.rend(); ++it)
-    {
-        if (*it != nullptr)
-        {
-            delete *it;
-            *it = nullptr;
-        }
-    }
     _dataItems.clear();
 
     _currentWorkingRow = -1;
@@ -145,7 +139,7 @@ void loloof64::MovesHistory::gotoFirstPosition()
     _colToHighlight = -1;
     _rowToHighlight = -1;
 
-    emit requestPositionOnBoard(new HistoryItem(QString(), _startPosition, MoveCoordinates(-1, -1, -1, -1)));
+    emit requestPositionOnBoard(HistoryItem(QString(), _startPosition, MoveCoordinates(-1, -1, -1, -1)));
 }
 
 void loloof64::MovesHistory::gotoLastPosition()
@@ -176,7 +170,9 @@ void loloof64::MovesHistory::gotoLastPosition()
     }
 
     const auto item = itemToSet();
-    const auto isValidItem = item != nullptr;
+    const auto isValidItem = !item.moveFan.isEmpty() && !item.newPositionFen.isEmpty() &&
+            item.lastMove.startFile > -1 && item.lastMove.startRank > -1 &&
+            item.lastMove.endFile > -1 && item.lastMove.endRank > -1;
     if (isValidItem) emit requestPositionOnBoard(itemToSet());
     else {
         _colToHighlight = oldColToHighlight;
@@ -213,7 +209,9 @@ void loloof64::MovesHistory::gotoPreviousPosition()
     }
 
     const auto item = itemToSet();
-    const auto isValidItem = item != nullptr;
+    const auto isValidItem = !item.moveFan.isEmpty() && !item.newPositionFen.isEmpty() &&
+            item.lastMove.startFile > -1 && item.lastMove.startRank > -1 &&
+            item.lastMove.endFile > -1 && item.lastMove.endRank > -1;
     if (isValidItem) emit requestPositionOnBoard(itemToSet());
     else {
         _colToHighlight = oldColToHighlight;
@@ -244,7 +242,9 @@ void loloof64::MovesHistory::gotoNextPosition()
     }
 
     const auto item = itemToSet();
-    const auto isValidItem = item != nullptr;
+    const auto isValidItem = !item.moveFan.isEmpty() && !item.newPositionFen.isEmpty() &&
+            item.lastMove.startFile > -1 && item.lastMove.startRank > -1 &&
+            item.lastMove.endFile > -1 && item.lastMove.endRank > -1;
     if (isValidItem) emit requestPositionOnBoard(itemToSet());
     else {
         _colToHighlight = oldColToHighlight;
@@ -257,7 +257,9 @@ void loloof64::MovesHistory::commitHistoryNodeSelection()
     auto stillInACell = _colToHighlight >= 0 && _rowToHighlight >= 0;
     if (stillInACell) {
         setCurrentCell(_rowToHighlight, _colToHighlight);
-        //TODO scrollTo();
+        //////////////////////////////
+        // TODO scrollTo();
+        ///////////////////////////////
     }
     else
     {
@@ -266,10 +268,10 @@ void loloof64::MovesHistory::commitHistoryNodeSelection()
     }
 }
 
-loloof64::HistoryItem* loloof64::MovesHistory::itemToSet() const
+loloof64::HistoryItem loloof64::MovesHistory::itemToSet() const
 {
     const auto itemIndex = 2*_rowToHighlight + (_colToHighlight - 1);
     const auto notPointingToAnItemData = itemIndex < 0 || itemIndex >= _dataItems.length();
-    if (notPointingToAnItemData) return nullptr;
+    if (notPointingToAnItemData) return HistoryItem(QString(), QString(), MoveCoordinates(-1,-1,-1,-1));
     return _dataItems[itemIndex];
 }

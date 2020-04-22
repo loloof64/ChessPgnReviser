@@ -455,7 +455,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-bool loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
+bool loloof64::ChessBoard::setPosition(const HistoryItem historyItem)
 {
     if (_gameFinishedStatus == GameFinishedStatus::NOT_FINISHED) return false;
 
@@ -466,7 +466,7 @@ bool loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
     }
 
     try {
-        _relatedPosition = new ThcPosition(historyItem->newPositionFen.toStdString());
+        _relatedPosition = new ThcPosition(historyItem.newPositionFen.toStdString());
     } catch (IllegalPositionException &e) {
         return false;
     }
@@ -477,10 +477,10 @@ bool loloof64::ChessBoard::setPosition(const HistoryItem *historyItem)
         _lastMoveCoordinates = nullptr;
     }
 
-    bool lastMoveCanBeSet = historyItem->lastMove.startFile > -1 && historyItem->lastMove.startRank > -1 &&
-            historyItem->lastMove.endFile > -1 && historyItem->lastMove.endRank > -1;
+    bool lastMoveCanBeSet = historyItem.lastMove.startFile > -1 && historyItem.lastMove.startRank > -1 &&
+            historyItem.lastMove.endFile > -1 && historyItem.lastMove.endRank > -1;
     if (lastMoveCanBeSet) {
-        _lastMoveCoordinates = new MoveCoordinates(historyItem->lastMove);
+        _lastMoveCoordinates = new MoveCoordinates(historyItem.lastMove);
     }
 
     repaint();

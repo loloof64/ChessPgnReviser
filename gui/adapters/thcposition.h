@@ -78,6 +78,7 @@ namespace loloof64 {
         // promotionFen should be 'q' or 'Q' (either value whatever the side to move) for queen, 'r' or 'R' for rook,
         // 'b' or 'B' for bishop, or 'n' or 'N' for knight.
         QString getMoveFan(int, int, int, int, char = 0) const override;
+
     private:
         thc::ChessRules _position;
         QMap<std::string, int> _recordedPositions;

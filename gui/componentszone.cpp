@@ -54,7 +54,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
     connect(_chessBoard, &loloof64::ChessBoard::moveDoneAsFan,
             [this](QString moveFan, QString newPositionFen, MoveCoordinates lastMove, bool gameFinished)
     {
-        _movesHistory->addHistoryItem(new HistoryItem(moveFan, newPositionFen, lastMove), gameFinished);
+        _movesHistory->addHistoryItem(HistoryItem(moveFan, newPositionFen, lastMove), gameFinished);
         const auto noMoreMove = ! _currentGame.hasNextMove();
         if (noMoreMove){
             _chessBoard->stopGame();
@@ -62,7 +62,7 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
         }
     });
     connect(_movesHistory->getMovesHistoryMainComponent(), &loloof64::MovesHistory::requestPositionOnBoard,
-            [this](HistoryItem *item)
+            [this](HistoryItem item)
     {
        const auto validated = _chessBoard->setPosition(item);
        if (validated)

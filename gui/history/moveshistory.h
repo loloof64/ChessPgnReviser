@@ -14,7 +14,7 @@ namespace loloof64 {
         explicit MovesHistory(QWidget *parent = nullptr);
         ~MovesHistory();
         void newGame(QString startPosition);
-        void addHistoryItem(HistoryItem *item, bool gameFinished = false);
+        void addHistoryItem(HistoryItem item, bool gameFinished = false);
 
         void gotoFirstPosition();
         void gotoLastPosition();
@@ -23,17 +23,17 @@ namespace loloof64 {
 
         void commitHistoryNodeSelection();
     signals:
-        void requestPositionOnBoard(HistoryItem *item);
+        void requestPositionOnBoard(HistoryItem item);
     private:
         QString _startPosition;
         int _moveNumber{1};
         int _currentWorkingRow{-1}, _currentWorkingCol{-1};
         int _rowToHighlight{-1}, _colToHighlight{-1};
         QVector<QWidget *> _widgetsItems;
-        QVector<HistoryItem *> _dataItems;
+        QVector<HistoryItem> _dataItems;
         void clearMoves();
         void addComponent(QWidget *component, bool gameFinished = false);
-        HistoryItem* itemToSet() const;
+        HistoryItem itemToSet() const;
         QLabel *buildMoveNumber();
     };
 }

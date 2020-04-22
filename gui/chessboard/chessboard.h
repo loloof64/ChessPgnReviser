@@ -81,7 +81,7 @@ namespace loloof64 {
         // Sets the requested position if the game is not in progress.
         // Simply ignoring the moveFan part of the given HistoryItem.
         // Returns true if and only if the move has been done.
-        bool setPosition(const HistoryItem *);
+        bool setPosition(const HistoryItem);
 
     protected:
         void paintEvent(QPaintEvent *event) override;

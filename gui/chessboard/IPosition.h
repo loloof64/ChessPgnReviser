@@ -34,12 +34,27 @@ namespace loloof64 {
         startFile(startFile), startRank(startRank), endFile(endFile), endRank(endRank){}
 
         int startFile, startRank, endFile, endRank;
+
+        bool operator==(MoveCoordinates other)
+        {
+            return other.startFile == startFile &&
+                    other.startRank == startRank &&
+                    other.endFile == endFile &&
+                    other.endRank == endRank;
+        }
     };
 
     struct HistoryItem
     {
         HistoryItem(QString moveFan, QString newPositionFen, MoveCoordinates lastMove):
             moveFan(moveFan), newPositionFen(newPositionFen), lastMove(lastMove){};
+
+        bool operator==(HistoryItem other)
+        {
+            return other.moveFan == moveFan &&
+                    other.newPositionFen == newPositionFen &&
+                    other.lastMove == lastMove;
+        }
 
         QString moveFan;
         QString newPositionFen;
