@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
     _componentsZone = new loloof64::ComponentsZone(this);
     _mainToolBar = new QToolBar;
 
-    _mainToolBar->addAction(QIcon(QPixmap(":/icons/swap.svg")), QString(tr("Toggle side", "Caption for the button 'toggle side'")), [this](){
-        this->_componentsZone->reverseBoard();
-    });
     _mainToolBar->addAction(QIcon(QPixmap(":/icons/start.svg")), QString(tr("New game", "Caption for the button 'new game'")), [this](){
         if (! _componentsZone->gameInProgress()) {
             this->_componentsZone->newGame();
@@ -28,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
                                                  tr("Are you sure you want to stop the current game ?", "Confirm stop game modal text"),
                             QMessageBox::Yes | QMessageBox::No);
         if (confirmation == QMessageBox::Yes) this->_componentsZone->stopGame();
+    });
+    _mainToolBar->addAction(QIcon(QPixmap(":/icons/swap.svg")), QString(tr("Toggle side", "Caption for the button 'toggle side'")), [this](){
+        this->_componentsZone->reverseBoard();
     });
 
     addToolBar(_mainToolBar);
