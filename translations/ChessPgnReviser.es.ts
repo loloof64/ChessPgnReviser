@@ -285,23 +285,23 @@ b%2
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libs/chessx-pgn/database/game.cpp" line="1520"/>
-        <location filename="../libs/chessx-pgn/database/game.cpp" line="1555"/>
+        <location filename="../libs/chessx-pgn/database/game.cpp" line="1524"/>
+        <location filename="../libs/chessx-pgn/database/game.cpp" line="1559"/>
         <source>Move variation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libs/chessx-pgn/database/game.cpp" line="1581"/>
+        <location filename="../libs/chessx-pgn/database/game.cpp" line="1585"/>
         <source>Enumerate variations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libs/chessx-pgn/database/game.cpp" line="1984"/>
+        <location filename="../libs/chessx-pgn/database/game.cpp" line="1990"/>
         <source>Set result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libs/chessx-pgn/database/game.cpp" line="2009"/>
+        <location filename="../libs/chessx-pgn/database/game.cpp" line="2015"/>
         <source>Set variant</source>
         <translation type="unfinished"></translation>
     </message>
@@ -312,7 +312,7 @@ b%2
         <location filename="../gui/mainwindow.cpp" line="10"/>
         <source>Toggle side</source>
         <comment>Caption for the button &apos;toggle side&apos;</comment>
-        <translation>Volcar el tablero de ajedrez</translation>
+        <translation>Alternar el tablero de ajedrez</translation>
     </message>
     <message>
         <location filename="../gui/mainwindow.cpp" line="13"/>
@@ -968,37 +968,37 @@ b%2
 <context>
     <name>loloof64::ChessBoard</name>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="394"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="397"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="400"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="403"/>
-        <location filename="../gui/chessboard/chessboard.cpp" line="406"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="585"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="588"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="591"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="594"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="597"/>
         <source>Game finished</source>
         <comment>Game finished modal title</comment>
         <translation>Juego terminado</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="394"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="585"/>
         <source>Checkmate</source>
         <translation>Jaque mate</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="397"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="588"/>
         <source>Stalemate</source>
         <translation>Sit suan</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="400"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="591"/>
         <source>Draw by 3-folds repetition</source>
         <translation>Igualdad por las tres repeticiones</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="403"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="594"/>
         <source>Draw by insuficient material</source>
         <translation>Igualdad por la falta de materiales</translation>
     </message>
     <message>
-        <location filename="../gui/chessboard/chessboard.cpp" line="406"/>
+        <location filename="../gui/chessboard/chessboard.cpp" line="597"/>
         <source>Draw by the 50 moves rule</source>
         <translation>Igualdad por la ley de los 50 golpes</translation>
     </message>
@@ -1006,53 +1006,179 @@ b%2
 <context>
     <name>loloof64::ComponentsZone</name>
     <message>
-        <location filename="../gui/componentszone.cpp" line="58"/>
+        <location filename="../gui/componentszone.cpp" line="29"/>
+        <source>Variant selection</source>
+        <translation>Elección de variante</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="61"/>
+        <source>Congratulation</source>
+        <translation>Felicidades</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="61"/>
+        <source>You found all the moves</source>
+        <translation>Encontraste todos los golpes</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="192"/>
         <source>Select the game pgn</source>
         <translation>Elige el juego pgn</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="59"/>
+        <location filename="../gui/componentszone.cpp" line="193"/>
         <source>Chess game (*.pgn)</source>
         <translation>Archivo de juego de ajedrez (*.pgn)</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="84"/>
+        <location filename="../gui/componentszone.cpp" line="236"/>
+        <source>Empty game</source>
+        <translation>Juego vacío</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="236"/>
+        <source>No move in this game</source>
+        <translation>Ningún golpe en este juego</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="389"/>
+        <source>Lost game</source>
+        <translation>Juego perdido</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="389"/>
+        <source>You did not find one of the expected moves</source>
+        <translation>Cometiste un error en uno de los golpes</translation>
+    </message>
+    <message>
         <source>Unable to load game</source>
-        <translation>Incapaz de cargar el juego</translation>
+        <translation type="vanished">Incapaz de cargar el juego</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="85"/>
         <source>Failed to load the game</source>
-        <translation>No se pudo cargar el juego</translation>
+        <translation type="vanished">No se pudo cargar el juego</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="90"/>
-        <location filename="../gui/componentszone.cpp" line="96"/>
+        <location filename="../gui/componentszone.cpp" line="241"/>
+        <location filename="../gui/componentszone.cpp" line="247"/>
         <source>Unable to open file</source>
         <translation>Error al cargar el archivo seleccionado</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="91"/>
+        <location filename="../gui/componentszone.cpp" line="242"/>
         <source>Wrong game data</source>
         <translation>Malos datos del juego</translation>
     </message>
 </context>
 <context>
+    <name>loloof64::GameSelectionDialog</name>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="17"/>
+        <source>White player</source>
+        <translation>Jugador blanco</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="22"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="33"/>
+        <source>Human</source>
+        <translation>Humano</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="23"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="34"/>
+        <source>Computer</source>
+        <translation>Computadora</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="28"/>
+        <source>Black player</source>
+        <translation>Jugador blanco</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="36"/>
+        <source>Validate</source>
+        <translation>Validar</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="65"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="68"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="77"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="80"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="89"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="92"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="95"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="104"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="107"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="110"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="119"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="122"/>
+        <location filename="../gui/game_selection/gameselectiondialog.cpp" line="125"/>
+        <source>Unknown</source>
+        <translation>Desconocido</translation>
+    </message>
+</context>
+<context>
+    <name>loloof64::GameSelectionMainZone</name>
+    <message>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="9"/>
+        <source>Goto first</source>
+        <translation>Primero</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="12"/>
+        <source>Goto previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="15"/>
+        <source>Goto next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="18"/>
+        <source>Goto last</source>
+        <translation>Pasado</translation>
+    </message>
+</context>
+<context>
     <name>loloof64::MovesHistory</name>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="12"/>
+        <location filename="../gui/history/moveshistory.cpp" line="10"/>
         <source>Move number</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="12"/>
+        <location filename="../gui/history/moveshistory.cpp" line="10"/>
         <source>White</source>
         <translation>Blanco</translation>
     </message>
     <message>
-        <location filename="../gui/history/moveshistory.cpp" line="12"/>
+        <location filename="../gui/history/moveshistory.cpp" line="10"/>
         <source>Black</source>
         <translation>Negro</translation>
+    </message>
+</context>
+<context>
+    <name>loloof64::MovesHistoryButtons</name>
+    <message>
+        <location filename="../gui/history/moveshistorybuttons.cpp" line="8"/>
+        <source>Goto start</source>
+        <translation>Primero</translation>
+    </message>
+    <message>
+        <location filename="../gui/history/moveshistorybuttons.cpp" line="11"/>
+        <source>Goto previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <location filename="../gui/history/moveshistorybuttons.cpp" line="14"/>
+        <source>Goto next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <location filename="../gui/history/moveshistorybuttons.cpp" line="17"/>
+        <source>Goto end</source>
+        <translation>Pasado</translation>
     </message>
 </context>
 <context>
