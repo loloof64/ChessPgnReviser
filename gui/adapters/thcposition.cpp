@@ -116,7 +116,7 @@ namespace loloof64 {
 
         const auto isLegal = moveToTest.NaturalOut(&copy) != std::string("--");
 
-        if (! isLegal) throw new IllegalMoveException();
+        if (! isLegal) throw IllegalMoveException();
         copy.PlayMove(moveToTest);
 
         _position = copy;
@@ -254,7 +254,7 @@ QString loloof64::ThcPosition::getMoveSan(int startFile, int startRank, int endF
     const auto moveNotation = moveToTest.NaturalOut(&copy);
     const auto isLegal = moveNotation != std::string("--");
 
-    if (! isLegal) throw new IllegalMoveException();
+    if (! isLegal) throw IllegalMoveException();
     return QString(moveNotation.c_str());
 }
 

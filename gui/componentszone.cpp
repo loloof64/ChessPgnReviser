@@ -434,7 +434,7 @@ void loloof64::ComponentsZone::updateExpectedMoves()
             const auto variationMoveFan = moveToMoveFan(variation);
             _expectedMovesFanList.push_back(variationMoveFan);
         }
-    } catch (IllegalMoveException *e) {
+    } catch (IllegalMoveException &e) {
         _expectedMovesFanList.clear();
     }
 }
