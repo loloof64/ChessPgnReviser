@@ -117,11 +117,13 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             char promotionFen = promotionPieceToPromotionFen(promotion);
             QTimer::singleShot(600, [startFile, startRank, endFile, endRank, promotionFen, this](){
                 _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+                updateExpectedMoves();
             });
         }
         else {
             QTimer::singleShot(600, [startFile, startRank, endFile, endRank, this](){
                 _chessBoard->playMove(startFile, startRank, endFile, endRank);
+                updateExpectedMoves();
             });
         }
     });
@@ -147,11 +149,13 @@ loloof64::ComponentsZone::ComponentsZone(QWidget *parent) : QWidget(parent)
             char promotionFen = promotionPieceToPromotionFen(promotion);
             QTimer::singleShot(600, [startFile, startRank, endFile, endRank, promotionFen, this](){
                 _chessBoard->playMove(startFile, startRank, endFile, endRank, promotionFen);
+                updateExpectedMoves();
             });
         }
         else {
             QTimer::singleShot(600, [startFile, startRank, endFile, endRank, this](){
                 _chessBoard->playMove(startFile, startRank, endFile, endRank);
+                updateExpectedMoves();
             });
         }
     });
@@ -235,6 +239,8 @@ void loloof64::ComponentsZone::newGame()
             _chessBoard->stopGame();
             QMessageBox::information(this, tr("Empty game"), tr("No move in this game"));
         }
+
+        updateExpectedMoves();
     }
     catch (loloof64::IllegalPositionException const &e)
     {
@@ -305,6 +311,9 @@ void loloof64::ComponentsZone::handleMoveVerification(MoveCoordinates moveCoordi
                 showLoosingMessage();
             });
         }
+        else {
+            updateExpectedMoves();
+        }
     }
 }
 
@@ -321,40 +330,14 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
     {
         const auto nextMoveId = _currentGame.nextMove();
         const auto nextMove = _currentGame.move(nextMoveId);
-
-        const auto startFile = nextMove.from() % 8;
-        const auto startRank = nextMove.from() / 8;
-        const auto endFile = nextMove.to() % 8;
-        const auto endRank = nextMove.to() / 8;
-
-        char nextMovePromotionFen = 0;
-        if (nextMove.isPromotion())
-        {
-            const auto promotion = nextMove.promotedPiece();
-            nextMovePromotionFen = promotionPieceToPromotionFen(promotion);
-        }
-
-        const auto mainMoveFan = _chessBoard->getMoveFan(startFile, startRank, endFile, endRank, nextMovePromotionFen);
+        const auto mainMoveFan = moveToMoveFan(nextMove);
         _variantMainButton->addItem(mainMoveFan);
 
         const auto variationsIds = _currentGame.variations();
         for (const auto currentVariationId: variationsIds)
         {
             const auto variation = _currentGame.move(currentVariationId);
-
-            const auto variationStartFile = variation.from() % 8;
-            const auto variationStartRank = variation.from() / 8;
-            const auto variationEndFile = variation.to() % 8;
-            const auto variationEndRank = variation.to() / 8;
-
-            char variationPromotionFen = 0;
-            if (variation.isPromotion())
-            {
-                const auto promotion = variation.promotedPiece();
-                variationPromotionFen = promotionPieceToPromotionFen(promotion);
-            }
-
-            const auto variationMoveFan = _chessBoard->getMoveFan(variationStartFile, variationStartRank, variationEndFile, variationEndRank, variationPromotionFen);
+            const auto variationMoveFan = moveToMoveFan(variation);
             _variantVariantsButtons->addItem(variationMoveFan);
         }
 
@@ -381,12 +364,15 @@ void loloof64::ComponentsZone::makeComputerPlayNextMove()
         else {
             _chessBoard->playMove(startFile, startRank, endFile, endRank);
         }
+
+        updateExpectedMoves();
     }
 }
 
 void loloof64::ComponentsZone::showLoosingMessage()
 {
-    QMessageBox::critical(this, tr("Lost game"), tr("You did not find one of the expected moves"));
+    QString expectedMoves{_expectedMovesFanList.join(", ")};
+    QMessageBox::critical(this, tr("You did not find one of the expected moves"), tr("Answers: %1").arg(expectedMoves));
 }
 
 char loloof64::ComponentsZone::promotionPieceToPromotionFen(Piece promotion) const
@@ -412,4 +398,40 @@ void loloof64::ComponentsZone::clearVariants()
 {
     _variantMainButton->clear();
     _variantVariantsButtons->clear();
+}
+
+QString loloof64::ComponentsZone::moveToMoveFan(Move move)
+{
+    const auto startFile = move.from() % 8;
+    const auto startRank = move.from() / 8;
+    const auto endFile = move.to() % 8;
+    const auto endRank = move.to() / 8;
+
+    char nextMovePromotionFen = 0;
+    if (move.isPromotion())
+    {
+        const auto promotion = move.promotedPiece();
+        nextMovePromotionFen = promotionPieceToPromotionFen(promotion);
+    }
+
+    const auto moveFan = _chessBoard->getMoveFan(startFile, startRank, endFile, endRank, nextMovePromotionFen);
+    return moveFan;
+}
+
+void loloof64::ComponentsZone::updateExpectedMoves()
+{
+    _expectedMovesFanList.clear();
+
+    auto mainMoveId = _currentGame.nextMove();
+    const auto mainMove = _currentGame.move(mainMoveId);
+    const auto mainMoveFan = moveToMoveFan(mainMove);
+    _expectedMovesFanList.push_back(mainMoveFan);
+
+    const auto variationsIds = _currentGame.variations();
+    for (const auto currentVariationId: variationsIds)
+    {
+        const auto variation = _currentGame.move(currentVariationId);
+        const auto variationMoveFan = moveToMoveFan(variation);
+        _expectedMovesFanList.push_back(variationMoveFan);
+    }
 }

@@ -309,33 +309,33 @@ b%2
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="10"/>
+        <location filename="../gui/mainwindow.cpp" line="29"/>
         <source>Toggle side</source>
         <comment>Caption for the button &apos;toggle side&apos;</comment>
         <translation>Alternar el tablero de ajedrez</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="13"/>
+        <location filename="../gui/mainwindow.cpp" line="10"/>
         <source>New game</source>
         <comment>Caption for the button &apos;new game&apos;</comment>
         <translation>Nuevo juego</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="24"/>
+        <location filename="../gui/mainwindow.cpp" line="21"/>
         <source>Stop game</source>
         <comment>Caption for the button &apos;stop game&apos;</comment>
         <translation>Dejar el juego</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="19"/>
-        <location filename="../gui/mainwindow.cpp" line="27"/>
+        <location filename="../gui/mainwindow.cpp" line="16"/>
+        <location filename="../gui/mainwindow.cpp" line="24"/>
         <source>Confirm stop game ?</source>
         <comment>Confirm stop game modal title</comment>
         <translation>Dejar el juego ?</translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="20"/>
-        <location filename="../gui/mainwindow.cpp" line="28"/>
+        <location filename="../gui/mainwindow.cpp" line="17"/>
+        <location filename="../gui/mainwindow.cpp" line="25"/>
         <source>Are you sure you want to stop the current game ?</source>
         <comment>Confirm stop game modal text</comment>
         <translation>Usted quiere dejar el juego ?</translation>
@@ -1021,32 +1021,36 @@ b%2
         <translation>Encontraste todos los golpes</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="192"/>
+        <location filename="../gui/componentszone.cpp" line="196"/>
         <source>Select the game pgn</source>
         <translation>Elige el juego pgn</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="193"/>
+        <location filename="../gui/componentszone.cpp" line="197"/>
         <source>Chess game (*.pgn)</source>
         <translation>Archivo de juego de ajedrez (*.pgn)</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="236"/>
+        <location filename="../gui/componentszone.cpp" line="240"/>
         <source>Empty game</source>
         <translation>Juego vacío</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="236"/>
+        <location filename="../gui/componentszone.cpp" line="240"/>
         <source>No move in this game</source>
         <translation>Ningún golpe en este juego</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="389"/>
-        <source>Lost game</source>
-        <translation>Juego perdido</translation>
+        <location filename="../gui/componentszone.cpp" line="374"/>
+        <source>Answers: %1</source>
+        <translation>Respuestas: %1</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="389"/>
+        <source>Lost game</source>
+        <translation type="vanished">Juego perdido</translation>
+    </message>
+    <message>
+        <location filename="../gui/componentszone.cpp" line="374"/>
         <source>You did not find one of the expected moves</source>
         <translation>Cometiste un error en uno de los golpes</translation>
     </message>
@@ -1059,13 +1063,13 @@ b%2
         <translation type="vanished">No se pudo cargar el juego</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="241"/>
         <location filename="../gui/componentszone.cpp" line="247"/>
+        <location filename="../gui/componentszone.cpp" line="253"/>
         <source>Unable to open file</source>
         <translation>Error al cargar el archivo seleccionado</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="242"/>
+        <location filename="../gui/componentszone.cpp" line="248"/>
         <source>Wrong game data</source>
         <translation>Malos datos del juego</translation>
     </message>
@@ -1120,22 +1124,22 @@ b%2
 <context>
     <name>loloof64::GameSelectionMainZone</name>
     <message>
-        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="9"/>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="16"/>
         <source>Goto first</source>
         <translation>Primero</translation>
     </message>
     <message>
-        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="12"/>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="19"/>
         <source>Goto previous</source>
         <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="15"/>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="22"/>
         <source>Goto next</source>
         <translation>Próximo</translation>
     </message>
     <message>
-        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="18"/>
+        <location filename="../gui/game_selection/gameselectionmainzone.cpp" line="25"/>
         <source>Goto last</source>
         <translation>Pasado</translation>
     </message>

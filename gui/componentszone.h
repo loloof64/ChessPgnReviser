@@ -10,6 +10,7 @@
 #include <QScrollArea>
 #include <QListWidget>
 #include <QPushButton>
+#include <QList>
 #include "chessboard/chessboard.h"
 #include "history/moveshistoryfullcomponent.h"
 #include "../libs/chessx-pgn/database/pgndatabase.h"
@@ -30,6 +31,7 @@ namespace loloof64 {
         void stopGame();
 
     private:
+        QList<QString> _expectedMovesFanList;
         QHBoxLayout *_mainLayout;
         ChessBoard *_chessBoard;
         MovesHistoryFullComponent *_movesHistory;
@@ -49,6 +51,8 @@ namespace loloof64 {
         void showLoosingMessage();
         char promotionPieceToPromotionFen(Piece promotion) const;
         void clearVariants();
+        void updateExpectedMoves();
+        QString moveToMoveFan(Move moveId);
     };
 }
 
