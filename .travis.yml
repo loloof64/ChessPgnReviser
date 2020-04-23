@@ -6,7 +6,7 @@ dist: trusty
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -qq
-  - mkdir -p appdir/bin
+  - mkdir -p appdir/usr/bin
 
 install:
   - sudo apt-get -y install qt510base qt510svg qt510translations libgl1-mesa-dev tree
@@ -15,7 +15,7 @@ install:
 script:
   - qmake CONFIG+=release PREFIX=/usr
   - make -j$(nproc)
-  - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
+  - make INSTALL_ROOT=tmp -j$(nproc) install ; find tmp/
   - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
   - cp translations/*.qm appdir/usr/bin
   - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
