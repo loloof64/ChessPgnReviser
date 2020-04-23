@@ -9,7 +9,7 @@ before_install:
   - mkdir -p appdir/bin
 
 install:
-  - sudo apt-get -y install qt510base qt510svg qt510translations libgl1-mesa-dev
+  - sudo apt-get -y install qt510base qt510svg qt510translations libgl1-mesa-dev tree
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
@@ -17,7 +17,7 @@ script:
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
   - cp -R translations/*.qm appdir
-  - ls -l appdir 
+  - tree -L 3 appdir
   - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
   # export VERSION=... # linuxdeployqt uses this for naming the file
