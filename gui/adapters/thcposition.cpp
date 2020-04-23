@@ -222,7 +222,7 @@ bool loloof64::ThcPosition::isThreeFoldRepetitionsDraw() const
 
     auto positionWithStrippedMoveCounts = positionCopy.ForsythPublish();
     auto previous = positionWithStrippedMoveCounts.find(" ");
-    auto current = previous;
+    unsigned long current{previous};
     for (auto partIndex = 0; partIndex < 4; partIndex++)
     {
         previous = current+1;
