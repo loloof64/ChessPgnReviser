@@ -3,6 +3,7 @@ compiler: gcc
 sudo: require
 dist: trusty
 deploy:
+  github_token: $GITHUB_TOKEN
   local_dir: build
   on:
     branch: master
