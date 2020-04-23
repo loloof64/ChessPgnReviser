@@ -7,6 +7,8 @@ You select the types (human/computer) for both sides: then for each move
 
 You should take care that each game of the pgn has at least a star as a result, and is not empty. Otherwise some game may be forgotten.
 
+Application Icon has been downloaded from [FlatIcon](https://www.flaticon.com/) and designed by Flat Icons.
+
 ## Developers
 
 This project has been made with QtCreator and Qt 5.14
