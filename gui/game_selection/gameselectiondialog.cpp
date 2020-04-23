@@ -19,8 +19,8 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _whitePlayerSelectionLineLayout->addWidget(_whitePlayerSelectionLabel);
     _whitePlayerSelectionLineLayout->addWidget(_whitePlayerSelectionCombo);
     _whitePlayerSelectionLine->setLayout(_whitePlayerSelectionLineLayout);
-    _whitePlayerSelectionCombo->addItem(QString(tr("Human")));
-    _whitePlayerSelectionCombo->addItem(QString(tr("Computer")));
+    _whitePlayerSelectionCombo->addItem(QIcon(QPixmap(":/icons/male.svg")), QString(tr("Human")));
+    _whitePlayerSelectionCombo->addItem(QIcon(QPixmap(":/icons/computer.svg")), QString(tr("Computer")));
 
     _blackPlayerSelectionLine = new QFrame(this);
     _blackPlayerSelectionLineLayout = new QHBoxLayout(this);
@@ -30,8 +30,8 @@ loloof64::GameSelectionDialog::GameSelectionDialog(QWidget *parent) : QDialog(pa
     _blackPlayerSelectionLineLayout->addWidget(_blackPlayerSelectionLabel);
     _blackPlayerSelectionLineLayout->addWidget(_blackPlayerSelectionCombo);
     _blackPlayerSelectionLine->setLayout(_blackPlayerSelectionLineLayout);
-    _blackPlayerSelectionCombo->addItem(QString(tr("Human")));
-    _blackPlayerSelectionCombo->addItem(QString(tr("Computer")));
+    _blackPlayerSelectionCombo->addItem(QIcon(QPixmap(":/icons/male.svg")), QString(tr("Human")));
+    _blackPlayerSelectionCombo->addItem(QIcon(QPixmap(":/icons/computer.svg")), QString(tr("Computer")));
 
     _validateButton = new QPushButton(tr("Validate"), this);
 

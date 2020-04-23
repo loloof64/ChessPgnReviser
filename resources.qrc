@@ -21,5 +21,7 @@
         <file alias="next.svg">resources/icons/next.svg</file>
         <file alias="previous.svg">resources/icons/previous.svg</file>
         <file alias="right.svg">resources/icons/right-arrow.svg</file>
+        <file alias="computer.svg">resources/icons/computer.svg</file>
+        <file alias="male.svg">resources/icons/male.svg</file>
     </qresource>
 </RCC>

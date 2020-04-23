@@ -212,7 +212,9 @@ DISTFILES += \
     resources/chess_vectors/Chess_qlt45.svg \
     resources/chess_vectors/Chess_rdt45.svg \
     resources/chess_vectors/Chess_rlt45.svg \
+    resources/icons/computer.svg \
     resources/icons/left-arrow.svg \
+    resources/icons/male.svg \
     resources/icons/next.svg \
     resources/icons/previous.svg \
     resources/icons/right-arrow.svg \
