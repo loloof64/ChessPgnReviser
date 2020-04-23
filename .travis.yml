@@ -2,6 +2,11 @@ language: cpp
 compiler: gcc
 sudo: require
 dist: trusty
+deploy:
+  github_token: $github_token
+  local_dir: build
+  on:
+    branch: master
 
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
