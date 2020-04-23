@@ -1038,10 +1038,10 @@ b%2
     <message>
         <location filename="../gui/componentszone.cpp" line="240"/>
         <source>No move in this game</source>
-        <translation>No move in this game</translation>
+        <translation>No more move in this game</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="374"/>
+        <location filename="../gui/componentszone.cpp" line="375"/>
         <source>Answers: %1</source>
         <translation>Answers: %1</translation>
     </message>
@@ -1050,7 +1050,7 @@ b%2
         <translation type="vanished">Lost game</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="374"/>
+        <location filename="../gui/componentszone.cpp" line="375"/>
         <source>You did not find one of the expected moves</source>
         <translation>You did not find one of the expected moves</translation>
     </message>

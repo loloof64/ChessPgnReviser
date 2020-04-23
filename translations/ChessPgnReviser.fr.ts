@@ -1038,10 +1038,10 @@ b%2
     <message>
         <location filename="../gui/componentszone.cpp" line="240"/>
         <source>No move in this game</source>
-        <translation>Aucun coup dans cette partie</translation>
+        <translation>Plus aucun coup dans cette partie</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="374"/>
+        <location filename="../gui/componentszone.cpp" line="375"/>
         <source>Answers: %1</source>
         <translation>Réponses: %1</translation>
     </message>
@@ -1050,7 +1050,7 @@ b%2
         <translation type="vanished">Partie perdue</translation>
     </message>
     <message>
-        <location filename="../gui/componentszone.cpp" line="374"/>
+        <location filename="../gui/componentszone.cpp" line="375"/>
         <source>You did not find one of the expected moves</source>
         <translation>Vous vous êtes trompé sur un coup</translation>
     </message>
