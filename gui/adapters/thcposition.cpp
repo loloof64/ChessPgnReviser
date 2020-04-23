@@ -19,7 +19,7 @@ namespace loloof64 {
 
     std::string ThcPosition::getFen() const
     {
-        auto copy{_position};
+        auto copy = _position;
         return copy.ForsythPublish();
     }
 
@@ -51,7 +51,7 @@ namespace loloof64 {
         moveStr += endRankChar;
         moveStr += 'q';
 
-        thc::ChessRules copy{_position};
+        thc::ChessRules copy = _position;
         thc::Move moveToTest;
         moveToTest.TerseIn(&copy, moveStr.toStdString().c_str());
 
@@ -72,7 +72,7 @@ namespace loloof64 {
         moveStr += endRankChar;
         moveStr += 'q';
 
-        thc::ChessRules copy{_position};
+        thc::ChessRules copy = _position;
         thc::Move moveToTest;
         moveToTest.TerseIn(&copy, moveStr.toStdString().c_str());
 
@@ -110,7 +110,7 @@ namespace loloof64 {
         moveStr += endRankChar;
         if (promotionFen) moveStr += tolower(promotionFen);
 
-        thc::ChessRules copy{_position};
+        thc::ChessRules copy =_position;
         thc::Move moveToTest;
         moveToTest.TerseIn(&copy, moveStr.toStdString().c_str());
 
@@ -162,7 +162,7 @@ bool loloof64::ThcPosition::isFiftyMovesRuleDraw() const
     // because not well suited
     const auto fen = getFen();
 
-    auto halfMovesCount{-1};
+    auto halfMovesCount = -1;
     auto previous = fen.find(" ");
     auto current = previous;
     for (auto partIndex = 0; partIndex < 4; partIndex++)
@@ -218,11 +218,11 @@ bool loloof64::ThcPosition::isThreeFoldRepetitionsDraw() const
     // Not relying on the ChessRules class implementation
     // because not well suited
 
-    auto positionCopy{_position};
+    auto positionCopy = _position;
 
     auto positionWithStrippedMoveCounts = positionCopy.ForsythPublish();
     auto previous = positionWithStrippedMoveCounts.find(" ");
-    unsigned long current{previous};
+    unsigned long current = previous;
     for (auto partIndex = 0; partIndex < 4; partIndex++)
     {
         previous = current+1;
@@ -247,7 +247,7 @@ QString loloof64::ThcPosition::getMoveSan(int startFile, int startRank, int endF
     moveStr += endRankChar;
     moveStr += tolower(promotionFen);
 
-    thc::ChessRules copy{_position};
+    thc::ChessRules copy = _position;
     thc::Move moveToTest;
     moveToTest.TerseIn(&copy, moveStr.toStdString().c_str());
 

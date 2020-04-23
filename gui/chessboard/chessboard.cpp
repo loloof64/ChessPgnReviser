@@ -603,7 +603,7 @@ void loloof64::ChessBoard::showGameFinishedMessageIfNecessary()
 
 void loloof64::ChessBoard::drawArrowBetweenCells(QPainter &painter, QColor color, int startFile, int startRank, int endFile, int endRank)
 {
-    QPen pen{color};
+    QPen pen = color;
     pen.setWidth(floor(_cellsSize * 0.2));
     painter.setPen(pen);
 

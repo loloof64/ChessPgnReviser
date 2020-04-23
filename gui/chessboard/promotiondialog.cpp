@@ -7,26 +7,26 @@ loloof64::PromotionDialog::PromotionDialog(QWidget *parent, bool whitePlayer, in
     _mainLayout = new QHBoxLayout(this);
     _mainLayout->setSpacing(10);
 
-    QString queenImageRef{
+    QString queenImageRef =
         whitePlayer ?
         ":/chess_vectors/ql.svg" :
         ":/chess_vectors/qd.svg"
-    };
-    QString rookImageRef{
+    ;
+    QString rookImageRef =
         whitePlayer ?
         ":/chess_vectors/rl.svg" :
         ":/chess_vectors/rd.svg"
-    };
-    QString bishopImageRef{
+    ;
+    QString bishopImageRef =
         whitePlayer ?
         ":/chess_vectors/bl.svg" :
         ":/chess_vectors/bd.svg"
-    };
-    QString knightImageRef{
+    ;
+    QString knightImageRef =
         whitePlayer ?
         ":/chess_vectors/nl.svg" :
         ":/chess_vectors/nd.svg"
-    };
+    ;
 
     _queenButton = new QPushButton(this);
     _rookButton = new QPushButton(this);
