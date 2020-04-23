@@ -46,6 +46,7 @@ namespace loloof64 {
 
     struct HistoryItem
     {
+        HistoryItem(): lastMove(MoveCoordinates(-1,-1,-1,-1)){};
         HistoryItem(QString moveFan, QString newPositionFen, MoveCoordinates lastMove):
             moveFan(moveFan), newPositionFen(newPositionFen), lastMove(lastMove){};
 
