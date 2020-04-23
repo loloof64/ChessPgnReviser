@@ -413,7 +413,6 @@ QString loloof64::ComponentsZone::moveToMoveFan(Move move)
         const auto promotion = move.promotedPiece();
         nextMovePromotionFen = promotionPieceToPromotionFen(promotion);
     }
-
     const auto moveFan = _chessBoard->getMoveFan(startFile, startRank, endFile, endRank, nextMovePromotionFen);
     return moveFan;
 }
@@ -422,16 +421,20 @@ void loloof64::ComponentsZone::updateExpectedMoves()
 {
     _expectedMovesFanList.clear();
 
-    auto mainMoveId = _currentGame.nextMove();
-    const auto mainMove = _currentGame.move(mainMoveId);
-    const auto mainMoveFan = moveToMoveFan(mainMove);
-    _expectedMovesFanList.push_back(mainMoveFan);
+    try {
+        auto mainMoveId = _currentGame.nextMove();
+        const auto mainMove = _currentGame.move(mainMoveId);
+        const auto mainMoveFan = moveToMoveFan(mainMove);
+        _expectedMovesFanList.push_back(mainMoveFan);
 
-    const auto variationsIds = _currentGame.variations();
-    for (const auto currentVariationId: variationsIds)
-    {
-        const auto variation = _currentGame.move(currentVariationId);
-        const auto variationMoveFan = moveToMoveFan(variation);
-        _expectedMovesFanList.push_back(variationMoveFan);
+        const auto variationsIds = _currentGame.variations();
+        for (const auto currentVariationId: variationsIds)
+        {
+            const auto variation = _currentGame.move(currentVariationId);
+            const auto variationMoveFan = moveToMoveFan(variation);
+            _expectedMovesFanList.push_back(variationMoveFan);
+        }
+    } catch (IllegalMoveException *e) {
+        _expectedMovesFanList.clear();
     }
 }

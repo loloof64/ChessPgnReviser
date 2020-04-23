@@ -73,7 +73,7 @@ loloof64::GameSelectionMainZone::GameSelectionMainZone(QWidget *parent) : QWidge
         if (valueText.isEmpty()) return;
 
         const auto valuetoSet = static_cast<quint64>(std::stoi(valueText.toStdString().c_str())) -1;
-        const auto inBounds = valuetoSet >= 0 && valuetoSet < _pgnDatabase->count();
+        const auto inBounds = valuetoSet < _pgnDatabase->count();
         if (inBounds)
         {
             _selectedGameIndex = valuetoSet;

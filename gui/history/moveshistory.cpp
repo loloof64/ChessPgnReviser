@@ -257,9 +257,6 @@ void loloof64::MovesHistory::commitHistoryNodeSelection()
     auto stillInACell = _colToHighlight >= 0 && _rowToHighlight >= 0;
     if (stillInACell) {
         setCurrentCell(_rowToHighlight, _colToHighlight);
-        //////////////////////////////
-        // TODO scrollTo();
-        ///////////////////////////////
     }
     else
     {
