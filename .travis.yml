@@ -34,9 +34,9 @@ script:
 after_success:
   - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-Linux-x86_64.AppImage
   - chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
-  - curl -F'file=@yChessPgnReviser-Linux-x86_64.AppImage' https://0x0.st
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - bash upload.sh Chess_Pgn_Reviser*.AppImage
   
 branches:
   except:
-    - # Do not build tags that we create when we upload to GitHub Releases
     - /^(?i:continuous)/ 
