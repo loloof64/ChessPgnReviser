@@ -3,5 +3,5 @@ Type=Application
 Name=Chess Pgn Reviser
 Comment=Load your pgn and play try to remember the moves against the engine.
 Exec=ChessPgnReviser
-Icon=chess.png
+Icon=chess
 Categories=Game;
