@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 
     QTranslator myappTranslator;
     QDir translationsDir;
-    translationsDir.cd("translations");
     const auto path = translationsDir.absolutePath();
 
     myappTranslator.load(QLocale(), QString("ChessPgnReviser"), ".", QString(path));
