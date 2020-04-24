@@ -5,6 +5,7 @@ dist: trusty
 deploy:
   github_token: $GITHUB_TOKEN
   provider: releases
+  edge: true
   local_dir: build
   on:
     branch: master
