@@ -9,8 +9,6 @@ deploy:
   local_dir: build
   on:
     branch: master
-env:
-  - QMAKE_PATH=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 
 before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
@@ -19,7 +17,7 @@ before_install:
   - mkdir -p appdir/translations
 
 install:
-  - sudo apt-get -y install qt510base qt510svg qt510translations libgl1-mesa-dev tree libgtk2.0-dev git
+  - sudo apt-get -y install qt510base qt510svg qt510translations qt510tools libgl1-mesa-dev tree libgtk2.0-dev git
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
@@ -38,8 +36,8 @@ script:
   - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
   # export VERSION=... # linuxdeployqt uses this for naming the file
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -qmake=${QMAKE_PATH} -bundle-non-qt-libs -verbose=1
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -qmake=${QMAKE_PATH} -appimage -verbose=1
+  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -verbose=1
+  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -verbose=1
   - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser.AppImage
   - chmod a+x ChessPgnReviser.AppImage
 
