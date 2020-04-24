@@ -30,11 +30,11 @@ script:
   # export VERSION=... # linuxdeployqt uses this for naming the file
   - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -verbose=1
   - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -verbose=1
-  - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-x86_64.AppImage
-  - chmod a+x ChessPgnReviser-x86_64.AppImage
 
 after_success:
-  - curl --upload-file ./ChessPgnReviser-x86_64.AppImage https://transfer.sh/ChessPgnReviser-x86_64.AppImage
+  - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-Linux-x86_64.AppImage
+  - chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
+  - curl -F'file=@yChessPgnReviser-Linux-x86_64.AppImage' https://0x0.st
   
 branches:
   except:
