@@ -12,6 +12,7 @@ before_install:
   - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
   - sudo apt-get update -qq
   - mkdir -p appdir/usr/bin
+  - mkdir -p appdir/usr/translations
 
 install:
   - sudo apt-get -y install qt510base qt510svg qt510translations libgl1-mesa-dev tree libgtk2.0-dev git
@@ -22,7 +23,7 @@ script:
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
   - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
-  - cp translations/*.qm appdir/usr/bin
+  - cp translations/*.qm appdir/usr/translations
   - git clone http://code.qt.io/qt/qtstyleplugins.git
   - cd qtstyleplugins
   - qmake
