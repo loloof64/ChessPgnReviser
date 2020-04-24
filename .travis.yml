@@ -24,6 +24,7 @@ script:
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
   - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
   - cp translations/*.qm appdir/translations
+  - sudo cp /usr/bin/lconvert appdir/usr/bin/lconvert
   - git clone http://code.qt.io/qt/qtstyleplugins.git
   - cd qtstyleplugins
   - qmake
