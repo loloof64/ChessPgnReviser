@@ -4,6 +4,7 @@ sudo: require
 dist: trusty
 deploy:
   github_token: $GITHUB_TOKEN
+  provider: releases
   local_dir: build
   on:
     branch: master
