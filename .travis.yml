@@ -35,7 +35,7 @@ after_success:
   - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-Linux-x86_64.AppImage
   - chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - bash upload.sh Chess_Pgn_Reviser*.AppImage
+  - bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
   
 branches:
   except:
