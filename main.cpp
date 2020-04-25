@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QTranslator myappTranslator;
     QDir rootPath = QDir(QCoreApplication::applicationDirPath());
 
-    myappTranslator.load(QLocale(), QString("ChessPgnReviser"), ".", rootPath.relativeFilePath("../share/translations"));
+    myappTranslator.load(QLocale(), QString("ChessPgnReviser"), ".", rootPath.relativeFilePath("."));
     app.installTranslator(&myappTranslator);
 
     QTranslator qtTranslator;
