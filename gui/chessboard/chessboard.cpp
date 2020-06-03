@@ -334,92 +334,102 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
             const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'q');
             const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'q');
 
-            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
+            try {
+                _relatedPosition->makeMove(startFile, startRank, file ,rank, 'q');
 
-            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+                const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+                MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            localUpdateLastMove();
-            clearDndData();
-            repaint();
-            promotionDialog.hide();
-            handleGameFinished();
+                localUpdateLastMove();
+                clearDndData();
+                repaint();
+                promotionDialog.hide();
+                handleGameFinished();
 
-            const auto gameFinished = ! gameInProgress();
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
-            emitExternalPlayerTurnIfNecessary();
+                const auto gameFinished = ! gameInProgress();
+                emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+                emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+                emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary();
+                showGameFinishedMessageIfNecessary();
+            } catch (const IllegalMoveException &e) {}
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
             const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'r');
             const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'r');
 
-            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
+            try {
+                _relatedPosition->makeMove(startFile, startRank, file ,rank, 'r');
 
-            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+                const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+                MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            localUpdateLastMove();
-            clearDndData();
-            repaint();
-            promotionDialog.hide();
-            handleGameFinished();
+                localUpdateLastMove();
+                clearDndData();
+                repaint();
+                promotionDialog.hide();
+                handleGameFinished();
 
-            const auto gameFinished = ! gameInProgress();
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
-            emitExternalPlayerTurnIfNecessary();
+                const auto gameFinished = ! gameInProgress();
+                emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+                emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+                emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary();
+                showGameFinishedMessageIfNecessary();
+            }
+            catch (const IllegalMoveException &e){}
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
             const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'b');
             const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'b');
 
-            _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
+            try {
+                _relatedPosition->makeMove(startFile, startRank, file ,rank, 'b');
 
-            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+                const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+                MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            localUpdateLastMove();
-            clearDndData();
-            repaint();
-            promotionDialog.hide();
-            handleGameFinished();
+                localUpdateLastMove();
+                clearDndData();
+                repaint();
+                promotionDialog.hide();
+                handleGameFinished();
 
-            const auto gameFinished = ! gameInProgress();
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
-            emitExternalPlayerTurnIfNecessary();
+                const auto gameFinished = ! gameInProgress();
+                emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+                emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+                emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary();
+                showGameFinishedMessageIfNecessary();
+            } catch (const IllegalMoveException &e){}
+
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
                 [=, &promotionDialog](){
             const auto moveSan = _relatedPosition->getMoveSan(startFile, startRank, file, rank, 'n');
             const auto moveFan = _relatedPosition->getMoveFan(startFile, startRank, file, rank, 'n');
 
-            _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
+            try {
+                _relatedPosition->makeMove(startFile, startRank, file, rank, 'n');
 
-            const auto resultingFen = QString(_relatedPosition->getFen().c_str());
-            MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
+                const auto resultingFen = QString(_relatedPosition->getFen().c_str());
+                MoveCoordinates lastMoveCoords(startFile, startRank, file, rank);
 
-            localUpdateLastMove();
-            clearDndData();
-            repaint();
-            promotionDialog.hide();
-            handleGameFinished();
+                localUpdateLastMove();
+                clearDndData();
+                repaint();
+                promotionDialog.hide();
+                handleGameFinished();
 
-            const auto gameFinished = ! gameInProgress();
-            emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
-            emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
-            emitExternalPlayerTurnIfNecessary();
+                const auto gameFinished = ! gameInProgress();
+                emit moveDoneAsSan(moveSan, resultingFen, lastMoveCoords, gameFinished);
+                emit moveDoneAsFan(moveFan, resultingFen, lastMoveCoords, gameFinished);
+                emitExternalPlayerTurnIfNecessary();
 
-            showGameFinishedMessageIfNecessary();
+                showGameFinishedMessageIfNecessary();
+            } catch (const IllegalMoveException &e) {}
         });
 
         promotionDialog.exec();
@@ -448,7 +458,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         showGameFinishedMessageIfNecessary();
     }
-    catch (IllegalMoveException const *e)
+    catch (const IllegalMoveException &e)
     {
         clearDndData();
         repaint();
