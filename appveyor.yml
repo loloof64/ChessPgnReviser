@@ -6,7 +6,10 @@ branches:
 
 skip_tags: true
 
-image: Qt 5.14.2
+image: Visual Studio 2019
+
+platform: x64
+configuration: Release
 
 install:
   - set QTDIR=C:\Qt\5.14.2\mingw73_64
@@ -14,3 +17,10 @@ install:
 build_script:
   - qmake ChessPgnReviser.pro
   - make.exe
+
+deploy:
+- provider: GitHub
+  draft: false
+  prerelease: false
+  on:
+    branch: master 
