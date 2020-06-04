@@ -5,10 +5,13 @@
 #include <QString>
 #include <QLibraryInfo>
 #include <QDir>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QFontDatabase::addApplicationFont(":/fonts/FreeSerif.ttf");
 
     QTranslator myappTranslator;
     QDir rootPath = QDir(QCoreApplication::applicationDirPath());

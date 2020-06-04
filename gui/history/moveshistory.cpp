@@ -42,6 +42,8 @@ void loloof64::MovesHistory::addHistoryItem(HistoryItem item, bool gameFinished)
     auto moveButton = new QPushButton(item.moveFan, this);
     moveButton->setFlat(true);
     moveButton->setStyleSheet("text-align: right; margin: 5px; font-size: 18px;");
+    moveButton->setFont(QFont("Free Serif"));
+
     connect(moveButton, &QPushButton::clicked, [this, item](){
         const auto itemIndexInData = _dataItems.indexOf(item);
         _rowToHighlight = itemIndexInData / 2;

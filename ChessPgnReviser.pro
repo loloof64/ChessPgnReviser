@@ -222,6 +222,7 @@ DISTFILES += \
     resources/icons/start.svg \
     resources/icons/stop.svg \
     resources/icons/swap.svg \
+    resources/fonts/FreeSerif.ttf
 
 RESOURCES += \
     resources.qrc \

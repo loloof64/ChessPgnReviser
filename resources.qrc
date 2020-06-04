@@ -24,4 +24,7 @@
         <file alias="computer.svg">resources/icons/computer.svg</file>
         <file alias="male.svg">resources/icons/male.svg</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file alias="FreeSerif.ttf">resources/fonts/FreeSerif.ttf</file>
+    </qresource>
 </RCC>
