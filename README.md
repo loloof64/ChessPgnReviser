@@ -1,3 +1,5 @@
+https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master
+
 # Chess Pgn Reviser
 
 Load your pgn and play try to remember the moves against the engine.
