@@ -261,11 +261,11 @@ QString loloof64::ThcPosition::getMoveSan(int startFile, int startRank, int endF
 QString loloof64::ThcPosition::getMoveFan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
 {
     const auto whiteTurn = isWhiteTurn();
-    const auto knightReplacement = whiteTurn ? QString("\u2658") : QString("\u265E");
-    const auto bishopReplacement = whiteTurn ? QString("\u2657") : QString("\u265D");
-    const auto rookReplacement = whiteTurn ? QString("\u2656") : QString("\u265C");
-    const auto queenReplacement = whiteTurn ? QString("\u2655") : QString("\u265B");
-    const auto kingReplacement = whiteTurn ? QString("\u2654") : QString("\u265A");
+    const auto knightReplacement = whiteTurn ? QString(L'\u2658') : QString(L'\u265E');
+    const auto bishopReplacement = whiteTurn ? QString(L'\u2657') : QString(L'\u265D');
+    const auto rookReplacement = whiteTurn ? QString(L'\u2656') : QString(L'\u265C');
+    const auto queenReplacement = whiteTurn ? QString(L'\u2655') : QString(L'\u265B');
+    const auto kingReplacement = whiteTurn ? QString(L'\u2654') : QString(L'\u265A');
 
     auto moveFan = getMoveSan(startFile, startRank, endFile, endRank, promotionFen);
     moveFan.replace("N", knightReplacement);

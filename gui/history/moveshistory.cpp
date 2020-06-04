@@ -1,6 +1,7 @@
 #include "moveshistory.h"
 #include <QLabel>
 #include <QHeaderView>
+#include <QFont>
 #include <QPushButton>
 #include <string>
 

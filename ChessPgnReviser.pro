@@ -221,7 +221,7 @@ DISTFILES += \
     resources/icons/right-arrow.svg \
     resources/icons/start.svg \
     resources/icons/stop.svg \
-    resources/icons/swap.svg
+    resources/icons/swap.svg \
 
 RESOURCES += \
     resources.qrc \
