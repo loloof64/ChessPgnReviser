@@ -1,4 +1,4 @@
-https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master
+[![Build Status](https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master)](https://travis-ci.com/loloof64/ChessPgnReviser)
 
 # Chess Pgn Reviser
 
