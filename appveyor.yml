@@ -15,11 +15,11 @@ install:
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
 build_script:
-  - qmake FastQt.pro
+  - qmake ChessPgnReviser.pro
   - mingw32-make
 after_build:
-  - windeployqt release/fastqt.exe
-  - cmd: cp LICENSE release/LICENSE.txt"
+  - windeployqt release/chesspgnreviser.exe
+  - cmd: cp LICENSE.md release/LICENSE.txt"
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
