@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     addToolBar(_mainToolBar);
     setCentralWidget(_componentsZone);
 
-    setFixedSize(1100, 600);
+    setFixedSize(1150, 600);
 }
 
 MainWindow::~MainWindow()
