@@ -48,17 +48,17 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtInstallPath}\msvc2017_64\plugins\platforms\*"; DestDir: "{app}\plugins\platforms"; Flags: ignoreversion
-Source: "{#QtInstallPath}\msvc2017_64\plugins\imageformats\*"; DestDir: "{app}\plugins\imageformats"; Flags: ignoreversion
-Source: "{#SourcePath}\{#IconName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourcePath}\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourcePath}\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourcePath}\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion 
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"
+Source: "{#QtInstallPath}\msvc2017_64\plugins\platforms\*"; DestDir: "{app}\plugins\platforms"
+Source: "{#QtInstallPath}\msvc2017_64\plugins\imageformats\*"; DestDir: "{app}\plugins\imageformats"
+Source: "{#SourcePath}\{#IconName}"; DestDir: "{app}"
+Source: "{#SourcePath}\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"
+Source: "{#SourcePath}\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"
+Source: "{#SourcePath}\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"
+Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"
+Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"
+Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"
+Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
