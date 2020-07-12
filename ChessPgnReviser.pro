@@ -191,6 +191,8 @@ TRANSLATIONS += \
     resources/translations/ChessPgnReviser.fr.ts \
     resources/translations/ChessPgnReviser.es.ts
 
+RC_ICONS = chess.ico
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
