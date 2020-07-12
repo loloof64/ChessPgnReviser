@@ -13,7 +13,7 @@ configuration: Release
 install:
   - set QTDIR=C:\Qt\5.14.2\msvc2017_64
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSBuild\Current\Bin"
+  - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64"
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 build_script:
