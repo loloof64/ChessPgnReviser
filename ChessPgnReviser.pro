@@ -227,7 +227,8 @@ DISTFILES += \
     resources/fonts/FreeSerif.ttf \
     resources/translations/ChessPgnReviser.en.qm \
     resources/translations/ChessPgnReviser.fr.qm \
-    resources/translations/ChessPgnReviser.es.qm
+    resources/translations/ChessPgnReviser.es.qm \
+    chess.ico
 
 RESOURCES += \
     resources.qrc \

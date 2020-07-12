@@ -51,7 +51,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#QtInstallPath}\msvc2017_64\plugins\platforms\*"; DestDir: "{app}\plugins\platforms"; Flags: ignoreversion
 Source: "{#QtInstallPath}\msvc2017_64\plugins\imageformats\*"; DestDir: "{app}\plugins\imageformats"; Flags: ignoreversion
-Source: "{#SourcePath}\chess.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourcePath}\{#IconName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"; Flags: ignoreversion
