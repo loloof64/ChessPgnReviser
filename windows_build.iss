@@ -30,6 +30,7 @@ SetupIconFile=C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnRe
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -44,6 +45,10 @@ Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\build-ChessPgnR
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.14.2\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion 
+Source: "C:\Qt\5.14.2\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.14.2\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.14.2\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
