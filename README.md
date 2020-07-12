@@ -35,3 +35,4 @@ Using some icon resources from [FlatIcon](https://www.flaticon.com/).
 * previous, next, left-arrow, right-arrow svg by Roundicons
 * male svg by Pixelmeetup
 * computer svg by Eucalyp
+* chess png by FreePik
