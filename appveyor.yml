@@ -11,15 +11,14 @@ image: Visual Studio 2019
 configuration: Release
 
 install:
-  - set QTDIR=C:\Qt\5.14.2\mingw73_64
+  - set QTDIR=C:\Qt\5.14.2\msvc2017_64
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6";C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev;C:\MinGW\bin;%PATH%
-  - mingw-get install g++
+  - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6"
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 build_script:
-  - qmake ChessPgnReviser.pro
-  - mingw32-make -j4
+  - qmake
+  - nmake
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.md release/LICENSE.txt"
