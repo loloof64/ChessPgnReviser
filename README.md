@@ -11,6 +11,8 @@ You should take care that each game of the pgn has at least a star as a result, 
 
 Application Icon has been downloaded from [FlatIcon](https://www.flaticon.com/) and designed by Flat Icons.
 
+FreeSerif font downloaded from https://fr.fonts2u.com/free-serif.police.
+
 ## Developers
 
 This project has been made with QtCreator and Qt 5.14

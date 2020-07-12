@@ -187,9 +187,9 @@ HEADERS += \
     libs/thc-chess-library/util.h
 
 TRANSLATIONS += \
-    translations/ChessPgnReviser.en.ts \
-    translations/ChessPgnReviser.fr.ts \
-    translations/ChessPgnReviser.es.ts
+    resources/translations/ChessPgnReviser.en.ts \
+    resources/translations/ChessPgnReviser.fr.ts \
+    resources/translations/ChessPgnReviser.es.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -222,7 +222,10 @@ DISTFILES += \
     resources/icons/start.svg \
     resources/icons/stop.svg \
     resources/icons/swap.svg \
-    resources/fonts/FreeSerif.ttf
+    resources/fonts/FreeSerif.ttf \
+    resources/translations/ChessPgnReviser.en.qm \
+    resources/translations/ChessPgnReviser.fr.qm \
+    resources/translations/ChessPgnReviser.es.qm
 
 RESOURCES += \
     resources.qrc \

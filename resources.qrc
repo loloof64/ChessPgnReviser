@@ -27,4 +27,9 @@
     <qresource prefix="/fonts">
         <file alias="FreeSerif.ttf">resources/fonts/FreeSerif.ttf</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file alias="ChessPgnReviser.en.qm">resources/translations/ChessPgnReviser.en.qm</file>
+        <file alias="ChessPgnReviser.es.qm">resources/translations/ChessPgnReviser.es.qm</file>
+        <file alias="ChessPgnReviser.fr.qm">resources/translations/ChessPgnReviser.fr.qm</file>
+    </qresource>
 </RCC>
