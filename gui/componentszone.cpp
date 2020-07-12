@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iterator>
 #include <QString>
+#include <QDir>
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>
@@ -193,7 +194,7 @@ void loloof64::ComponentsZone::reverseBoard()
 
 void loloof64::ComponentsZone::newGame()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select the game pgn"), "",
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select the game pgn"), QDir::homePath(),
                                                    tr("Chess game (*.pgn)"));
 
 

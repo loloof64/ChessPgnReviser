@@ -42,9 +42,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\build-ChessPgnReviser-Desktop_Qt_5_14_2_MSVC2017_64bit-Release\release\ChessPgnReviser.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.14.2\msvc2017_64\plugins\iconengines\*"; DestDir: "{app}\plugins\iconengines"; Flags: ignoreversion
 Source: "C:\Qt\5.14.2\msvc2017_64\plugins\platforms\*"; DestDir: "{app}\plugins\platforms"; Flags: ignoreversion
-Source: "C:\Qt\5.14.2\msvc2017_64\plugins\platformthemes\*"; DestDir: "{app}\plugins\platformthemes"; Flags: ignoreversion
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\ChessPgnReviser\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"; Flags: ignoreversion
