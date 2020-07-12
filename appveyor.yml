@@ -13,8 +13,8 @@ configuration: Release
 install:
   - set QTDIR=C:\Qt\5.14.2\mingw73_64
   - choco install -y InnoSetup
-  - choco install mingw-get --install-args="'/DIR=C:\mingw-get'"
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6";C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev;C:\mingw-get;%PATH%
+  - choco install -y mingw-get
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6";C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev;C:\tools\MinGW;%PATH%
   - mingw-get install g++
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
