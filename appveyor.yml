@@ -13,19 +13,21 @@ configuration: Release
 install:
   - set QTDIR=C:\Qt\5.14.2\mingw73_64
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+  - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6"
+  - lupdate ChessPgnReviser.pro
+  - lrelease ChessPgnReviser.pro
 build_script:
   - qmake ChessPgnReviser.pro
-  - mingw32-make
+  - mingw32-make -j4
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.md release/LICENSE.txt"
-  - iscc innosetup.iss
+  - iscc windows_build.iss
   - rm release/*.o
   - rm release/*.cpp
 
 artifacts:
-  - path: Output\ChessPgnReviser.exe
+  - path: Output\ChessPgnReviser-Windows-x86_64.exe
   - path: release
     type: zip
 
