@@ -2,6 +2,8 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define QtInstallPath "C:\Qt\5.14.2\mingw73_64"
+#define QtPluginsPath "{#QtInstallPath}\plugins"
+#define QtBinPath "{#QtInstallPath}\bin"
 #define IconName "chess.ico"
 #define OutputDir "release"
 #define SourcePath "C:\projects\chesspgnreviser"
@@ -48,16 +50,16 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"
-Source: "{#QtInstallPath}\msvc2017_64\plugins\platforms\*"; DestDir: "{app}\plugins\platforms"
-Source: "{#QtInstallPath}\msvc2017_64\plugins\imageformats\*"; DestDir: "{app}\plugins\imageformats"
+Source: "{#QtPluginsPath}\platforms\*"; DestDir: "{app}\plugins\platforms"
+Source: "{#QtPluginsPath}\imageformats\*"; DestDir: "{app}\plugins\imageformats"
 Source: "{#SourcePath}\{#IconName}"; DestDir: "{app}"
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.en.qm"; DestDir: "{app}"
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.es.qm"; DestDir: "{app}"
 Source: "{#SourcePath}\resources\translations\ChessPgnReviser.fr.qm"; DestDir: "{app}"
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"
-Source: "{#QtInstallPath}\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"
+Source: "{#QtBinPath}\Qt5Core.dll"; DestDir: "{app}"
+Source: "{#QtBinPath}\Qt5Gui.dll"; DestDir: "{app}"
+Source: "{#QtBinPath}\Qt5Widgets.dll"; DestDir: "{app}"
+Source: "{#QtBinPath}\Qt5Svg.dll"; DestDir: "{app}"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
