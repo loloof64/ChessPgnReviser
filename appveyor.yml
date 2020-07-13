@@ -28,12 +28,10 @@ build_script:
   - mingw32-make -j4
 
 after_build:
-  - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.txt release/LICENSE.txt"
-  - iscc windows_build.iss
-  - ping -n 9 127.0.0.1 > nul
   - rm release/*.o
   - rm release/*.cpp
+  - iscc windows_build.iss
 
 artifacts:
   - path: ChessPgnReviser-Windows-x86_64
