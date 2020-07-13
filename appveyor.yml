@@ -18,9 +18,9 @@ install:
   - DIR "C:\Qt\Tools"
   - DIR "C:\Qt\5.14.2"
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_32\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
-  - set CC=C:\Qt\Tools\mingw730_32\bin\gcc.exe
-  - set CXX=C:\Qt\Tools\mingw730_32\bin\g++.exe
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
+  - set CC=C:\Qt\Tools\mingw730_64\bin\gcc.exe
+  - set CXX=C:\Qt\Tools\mingw730_64\bin\g++.exe
   - set Qt5_DIR=%QTDIR%\lib\cmake\Qt5
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
