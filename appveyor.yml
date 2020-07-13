@@ -26,8 +26,6 @@ install:
 build_script:
   - qmake
   - mingw32-make -j4
-
-after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.txt release/LICENSE.txt"
   - iscc windows_build.iss
