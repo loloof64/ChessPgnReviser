@@ -33,7 +33,9 @@ build_script:
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.txt release/LICENSE.txt"
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - iscc windows_build.iss
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))  
   - rm release/*.o
   - rm release/*.cpp
 
@@ -47,7 +49,4 @@ deploy:
   draft: false
   prerelease: false
   on:
-    branch: master 
-
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    branch: master
