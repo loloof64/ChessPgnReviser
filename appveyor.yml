@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 0.1.0
 
 branches:
   only:
@@ -11,17 +11,15 @@ image: Visual Studio 2019
 configuration: Release
 
 install:
-  - DIR "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC"
-  - DIR "C:\Program Files (x86)\Windows Kits\10\bin"
-  - set QTDIR=C:\Qt\5.14.2\msvc2017_64
+  - set QTDIR=C:\Qt\5.14.2\mingw73_64
   - choco install -y InnoSetup
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-  - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64";"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64"
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6";C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev;C:\MinGW\bin;%PATH%
+  - mingw-get install g++
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 build_script:
-  - qmake
-  - nmake
+  - qmake -makefile ChessPgnReviser.pro
+  - make -j4
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.md release/LICENSE.txt"
