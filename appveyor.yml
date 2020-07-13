@@ -4,26 +4,34 @@ branches:
   only:
     - master
 
-platform:
-  - x64
-
 skip_tags: true
 
 image: Visual Studio 2019
 
 configuration: Release
+platform: x64
+
+environment:
+  QTDIR: C:\Qt\5.14.2\mingw73_64
 
 install:
-  - set QTDIR=C:\Qt\5.14.2\mingw73_64
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_3;"C:\Program Files (x86)\Inno Setup 6";C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev;C:\MinGW\bin;%PATH%
-  - mingw-get install g++
-  - choco install make
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_32\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
+  - set CC=C:\Qt\Tools\mingw730_32\bin\gcc.exe
+  - set CXX=C:\Qt\Tools\mingw730_32\bin\g++.exe
+  - set Qt5_DIR=%QTDIR%\lib\cmake\Qt5
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
+
+before_build:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" ..
+
+
 build_script:
-  - qmake ChessPgnReviser.pro
-  - make -j4
+  - mingw32-make -j4
+
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.md release/LICENSE.txt"
