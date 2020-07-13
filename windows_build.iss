@@ -47,6 +47,10 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"; Tasks: desktopicon
+
 [Files]
 Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"
 Source: "{#QtPluginsPath}\platforms\*"; DestDir: "{app}\plugins\platforms"
@@ -60,8 +64,4 @@ Source: "{#QtBinPath}\Qt5Gui.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Widgets.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Svg.dll"; DestDir: "{app}"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-
-[Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"; Tasks: desktopicon
 
