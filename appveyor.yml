@@ -4,6 +4,9 @@ branches:
   only:
     - master
 
+platform:
+  - x64
+
 skip_tags: true
 
 image: Visual Studio 2019
