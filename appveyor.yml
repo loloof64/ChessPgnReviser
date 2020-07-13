@@ -16,6 +16,7 @@ environment:
 
 install:
   - DIR "C:\Qt\Tools"
+  - DIR "C:\Qt\5.14.2"
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_32\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
   - set CC=C:\Qt\Tools\mingw730_32\bin\gcc.exe
