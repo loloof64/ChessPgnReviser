@@ -15,8 +15,6 @@ environment:
   QTDIR: C:\Qt\5.14.2\mingw73_64
 
 install:
-  - DIR "C:\Qt\Tools"
-  - DIR "C:\Qt\5.14.2"
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
   - set CC=C:\Qt\Tools\mingw730_64\bin\gcc.exe
@@ -31,7 +29,7 @@ build_script:
 
 after_build:
   - windeployqt release/chesspgnreviser.exe
-  - cmd: cp LICENSE.md release/LICENSE.txt"
+  - cmd: cp LICENSE.txt release/LICENSE.txt"
   - iscc windows_build.iss
   - rm release/*.o
   - rm release/*.cpp
