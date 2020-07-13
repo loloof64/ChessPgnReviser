@@ -5,7 +5,7 @@
 #define IconName "chess.ico"
 #define OutputDir "release"
 #define SourcePath "C:\projects\chesspgnreviser"
-#define BuildPath "C:\Users\laure\Documents\Programmation\ProjetsPersos\Qt\build-ChessPgnReviser-Desktop_Qt_5_14_2_MSVC2017_64bit-Release\release"
+#define BuildPath "C:\projects\chesspgnreviser\release"
 #define MyAppName "Chess Pgn Reviser"
 #define MyAppVersion "0.1.0"
 #define MyAppPublisher "loloof64"
