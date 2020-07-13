@@ -23,13 +23,8 @@ install:
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 
-before_build:
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" ..
-
-
 build_script:
+  - qmake
   - mingw32-make -j4
 
 after_build:
