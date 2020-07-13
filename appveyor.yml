@@ -18,8 +18,8 @@ install:
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 build_script:
-  - qmake -makefile ChessPgnReviser.pro
-  - make -j4
+  - qmake ChessPgnReviser.pro
+  - mingw32-make -j4
 after_build:
   - windeployqt release/chesspgnreviser.exe
   - cmd: cp LICENSE.md release/LICENSE.txt"
