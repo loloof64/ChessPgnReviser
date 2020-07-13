@@ -1,8 +1,10 @@
+TEMPLATE = app
+
 QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++14
+CONFIG += c++14 windows release
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
