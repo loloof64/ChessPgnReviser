@@ -44,6 +44,6 @@ deploy:
   auth_token:
     secure: /ZFMrtWy/BftMA/Bc9tJ9Az3zw+6OriwVIWy0f2F82x/bjsBmVMLdx9y4V2JDsZa
   skip_clean: true
-  tag: %tag_name%
+  tag: ${tag_name}
   on:
     branch: master
