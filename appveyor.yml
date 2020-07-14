@@ -32,7 +32,7 @@ before_deploy:
   - appveyor PushArtifact ChessPgnReviser-Windows-x86_64.exe
 
 artifacts:
-  path: C:\projects\chesspgnreviser\Output\ChessPgnReviser-Windows-x86_64.exe
+  path: Output\ChessPgnReviser-Windows-x86_64.exe
   name: chesspgnreviser
 
 deploy:
