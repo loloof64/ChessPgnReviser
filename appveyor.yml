@@ -40,9 +40,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: /ZFMrtWy/BftMA/Bc9tJ9Az3zw+6OriwVIWy0f2F82x/bjsBmVMLdx9y4V2JDsZa
-  skip_cleanup: true
   force_update: true
   tag: ChessPgnReviser-windows-x86_64-$(appveyor_repo_tag_name).exe
   on:
     branch: master
-    appveyor_repo_tag: true # deploy on tag push only
