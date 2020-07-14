@@ -40,7 +40,6 @@ deploy:
   provider: GitHub
   auth_token:
     secure: /ZFMrtWy/BftMA/Bc9tJ9Az3zw+6OriwVIWy0f2F82x/bjsBmVMLdx9y4V2JDsZa
-  force_update: true
-  tag: $(APPVEYOR_REPO_TAG_NAME)
+  skip_clean: true
   on:
     branch: master
