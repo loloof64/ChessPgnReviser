@@ -39,4 +39,4 @@ deploy:
   tag: $(appveyor_repo_tag_name)
   on:
     branch: master
-    APPVEYOR_REPO_TAG: true       # deploy on tag push only
+    appveyor_repo_tag: true       # deploy on tag push only
