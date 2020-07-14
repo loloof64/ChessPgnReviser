@@ -31,9 +31,13 @@ before_deploy:
   - copy /y ChessPgnReviser.exe ChessPgnReviser-Windows-x86_64.exe
   - appveyor PushArtifact ChessPgnReviser-Windows-x86_64.exe
 
+artifacts:
+  path: C:\projects\chesspgnreviser\Output\ChessPgnReviser-Windows-x86_64.exe
+  name: chesspgnreviser
+
 deploy:
   description: 'ChessPgnReviser'
-  artifact: /.*\.exe/
+  artifact: chesspgnreviser
   provider: GitHub
   skip_cleanup: true
   draft: true
