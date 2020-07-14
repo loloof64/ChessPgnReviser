@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master)](https://travis-ci.com/loloof64/ChessPgnReviser)
-https://ci.appveyor.com/api/projects/status/github/ChessPgnReviser
+https://ci.appveyor.com/api/projects/status/github/loloof64/ChessPgnReviser?svg=true&branch=master
 
 # Chess Pgn Reviser
 
