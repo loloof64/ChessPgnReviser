@@ -14,9 +14,6 @@ platform: x64
 environment:
   QTDIR: C:\Qt\5.14.2\mingw73_64
 
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 install:
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
@@ -29,21 +26,17 @@ install:
 build_script:
   - qmake
   - mingw32-make -j4
+  - iscc windows_build.iss /DPWD=%CD% /OOutput
 
-after_build:
-  - cmd: cp LICENSE.txt release/LICENSE.txt"
-  - rm release/*.o
-  - rm release/*.cpp
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-  - iscc windows_build.iss
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
-artifacts:
-  - path: ChessPgnReviser-Windows-x86_64.exe
-    type: zip
+before_deploy:
+  - cd Output
+  - copy /y ChessPgnReviser.exe ChessPgnReviser-Windows-x86_64.exe
+  - appveyor PushArtifact ChessPgnReviser-Windows-x86_64.exe
 
 deploy:
-- provider: GitHub
+  description: 'ChessPgnReviser'
+  artifact: /.*\.exe/
+  provider: GitHub
   draft: false
   prerelease: true
   on:
