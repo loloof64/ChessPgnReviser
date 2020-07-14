@@ -36,6 +36,9 @@ after_success:
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
   
-branches:
-  except:
-    - /^(?i:continuous)/ 
+deploy:
+  provider: releases
+  on.tags: true
+  file: ChessPgnReviser-Linux-x86_64.AppImage
+  on:
+    branch: master
