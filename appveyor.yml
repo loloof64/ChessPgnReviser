@@ -36,7 +36,6 @@ deploy:
   artifact: /.*\.exe/
   provider: GitHub
   skip_cleanup: true
-  provider: releases
   tag: $(appveyor_repo_tag_name)
   on:
     branch: master
