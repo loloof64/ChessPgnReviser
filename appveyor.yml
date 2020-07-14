@@ -35,9 +35,9 @@ deploy:
   description: 'ChessPgnReviser'
   artifact: /.*\.exe/
   provider: GitHub
-  draft: false
-  prerelease: true
-  tag: $(APPVEYOR_REPO_TAG_NAME)
+  skip_cleanup: true
+  provider: releases
+  tag: $(appveyor_repo_tag_name)
   on:
     branch: master
     APPVEYOR_REPO_TAG: true       # deploy on tag push only
