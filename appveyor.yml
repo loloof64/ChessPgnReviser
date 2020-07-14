@@ -24,7 +24,7 @@ install:
 build_script:
   - qmake ChessPgnReviser.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
   - mingw32-make -j4
-  - ldd ChessPgnReviser.exe
+  - ldd C:\projects\chesspgnreviser\ChessPgnReviser.exe | grep mingw
   - iscc windows_build.iss /DPWD=%CD% /OOutput
 
 before_deploy:
