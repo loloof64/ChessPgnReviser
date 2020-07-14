@@ -11,6 +11,7 @@ skip_tags: true
 
 environment:
   QTDIR: C:\Qt\5.14.2\mingw73_64
+  tag_name: %APPVEYOR_REPO_TAG_NAME%
 
 install:
   - choco install -y InnoSetup
@@ -41,6 +42,6 @@ deploy:
   auth_token:
     secure: /ZFMrtWy/BftMA/Bc9tJ9Az3zw+6OriwVIWy0f2F82x/bjsBmVMLdx9y4V2JDsZa
   skip_clean: true
-  tag: ${APPVEYOR_REPO_TAG_NAME}
+  tag: %tag_name%
   on:
     branch: master
