@@ -39,6 +39,7 @@ deploy:
   auth_token:
     secure: /ZFMrtWy/BftMA/Bc9tJ9Az3zw+6OriwVIWy0f2F82x/bjsBmVMLdx9y4V2JDsZa
   skip_clean: true
+  skip_tags: true
   tag: ${APPVEYOR_REPO_TAG_NAME}
   on:
     branch: master
