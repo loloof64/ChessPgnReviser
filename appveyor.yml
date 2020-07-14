@@ -28,11 +28,10 @@ build_script:
 
 before_deploy:
   - cd Output
-  - copy /y ChessPgnReviser.exe ChessPgnReviser-Windows-x86_64.exe
-  - appveyor PushArtifact ChessPgnReviser-Windows-x86_64.exe
+  - appveyor PushArtifact ChessPgnReviser.exe
 
 artifacts:
-  path: Output\ChessPgnReviser-Windows-x86_64.exe
+  path: Output\ChessPgnReviser.exe
   name: chesspgnreviser
 
 deploy:
