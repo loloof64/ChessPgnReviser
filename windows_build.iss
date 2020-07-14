@@ -3,6 +3,7 @@
 
 #define QtPluginsPath "C:\Qt\5.14.2\mingw73_64\plugins"
 #define QtBinPath "C:\Qt\5.14.2\mingw73_64\bin"
+#define MinGWBinPath "C:\MinGW\bin"
 #define IconName "chess.ico"
 #define OutputDir "release"
 #define SourcePath "C:\projects\chesspgnreviser"
@@ -12,6 +13,7 @@
 #define MyAppPublisher "loloof64"
 #define MyAppURL "https://github.com/loloof64/ChessPgnReviser"
 #define MyAppExeName "ChessPgnReviser.exe"
+#define WindowsDllPath "C:\Windows\System32"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -44,6 +46,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
 [Files]
 Source: "{#BuildPath}\ChessPgnReviser.exe"; DestDir: "{app}"
 Source: "{#QtPluginsPath}\platforms\*"; DestDir: "{app}\plugins\platforms"
@@ -56,9 +61,13 @@ Source: "{#QtBinPath}\Qt5Core.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Gui.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Widgets.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Svg.dll"; DestDir: "{app}"
+Source: "{#MinGWBinPath}\libgcc_s_seh-1.dll"; DestDir: "{app}"
+Source: "{#MinGWBinPath}\libwinpthread-1.dll"; DestDir: "{app}"
+Source: "{#WindowsDllPath}\libwinpthread-1.dll"; DestDir: "{app}"
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"; Tasks: desktopicon
 

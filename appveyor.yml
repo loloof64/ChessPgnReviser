@@ -17,12 +17,11 @@ install:
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
   - set CC=C:\Qt\Tools\mingw730_64\bin\gcc.exe
   - set CXX=C:\Qt\Tools\mingw730_64\bin\g++.exe
-  - set Qt5_DIR=%QTDIR%\lib\cmake\Qt5
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 
 build_script:
-  - qmake
+  - qmake ChessPgnReviser.pro -spec win32-g++ "CONFIG+=qtquickcompiler" && mingw32-make.exe qmake_all
   - mingw32-make -j4
   - iscc windows_build.iss /DPWD=%CD% /OOutput
 
