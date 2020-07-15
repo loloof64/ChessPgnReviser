@@ -34,6 +34,7 @@ after_success:
 - chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
 - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
 - bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
+
 deploy:
   provider: releases
   api_key:
