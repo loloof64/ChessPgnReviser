@@ -13,7 +13,6 @@ environment:
   QTDIR: C:\Qt\5.14.2\mingw73_64
 
 install:
-  - dir C:\msys64\mingw64\bin
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
   - set CC=C:\Qt\Tools\mingw730_64\bin\gcc.exe
@@ -25,6 +24,8 @@ build_script:
   - qmake ChessPgnReviser.pro
   - mingw32-make -j4
   - windeployqt release/chesspgnreviser.exe
+  - rm release/*.cpp
+  - rm release/*.o
   - dir release
   - iscc windows_build.iss /DPWD=%CD% /OOutput
 
