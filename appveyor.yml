@@ -18,7 +18,7 @@ install:
   - DIR "C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64"
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64";"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64";%PATH%
-  - set CL=%CL% /IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0
+  - set CL=/IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 
