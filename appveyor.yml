@@ -28,8 +28,6 @@ build_script:
   - rm release/*.o
   - dir release
   - iscc windows_build.iss /DPWD=%CD% /OOutput
-
-before_deploy:
   - cd Output
   - copy ChessPgnReviser.exe ChessPgnReviser-windows-x86_64.exe
   - appveyor PushArtifact ChessPgnReviser-windows-x86_64.exe
