@@ -12,6 +12,7 @@
 #define MyAppPublisher "loloof64"
 #define MyAppURL "https://github.com/loloof64/ChessPgnReviser"
 #define MyAppExeName "ChessPgnReviser.exe"
+#define MinGWBinPath "C:\msys64\mingw64\bin"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -59,10 +60,13 @@ Source: "{#QtBinPath}\Qt5Core.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Gui.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Widgets.dll"; DestDir: "{app}"
 Source: "{#QtBinPath}\Qt5Svg.dll"; DestDir: "{app}"
+Source: "{#MinGWBinPath}\libgcc_s_seh-1.dll"; DestDir: "{app}"
+Source: "{#MinGWBinPath}\libstdc++-6.dll"; DestDir: "{app}"
+Source: "{#MinGWBinPath}\libwinpthread-1.dll"; DestDir: "{app}"
+
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\{#IconName}"; Tasks: desktopicon
-
