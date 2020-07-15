@@ -2,43 +2,45 @@ language: cpp
 compiler: gcc
 sudo: require
 dist: trusty
-
 before_install:
-  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
-  - sudo apt-get update -qq
-  - mkdir -p appdir/usr/bin
-  - mkdir -p appdir/usr/translations
-
+- sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
+- sudo apt-get update -qq
+- mkdir -p appdir/usr/bin
+- mkdir -p appdir/usr/translations
 install:
-  - sudo apt-get -y install qt510base qt510svg qt510translations qt510tools libgl1-mesa-dev tree libgtk2.0-dev git
-  - source /opt/qt*/bin/qt*-env.sh
-
+- sudo apt-get -y install qt510base qt510svg qt510translations qt510tools libgl1-mesa-dev
+  tree libgtk2.0-dev git
+- source /opt/qt*/bin/qt*-env.sh
 script:
-  - qmake CONFIG+=release PREFIX=/usr
-  - make -j$(nproc)
-  - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
-  - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
-  - cp translations/*.qm appdir/usr/translations
-  - git clone http://code.qt.io/qt/qtstyleplugins.git
-  - cd qtstyleplugins
-  - qmake
-  - make -j$(nproc)
-  - sudo make install
-  - cd -
-  - wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-  - chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -bundle-non-qt-libs -verbose=1
-  - ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -verbose=1
-
+- qmake CONFIG+=release PREFIX=/usr
+- make -j$(nproc)
+- make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
+- cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
+- cp translations/*.qm appdir/usr/translations
+- git clone http://code.qt.io/qt/qtstyleplugins.git
+- cd qtstyleplugins
+- qmake
+- make -j$(nproc)
+- sudo make install
+- cd -
+- wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+- chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+- "./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop
+  -bundle-non-qt-libs -verbose=1"
+- "./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop
+  -appimage -verbose=1"
 after_success:
-  - mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-Linux-x86_64.AppImage
-  - chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
-  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
-  
+- mv Chess_Pgn_Reviser*.AppImage ChessPgnReviser-Linux-x86_64.AppImage
+- chmod a+x ChessPgnReviser-Linux-x86_64.AppImage
+- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+- bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
+
 deploy:
   provider: releases
-  on.tags: true
+  api_key:
+    secure: ckUOndbtjIWOpEyGEXg4MxrMQ5J185XjZ5Lc9NEnyKg+LDHfZE7SAlvzcKM0gcNWjJ/YMJROlp3RwpadNRHxhiyDBUjwdlmn84Q33vKgqY9EM1nRWsnauqmD3ZwUSRqV/Qlre8aEkpbhRCK+g/0/2R/AD0hTKv70HPzTMDuVEczfgN1Zkm3jYVf/WXGeaAAI5QUpYbF5widuVeLJRykas8pJvHsVsQsjHYr2D0KEYRi/wRFQ16sJrqiYGe0vDqGDs4a09jWbxvvuNAMFVOUx1B1J08o6mp2maZyJNDTcxH/qAKRpEne607luCOTDf5Llctip97d/kBk2mG01DbM9dIFUot1668nSzkVMyBFslDj8+IWWPFnI2/WqnZtvz9lPubaPewkQ9CO1s5y58ErTlajfTsehgc7EAzIJiWO0T7/TGFyGYR05/ep6G2oKx3hyzPiM/nHNmyRAtMbuadYR+9g0/3naO3L93QGnekOBSBY0/WQBLfflEf/U9hta1F97NYaRQjqBxrBwdPm1ftugysIg9uEfzsC46nKnwl249AxZqAWvdqtuIcAxGerda4sfohUsQMJK1w01O3dAGE7YzWiY0NlQjQYKuzPlGGB7UUrEy4BiwgxElD97VLOPeSH+tIjA4oJ2CXjhZGaCCynU5r/Kqbabzpqe6v9xAJryf/w=
   file: ChessPgnReviser-Linux-x86_64.AppImage
   on:
-    branch: master
+    repo: loloof64/ChessPgnReviser
+    tags: 'true'
+  skip_cleanup: 'true'
