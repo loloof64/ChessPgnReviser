@@ -13,11 +13,9 @@ environment:
   QTDIR: C:\Qt\5.14.2\msvc2017_64
 
 install:
-  - DIR "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary"
-  - DIR "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build"
   - choco install -y InnoSetup
-  - set PATH="%QTDIR%\bin";"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build";"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64";%PATH%
-  - vcvars64.bat
+  - iex "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+  - set PATH="%QTDIR%\bin";"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64";"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64";%PATH%
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 
