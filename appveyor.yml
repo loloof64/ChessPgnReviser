@@ -10,21 +10,26 @@ platform: x64
 skip_non_tags: true
 
 environment:
-  QTDIR: C:\Qt\5.14.2\mingw73_64
+  QTDIR: C:\Qt\5.14.2\msvc2017_64
 
 install:
-  - dir C:\MinGW\bin
+  - DIR "C:\Program Files (x86)\Windows Kits\10\bin"
+  - DIR "C:\Program Files (x86)\Windows Kits\10\bin\x64"
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_64\bin;"C:\Program Files (x86)\Inno Setup 6";C:\MinGW\bin;%PATH%
-  - set CC=C:\Qt\Tools\mingw730_64\bin\gcc.exe
-  - set CXX=C:\Qt\Tools\mingw730_64\bin\g++.exe
+  - set PATH=%QTDIR%\bin;"C:\Program Files (x86)\Inno Setup 6";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\bin\Hostx64\x64";"C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64";%PATH%
   - lupdate ChessPgnReviser.pro
   - lrelease ChessPgnReviser.pro
 
 build_script:
-  - qmake ChessPgnReviser.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
-  - mingw32-make -j4
-  - ldd C:\projects\chesspgnreviser\ChessPgnReviser.exe | grep mingw
+  - qmake
+  - nmake
+  
+after_build:
+  - windeployqt release/chesspgnreviser.exe
+  - dir release
+  - rm release/*.o
+  - rm release/*.cpp
+  - rm release/*.h
   - iscc windows_build.iss /DPWD=%CD% /OOutput
 
 before_deploy:
