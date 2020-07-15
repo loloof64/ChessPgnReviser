@@ -41,6 +41,5 @@ deploy:
     secure: ckUOndbtjIWOpEyGEXg4MxrMQ5J185XjZ5Lc9NEnyKg+LDHfZE7SAlvzcKM0gcNWjJ/YMJROlp3RwpadNRHxhiyDBUjwdlmn84Q33vKgqY9EM1nRWsnauqmD3ZwUSRqV/Qlre8aEkpbhRCK+g/0/2R/AD0hTKv70HPzTMDuVEczfgN1Zkm3jYVf/WXGeaAAI5QUpYbF5widuVeLJRykas8pJvHsVsQsjHYr2D0KEYRi/wRFQ16sJrqiYGe0vDqGDs4a09jWbxvvuNAMFVOUx1B1J08o6mp2maZyJNDTcxH/qAKRpEne607luCOTDf5Llctip97d/kBk2mG01DbM9dIFUot1668nSzkVMyBFslDj8+IWWPFnI2/WqnZtvz9lPubaPewkQ9CO1s5y58ErTlajfTsehgc7EAzIJiWO0T7/TGFyGYR05/ep6G2oKx3hyzPiM/nHNmyRAtMbuadYR+9g0/3naO3L93QGnekOBSBY0/WQBLfflEf/U9hta1F97NYaRQjqBxrBwdPm1ftugysIg9uEfzsC46nKnwl249AxZqAWvdqtuIcAxGerda4sfohUsQMJK1w01O3dAGE7YzWiY0NlQjQYKuzPlGGB7UUrEy4BiwgxElD97VLOPeSH+tIjA4oJ2CXjhZGaCCynU5r/Kqbabzpqe6v9xAJryf/w=
   file: ChessPgnReviser-Linux-x86_64.AppImage
   on:
-    repo: loloof64/ChessPgnReviser
     tags: 'true'
   skip_cleanup: 'true'
