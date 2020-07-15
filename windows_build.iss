@@ -47,7 +47,7 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#BuildPath}\*"; DestDir: "{app}"
+Source: "{#BuildPath}\*"; DestDir: "{app}"; Flags: recursesubdirs
 Source: "{#SourcePath}\{#IconName}"; DestDir: "{app}"
 
 
