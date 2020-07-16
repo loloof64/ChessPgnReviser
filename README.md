@@ -1,6 +1,5 @@
-<a href="https://travis-ci.com/loloof64/ChessPgnReviser" target="_blank"><a href="https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master" target="_blank">Build Status</a></a>
-
-<a href="https://ci.appveyor.com/project/loloof64/chesspgnreviser" target="_blank"><a href="https://ci.appveyor.com/api/projects/status/github/loloof64/ChessPgnReviser?svg=true&branch=master" target="_blank">Build Status</a></a>
+[![Build Status](https://travis-ci.com/loloof64/ChessPgnReviser.svg?branch=master)](https://travis-ci.com/loloof64/ChessPgnReviser)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/loloof64/ChessPgnReviser?svg=true&branch=master)](https://ci.appveyor.com/project/loloof64/chesspgnreviser)
 
 # Chess Pgn Reviser
 
