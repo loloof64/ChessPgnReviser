@@ -228,7 +228,8 @@ DISTFILES += \
     resources/translations/ChessPgnReviser.en.qm \
     resources/translations/ChessPgnReviser.fr.qm \
     resources/translations/ChessPgnReviser.es.qm \
-    chess.ico
+    chess.ico \
+    windows_build.iss
 
 RESOURCES += \
     resources.qrc \

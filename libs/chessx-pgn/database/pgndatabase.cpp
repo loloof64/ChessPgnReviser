@@ -330,9 +330,6 @@ bool PgnDatabase::parseFileIntern()
     m_gameOffsets64.squeeze();
     m_index.squeeze();
 
-    // added by loloof64 : m_count was a bit further
-    m_count--;
-
     return true;
 }
 
