@@ -4,15 +4,16 @@ sudo: require
 dist: trusty
 before_install:
 - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
-- sudo apt-get update -qq
+- sudo apt-get update
 - mkdir -p appdir/usr/bin
 - mkdir -p appdir/usr/translations
 install:
-- sudo apt-get -y install qt510base qt510svg qt510translations qt510tools libgl1-mesa-dev
-  tree libgtk2.0-dev git
+- sudo apt-get -y install qt510base qt510svg qt510translations qt510tools libgl1-mesa-dev libgtk2.0-dev git
 - source /opt/qt*/bin/qt*-env.sh
 script:
 - qmake CONFIG+=release PREFIX=/usr
+- lupdate ChessPgnReviser.pro
+- lrelease ChessPgnReviser.pro
 - make -j$(nproc)
 - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
 - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
