@@ -17,7 +17,7 @@ script:
 - make -j$(nproc)
 - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
 - cp appdir/opt/ChessPgnReviser/bin/ChessPgnReviser appdir/usr/bin
-- cp /home/travis/build/loloof64/ChessPgnReviser/resources/translations/ChessPgnReviser*.qm appdir/usr/translations
+- cp /home/travis/build/loloof64/ChessPgnReviser/resources/translations/*.qm appdir/usr/translations
 - git clone http://code.qt.io/qt/qtstyleplugins.git
 - cd qtstyleplugins
 - qmake
@@ -39,7 +39,7 @@ after_success:
 deploy:
   provider: releases
   api_key:
-    secure: eIaUC3pbB6sH84kSNWArxmvjMZnGgJxI/4W06RoiXKeExKSEwqovVFWJJ7NORnh7Vws23qTW3KV4JD0QgZIz3aaiSbM5LBLioVSjd9dVk8cpZcEPZJzwaXPi2Jrglz858mXWhsUNMFb4ppMueSswIY+v6VsBFFUnwBAlUn7UyGWfAa4t5F1pjXmgeAjFvSMOMT3VQuF02xmiwcKbgItjJJCUKRjrlo6lVZP37svtodm60bWkaYJMOu2s3L1/7jQddt3kEAJeLc+GLP6q+CI6iSJDPl4h26pkIzIsQoQQEHHBKZcHnUrYOBfSU3UdD/wDa/9ioBUYvXV0g9FnyC3OiHL1VvYLwzHtzpAqEa3OS5nvdumeqsY9I1srvCllD5LAQiJahKJWqZUUdKiFI498uskVetFFAGEXzYhYB+Ja5JYsHGt0V5eyXyWSKavtQOB4h0ASR9SwRV9by1n3i++A6b94PdbgyNmgfaHLbNbkzWClODJ75rxHd7sBoUXsaVt1KE7nfvf7dEfzGPj5uGHI3NtmSNuLAmY0z+3JeaUfXFcTZw/mU6HNOhAFsxIw3R6E6wcG2vo0Wz8RG/5wQ319LeZpbJPqTCbOmcSKC0CwV0puv4FI1KDsPqdRq6ZPqGBIbPxloUg9yEAMxSu1iRezqnLDoPZP4c3Fp32mG878oCI=
+    secure: "qS1+w78jWyR/B6xB93g84XaBgDk6sKw16g6osgZqKu8DRx3KTB4F5FvGFVU/tmRtBy67r1oMJ8FtnQp3Ve9qzdRO2wWteSRshCd8WRDTpHa2BRofyt48p82tgSQarxxZTYBYRLbVeiS0THrQuj3LTMFuFcsoVOmGbf0q3EbJ1J7Fg42VS72nxlPTaOIFgBitBuZPjDtS2Y0wDxq5Perlzb1gYH0WqeH+/6B8K+zDzs/JRCHK0iwsTUbvchbv9vlBUnUO4OpCgalh6N2ASuzprsIWMO2o4SGicZ4OpMpZFJ7tOnMg3SpylI/EXb1zut9LtfMb96SfnAfvzfo0dbb2BJN9cRyT3ZJKx1Doy0ggWkNGBkbPBKpldE0YxEW3uCj1e16PqOItAAuO4Uezv8e95eHfOhTaoe7X6P6fXXV71xUQgxrHvwqYTFQoUSXxg0GVX/X9y4fJhZiiMsHCobHXaG9S1N/Qv0QwaSj3RRi2zedDFV3/sIy90FOjJdyEB6Qymnkl7YM8YIu/LcW1KVjqmczXmp+4tYCd38M/m192H+4rab/jtqQyZhWaM+2NU2THNQO1sCQaIP72kdDIHQ9HmF/bEo2yEKHRqmgFKEJaNNWDaWgKzzCks+tRp+bx37lj2So7bXtB2e2ow5a6v1sUDPfGXTIN2s2BD3KypXgu34I="
   file: ChessPgnReviser-Linux-x86_64.AppImage
   on:
     tags: true
