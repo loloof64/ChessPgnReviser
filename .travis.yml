@@ -36,6 +36,9 @@ after_success:
 - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
 - bash upload.sh ChessPgnReviser-Linux-x86_64.AppImage
 
+before_deploy:
+  - git tag $TRAVIS_TAG
+
 deploy:
   provider: releases
   github_token: $GITHUB_TOKEN
