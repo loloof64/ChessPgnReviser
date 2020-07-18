@@ -10,9 +10,6 @@ You select the types (human/computer) for both sides: then for each move
 
 You should take care that each game of the pgn has at least a star as a result, and is not empty. Otherwise some game may be forgotten.
 
-Application Icon has been downloaded from [FlatIcon](https://www.flaticon.com/) and designed by Flat Icons.
-
-FreeSerif font downloaded from https://fr.fonts2u.com/free-serif.police.
 
 ## Developers
 
@@ -22,6 +19,7 @@ Don't forget to generate translations files, from resources/translations subfold
 
 ## Credits
 
+* FreeSerif font downloaded from https://fr.fonts2u.com/free-serif.police.
 * Using some code from project [thc-chess-library](https://github.com/billforsternz/thc-chess-library).
 * Using some code from project [chessx](http://chessx.sourceforge.net/).
 * Chess pieces vectors have been downloaded from [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces).
