@@ -268,7 +268,7 @@ bool PgnDatabase::parseFileIntern()
     qint64 countDiff = size / 100;
     qint64 nextDiff = countDiff;
     percentDone = 0;
-    m_index.reserve(size/1000);
+    m_index.reserve(static_cast<quint32>(size/1000));
 
     while(!m_file->atEnd() || !m_currentLine.isEmpty())
     {
@@ -322,6 +322,7 @@ bool PgnDatabase::parseFileIntern()
                 else
                 {
                     emit progress(100);
+                    break; // added by loloof64
                 }
             }
         }

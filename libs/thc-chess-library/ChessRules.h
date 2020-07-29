@@ -59,28 +59,27 @@ public:
     }
 
     //  Test for legal position, sets reason to a mask of possibly multiple reasons
-    bool IsLegal( ILLEGAL_REASON& reason );
+    bool IsLegal( ILLEGAL_REASON& reason ) const; // const added by loloof64
 
     // Play a move
     void PlayMove( Move imove );
 
     // Check draw rules (50 move rule etc.)
-    bool IsDraw( bool white_asks, DRAWTYPE &result );
+    bool IsDraw( bool white_asks, DRAWTYPE &result ) ;
 
     // Get number of times position has been repeated
-    int GetRepetitionCount();
+    int GetRepetitionCount() ;
 
     // Check insufficient material draw rule
-    bool IsInsufficientDraw( bool white_asks, DRAWTYPE &result );
-
+    bool IsInsufficientDraw( bool white_asks, DRAWTYPE &result ) ;
     // Evaluate a position, returns bool okay (not okay means illegal position)
     bool Evaluate( TERMINAL &score_terminal );
 
     // Is a square is attacked by enemy ?
-    bool AttackedSquare( Square square, bool enemy_is_white );
+    bool AttackedSquare( Square square, bool enemy_is_white ) const; // const added by loloof64
 
     // Determine if an occupied square is attacked
-    bool AttackedPiece( Square square );
+    bool AttackedPiece( Square square ) const; // const added by loloof64
 
     // Transform a position with W to move into an equivalent with B to move and vice-versa
     void Transform();

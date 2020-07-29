@@ -1223,7 +1223,7 @@ void ChessRules::PopMove( Move& m )
 /****************************************************************************
  * Determine if an occupied square is attacked
  ****************************************************************************/
-bool ChessRules::AttackedPiece( Square square )
+bool ChessRules::AttackedPiece( Square square ) const
 {    
     bool enemy_is_white  =  IsBlack(squares[square]);
     return( AttackedSquare(square,enemy_is_white) );
@@ -1232,7 +1232,7 @@ bool ChessRules::AttackedPiece( Square square )
 /****************************************************************************
  * Is a square is attacked by enemy ?
  ****************************************************************************/
-bool ChessRules::AttackedSquare( Square square, bool enemy_is_white )
+bool ChessRules::AttackedSquare( Square square, bool enemy_is_white ) const
 {    
     Square dst;
     const lte *ptr = (enemy_is_white ? attacks_black_lookup[square] : attacks_white_lookup[square] );
@@ -1466,7 +1466,7 @@ Move ChessRules::Transform( Move move )
 /****************************************************************************
  *  Test for legal position, sets reason to a mask of possibly multiple reasons
  ****************************************************************************/
-bool ChessRules::IsLegal( ILLEGAL_REASON& reason )
+bool ChessRules::IsLegal( ILLEGAL_REASON& reason ) const
 {    
     int  ireason = 0;
     int  wkings=0, bkings=0, wpawns=0, bpawns=0, wpieces=0, bpieces=0;
