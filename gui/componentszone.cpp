@@ -1,5 +1,5 @@
 #include "componentszone.h"
-#include "./adapters/thcposition.h"
+#include "../core/adapters/thcposition.h"
 #include <string>
 #include <sstream>
 #include <algorithm>

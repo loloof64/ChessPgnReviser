@@ -17,7 +17,6 @@ DEFINES += USE_C11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    gui/adapters/thcposition.cpp \
     gui/chessboard/chessboard.cpp \
     gui/chessboard/promotiondialog.cpp \
     gui/componentszone.cpp \
@@ -87,9 +86,11 @@ SOURCES += \
     libs/thc-chess-library/PrivateChessDefs.cpp \
     libs/thc-chess-library/util.cpp \
     main.cpp \
+    core/adapters/thcposition.cpp \
+    core/IPosition.cpp \
+    libs/FlowLayout/flowlayout.cpp
 
 HEADERS += \
-    gui/adapters/thcposition.h \
     gui/chessboard/IPosition.h \
     gui/chessboard/chessboard.h \
     gui/chessboard/promotiondialog.h \
@@ -184,7 +185,10 @@ HEADERS += \
     libs/thc-chess-library/HashLookup.h \
     libs/thc-chess-library/Move.h \
     libs/thc-chess-library/PrivateChessDefs.h \
-    libs/thc-chess-library/util.h
+    libs/thc-chess-library/util.h \
+    core/adapters/thcposition.h \
+    core/IPosition.h \
+    libs/FlowLayout/flowlayout.h
 
 TRANSLATIONS += \
     resources/translations/ChessPgnReviser.en.ts \

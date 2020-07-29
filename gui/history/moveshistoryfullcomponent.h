@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QScrollArea>
 #include "moveshistory.h"
 #include "moveshistorybuttons.h"
 
@@ -22,6 +23,7 @@ namespace loloof64 {
         void commitHistoryNodeSelection();
     private:
         QVBoxLayout *_mainLayout;
+        QScrollArea * _mainZoneScrollArea;
         MovesHistory *_historyZone;
         MovesHistoryButtons *_buttonsZone;
     };

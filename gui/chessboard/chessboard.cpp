@@ -1,6 +1,7 @@
 #include "chessboard.h"
 #include "promotiondialog.h"
-#include "../adapters/thcposition.h"
+#include "../../core/adapters/thcposition.h"
+#include "../../core/IPosition.h"
 #include <QPainter>
 #include <QVector>
 #include <QString>
@@ -11,30 +12,10 @@
 
 using namespace loloof64;
 
-QString pieceFenToPieceImageReference(char pieceFen)
-{
-    switch (pieceFen) {
-        case 'P': return "pl.svg";
-        case 'N': return "nl.svg";
-        case 'B': return "bl.svg";
-        case 'R': return "rl.svg";
-        case 'Q': return "ql.svg";
-        case 'K': return "kl.svg";
-
-        case 'p': return "pd.svg";
-        case 'n': return "nd.svg";
-        case 'b': return "bd.svg";
-        case 'r': return "rd.svg";
-        case 'q': return "qd.svg";
-        case 'k': return "kd.svg";
-
-    default:
-        return "";
-    }
-}
-
 ChessBoard::ChessBoard(int cellsSize, QWidget* parent) : QWidget(parent), _cellsSize(cellsSize)
 {
+    setMinimumSize(9*cellsSize, 9*cellsSize);
+    setMaximumSize(9*cellsSize, 9*cellsSize);
     _relatedPosition = new ThcPosition("8/8/8/8/8/8/8/8 w - - 0 1");
     _dndData = nullptr;
     _gameFinishedStatus = GameFinishedStatus::STOPPED;
@@ -74,7 +55,14 @@ void ChessBoard::newGame(QString startPosition)
 void ChessBoard::stopGame()
 {
     _gameFinishedStatus = GameFinishedStatus::STOPPED;
+    if (_dndData != nullptr) {
+        delete _dndData;
+        _dndData = nullptr;
+    }
+
     repaint();
+
+    emit gameEnded();
 }
 
 void ChessBoard::paintEvent(QPaintEvent * /* event */)
@@ -106,8 +94,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
             // draw cell
             const auto isWhiteCell = (row+col) %2 == 0;
-            const auto x = floor(_cellsSize * (0.5 + col));
-            const auto y = floor(_cellsSize * (0.5 + row));
+            const auto x = int(floor(_cellsSize * (0.5 + col)));
+            const auto y = int(floor(_cellsSize * (0.5 + row)));
             auto cellColor = isWhiteCell ? whiteCellsColor : blackCellsColor;
 
            if (_dndData != nullptr && _dndData->pointerInBounds)
@@ -139,7 +127,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
             if (notAnEmptyPiece && !isTheMovedPiece)
             {
                 auto resourceName = QString(":/chess_vectors/");
-                resourceName += pieceFenToPieceImageReference(pieceValue);
+                resourceName += IPosition::pieceFenToPieceImageReference(pieceValue);
                 QSvgRenderer pieceImage{resourceName};
 
                 pieceImage.render(&painter, QRect(x, y, _cellsSize, _cellsSize));
@@ -170,11 +158,11 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     for (auto col: colsIndexes)
     {
         const auto file = _reversed ? 7-col : col;
-        const auto letter = (char) (ascii_a + file);
+        const auto letter = static_cast<char>(ascii_a + file);
 
-        const auto x = floor(_cellsSize * (0.85 + col));
-        const auto y1 = floor(_cellsSize * 0.4);
-        const auto y2 = floor(_cellsSize * 8.9);
+        const auto x = int(floor(_cellsSize * (0.85 + col)));
+        const auto y1 = int(floor(_cellsSize * 0.4));
+        const auto y2 = int(floor(_cellsSize * 8.9));
 
         painter.drawText(x, y1, QString(letter));
         painter.drawText(x, y2, QString(letter));
@@ -183,11 +171,11 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     for (auto row: rowsIndexes)
     {
         const auto rank = _reversed ? row : 7-row;
-        const auto digit = (char) (ascii_1 + rank);
+        const auto digit = static_cast<char>(ascii_1 + rank);
 
-        const auto x1 = floor(_cellsSize * 0.12);
-        const auto x2 = floor(_cellsSize * 8.62);
-        const auto y = floor(_cellsSize * (1.2 + row));
+        const auto x1 = int(floor(_cellsSize * 0.12));
+        const auto x2 = int(floor(_cellsSize * 8.62));
+        const auto y = int(floor(_cellsSize * (1.2 + row)));
 
         painter.drawText(x1, y, QString(digit));
         painter.drawText(x2, y, QString(digit));
@@ -195,8 +183,8 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
 
     // Painting player turn
     const auto turnColor = _relatedPosition->isWhiteTurn() ? Qt::white : Qt::black;
-    const auto location = floor(_cellsSize * 8.55);
-    const auto turnSize = floor(_cellsSize * 0.4);
+    const auto location = int(floor(_cellsSize * 8.55));
+    const auto turnSize = int(floor(_cellsSize * 0.4));
     painter.setBrush(turnColor);
     painter.setPen(QPen(Qt::transparent));
     painter.drawEllipse(location, location, turnSize, turnSize);
@@ -204,7 +192,7 @@ void ChessBoard::paintEvent(QPaintEvent * /* event */)
     // painting the moved piece if any
     if (_dndData != nullptr) {
         auto resourceName = QString(":/chess_vectors/");
-        resourceName += pieceFenToPieceImageReference(_dndData->pieceFen);
+        resourceName += IPosition::pieceFenToPieceImageReference(_dndData->pieceFen);
         QSvgRenderer movedPieceImage{resourceName};
 
         movedPieceImage.render(&painter, QRect(_dndData->pieceX, _dndData->pieceY, _cellsSize, _cellsSize));
@@ -352,7 +340,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
                 emitExternalPlayerTurnIfNecessary();
 
                 showGameFinishedMessageIfNecessary();
-            } catch (const IllegalMoveException &e) {}
+            } catch (const IllegalMoveException &/* e*/) {}
         });
         connect(&promotionDialog, &PromotionDialog::validateRookPromotion, this,
                 [=, &promotionDialog](){
@@ -378,7 +366,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
                 showGameFinishedMessageIfNecessary();
             }
-            catch (const IllegalMoveException &e){}
+            catch (const IllegalMoveException &/* e */){}
         });
         connect(&promotionDialog, &PromotionDialog::validateBishopPromotion, this,
                 [=, &promotionDialog](){
@@ -403,7 +391,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
                 emitExternalPlayerTurnIfNecessary();
 
                 showGameFinishedMessageIfNecessary();
-            } catch (const IllegalMoveException &e){}
+            } catch (const IllegalMoveException & /* e */){}
 
         });
         connect(&promotionDialog, &PromotionDialog::validateKnightPromotion, this,
@@ -429,7 +417,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
                 emitExternalPlayerTurnIfNecessary();
 
                 showGameFinishedMessageIfNecessary();
-            } catch (const IllegalMoveException &e) {}
+            } catch (const IllegalMoveException & /* e */) {}
         });
 
         promotionDialog.exec();
@@ -458,7 +446,7 @@ void ChessBoard::mouseReleaseEvent(QMouseEvent *event)
 
         showGameFinishedMessageIfNecessary();
     }
-    catch (const IllegalMoveException &e)
+    catch (const IllegalMoveException & /* e */)
     {
         clearDndData();
         repaint();
@@ -477,7 +465,7 @@ bool loloof64::ChessBoard::setPosition(const HistoryItem historyItem)
 
     try {
         _relatedPosition = new ThcPosition(historyItem.newPositionFen.toStdString());
-    } catch (IllegalPositionException &e) {
+    } catch (IllegalPositionException & /* e */) {
         return false;
     }
 
@@ -530,7 +518,7 @@ bool loloof64::ChessBoard::playMove(int startFile, int startRank, int endFile, i
 
         return true;
     }
-    catch (UnimplementedException const *e)
+    catch (UnimplementedException const * /* e */)
     {
         return false;
     }
@@ -592,18 +580,23 @@ void loloof64::ChessBoard::showGameFinishedMessageIfNecessary()
 {
     switch (_gameFinishedStatus) {
     case GameFinishedStatus::CHECKMATE:
+        emit gameEnded();
         QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Checkmate"));
         break;
     case GameFinishedStatus::STALEMATE:
+        emit gameEnded();
         QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Stalemate"));
         break;
     case GameFinishedStatus::REPETITIONS:
+        emit gameEnded();
         QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by 3-folds repetition"));
         break;
     case GameFinishedStatus::INSUFICIENT_MATERIAL:
+        emit gameEnded();
         QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by insuficient material"));
         break;
     case GameFinishedStatus::FIFTY_MOVES_RULE:
+        emit gameEnded();
         QMessageBox::information(this, tr("Game finished", "Game finished modal title"), tr("Draw by the 50 moves rule"));
         break;
     default:
@@ -614,7 +607,7 @@ void loloof64::ChessBoard::showGameFinishedMessageIfNecessary()
 void loloof64::ChessBoard::drawArrowBetweenCells(QPainter &painter, QColor color, int startFile, int startRank, int endFile, int endRank)
 {
     QPen pen = color;
-    pen.setWidth(floor(_cellsSize * 0.2));
+    pen.setWidth(int(floor(_cellsSize * 0.2)));
     painter.setPen(pen);
 
     const auto startCol = _reversed ? 7-startFile : startFile;
@@ -626,16 +619,16 @@ void loloof64::ChessBoard::drawArrowBetweenCells(QPainter &painter, QColor color
     const auto deltaY = endRow - startRow;
     const auto baseLineLength = sqrt(deltaX*deltaX + deltaY*deltaY);
     const auto baseLineAngleDegrees = atan2(deltaY, deltaX) * 180.0 / 3.1415927;
-    const auto arrowLineLength = floor(baseLineLength * 10);
+    const auto arrowLineLength = int(floor(baseLineLength * 10));
 
-    const auto baseLineStartX = floor(_cellsSize * (startCol + 1));
-    const auto baseLineStartY = floor(_cellsSize * (startRow + 1));
-    const auto baseLineEndX = floor(_cellsSize * (endCol + 1));
-    const auto baseLineEndY = floor(_cellsSize * (endRow + 1));
+    const auto baseLineStartX = int(floor(_cellsSize * (startCol + 1)));
+    const auto baseLineStartY = int(floor(_cellsSize * (startRow + 1)));
+    const auto baseLineEndX = int(floor(_cellsSize * (endCol + 1)));
+    const auto baseLineEndY = int(floor(_cellsSize * (endRow + 1)));
 
     const auto arrowAngleRad = 30 * 3.1415926 / 180.0;
-    const auto arrowLineEndX = -floor(arrowLineLength * cos(arrowAngleRad));
-    const auto arrowLineEndY = floor(arrowLineLength * sin(arrowAngleRad));
+    const auto arrowLineEndX = -int(floor(arrowLineLength * cos(arrowAngleRad)));
+    const auto arrowLineEndY = int(floor(arrowLineLength * sin(arrowAngleRad)));
 
 
     painter.drawLine(
@@ -672,4 +665,9 @@ QString loloof64::ChessBoard::getMoveSan(int startFile, int startRank, int endFi
 QString loloof64::ChessBoard::getMoveFan(int startFile, int startRank, int endFile, int endRank, char promotionFen) const
 {
     return _relatedPosition->getMoveFan(startFile, startRank, endFile, endRank, promotionFen);
+}
+
+QString loloof64::ChessBoard::getCurrentPosition() const
+{
+    return QString::fromStdString(_relatedPosition->getFen());
 }
